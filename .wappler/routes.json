@@ -1,0 +1,20 @@
+{
+  "routes": [
+    {
+      "path": "/clientes/:slug",
+      "url": "/cliente-detalhes.php"
+    },
+    {
+      "path": "/",
+      "url": "/index.php"
+    },
+    {
+      "path": "/home",
+      "url": "/home.php"
+    },
+    {
+      "path": "/clientes",
+      "url": "/infoclientes.php"
+    }
+  ]
+}

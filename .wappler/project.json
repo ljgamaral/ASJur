@@ -1,0 +1,41 @@
+{
+  "projectName": "ASJur",
+  "styleFile": "/css/style.css",
+  "assetsFolder": "/assets",
+  "designFramework": "bootstrap5",
+  "frameworks": [
+    {
+      "name": "fontawesome_5",
+      "type": "cdn"
+    },
+    {
+      "name": "bootstrap5",
+      "type": "local"
+    },
+    {
+      "name": "appConnect",
+      "type": "local"
+    }
+  ],
+  "hostingType": "wappler",
+  "projectServerModel": "PHP",
+  "runtime": "capacitor",
+  "webRootFolder": "/www",
+  "useComposer": true,
+  "targets": [
+    {
+      "name": "Development",
+      "remoteURL": "http://localhost:3000",
+      "access": "local",
+      "localFolder": "file:///C:/Users/braya/Desktop/Quibt/Projetos/Wappler/ASJur",
+      "targetType": "wappler"
+    }
+  ],
+  "activeTarget": "Development",
+  "useRouting": true,
+  "addBase": true,
+  "routingHandler": "apache",
+  "projectType": "web",
+  "extensions": [],
+  "activeGitRemote": "ASJur"
+}

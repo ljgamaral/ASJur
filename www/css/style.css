@@ -1,0 +1,183 @@
+*{
+    font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    font-style: none;
+    color:black;
+    text-decoration: none;
+}
+
+.sidebar {
+    display: inline-block;
+    display: inline-block;
+    display: inline-block;
+    height: 100vh;
+    background-color: #fff;
+    width: 15%;
+    border-style: none;
+    border-right: 1px solid;
+    border-color: rgba(86, 94, 100, 0.2);
+    padding: 0;
+}
+.style1 {
+    height: 100vh;
+    width: 100vw}
+.container {
+    width: 100vw;
+    height: 100vh}
+.dashboard {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden}
+.style2 {
+    display: block}
+.style3 {
+    display: block}
+.style4 {
+    display: block}
+.item-sidebar {
+    display: block}
+.card {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px}
+.style5 {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px}
+.card-info {
+    border: 1px solid rgba(86, 94, 100, 0.2);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    width: 33%;
+    background-color: #fff}
+@media (min-width: 1400px) {
+.style6 {
+        font-family: sans-serif}
+.style7 {
+        font-weight: bold}}
+.style8{
+    font-size: 30px;
+    margin-bottom: 0px;
+}
+.info-card{
+    font-size: 25px;}
+.main-content{
+    width: 85%;
+    background-color: #f8f9fa;
+    padding: 0;
+.card-icon{
+    font-size: 15px;
+    background-color: #6c757d20;}
+border-top-left-radius: 20px;
+border-top-right-radius: 20px;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px
+}
+.card-icon{
+    color: #6C757D;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin-bottom: 6px;
+    margin-right: 10px;
+    padding: 10px;
+}
+.topbar{
+    width: 100%;
+    height: 70px;
+    background-color: #fff;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-top-color: rgba(86, 94, 100, 0.2);
+    border-left-color: rgba(86, 94, 100, 0.2);
+    border-bottom: 1px solid rgba(86, 94, 100, 0.2);
+    border-right: 1px rgba(86, 94, 100, 0.2);
+    padding-left: 41px;}
+
+.card-porcentagem-verde{
+    padding: 6px;
+    color: #178c55;
+    background-color: rgba(26, 199, 118, 0.26);
+    font-size: 12px;
+    border: 1px solid rgba(21, 115, 71, 0.3);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.button{
+    color: #6c757d;}
+
+.button:hover{
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.style9{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.style10{
+}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.button.nav-selected{
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #383838;
+    margin-bottom: 2px;}
+
+.table{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #fff;}
