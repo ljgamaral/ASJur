@@ -47,7 +47,6 @@
         <title>Untitled Document</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/themes/default.css" />
     </head>
 
     <body is="dmx-app" id="home" class="style6">
@@ -101,7 +100,7 @@
                                                 <td dmx-text="nome" class="text-start"></td>
                                                 <td dmx-text="tipo" class="text-start"></td>
                                                 <td dmx-text="departamento" class="text-start"></td>
-                                                <td dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/home\')`}})" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover click" data-bs-placement="bottom" data-bs-html="true" dmx-style:cursor="'pointer'" class="text-center">...</td>
+                                                <td dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/clientes/\'+slug)`}})" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-html="true" dmx-style:cursor="'pointer'" class="text-center">...</td>
                                             </tr>
                                         </tbody>
                                     </table>
