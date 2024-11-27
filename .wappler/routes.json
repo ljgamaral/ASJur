@@ -1,6 +1,14 @@
 {
   "routes": [
     {
+      "path": "/processos/:slug",
+      "url": "/processo-detalhes.php"
+    },
+    {
+      "path": "/processos",
+      "url": "/processos.php"
+    },
+    {
       "path": "/clientes/:slug",
       "url": "/cliente-detalhes.php"
     },
