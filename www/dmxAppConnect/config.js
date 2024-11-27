@@ -1,5 +1,5 @@
 dmx.config({
-  "home": {
+  "Início": {
     "data_detail1": {
       "meta": [
         {

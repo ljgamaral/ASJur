@@ -39,24 +39,68 @@ $app->define(<<<'JSON'
         },
         "schema": [
           {
-            "type": "array",
+            "type": "text",
             "name": "data"
           },
           {
             "type": "object",
-            "name": "headers"
+            "name": "headers",
+            "sub": [
+              {
+                "type": "text",
+                "name": "connection"
+              },
+              {
+                "type": "text",
+                "name": "content-type"
+              },
+              {
+                "type": "text",
+                "name": "date"
+              },
+              {
+                "type": "text",
+                "name": "server"
+              },
+              {
+                "type": "text",
+                "name": "transfer-encoding"
+              }
+            ]
           }
         ]
       },
       "output": true,
       "meta": [
         {
-          "type": "array",
+          "type": "text",
           "name": "data"
         },
         {
           "type": "object",
-          "name": "headers"
+          "name": "headers",
+          "sub": [
+            {
+              "type": "text",
+              "name": "connection"
+            },
+            {
+              "type": "text",
+              "name": "content-type"
+            },
+            {
+              "type": "text",
+              "name": "date"
+            },
+            {
+              "type": "text",
+              "name": "server"
+            },
+            {
+              "type": "text",
+              "name": "transfer-encoding"
+            }
+          ]
         }
       ],
       "outputType": "object"

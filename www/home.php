@@ -1,12 +1,12 @@
 <!doctype html>
-<html>
+<html lang="pt">
 
 <head>
     <meta name="ac:route" content="/home">
     <base href="/">
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <meta charset="UTF-8">
-    <title>Untitled Document</title>
+    <title>Início - AS Jurídico</title>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,7 +19,7 @@
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
 </head>
 
-<body is="dmx-app" id="home" class="style6">
+<body is="dmx-app" id="Incio" class="style6">
     <div is="dmx-browser" id="browser1"></div>
     <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_listar_andamentos" url="dmxConnect/api/listar_andamentos.php"></dmx-serverconnect>
@@ -44,7 +44,7 @@
             </div>
             <div class="col main-content">
                 <div class="d-flex flex-row align-items-center topbar pt-2 pb-2 ps-5 pe-4">
-                    <h1 class="title-page style8">Dashboard</h1>
+                    <h1 class="title-page style8">Início</h1>
                 </div>
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">

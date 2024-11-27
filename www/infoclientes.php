@@ -1,12 +1,12 @@
 <!doctype html>
-<html>
+<html lang="pt">
 
 <head>
     <meta name="ac:route" content="/clientes">
     <base href="/">
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <meta charset="UTF-8">
-    <title>Untitled Document</title>
+    <title>Clientes - AS Jurídico</title>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="d-flex style9 mt-3 ps-4 pe-3 flex-column" dmx-style:gap="'10px'">
                         <button id="btn2" class="btn button text-start " dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/home\')`}})"><i class="fas fa-home">&nbsp; &nbsp;</i>Início</button>
-                        <button id="btn3" class="btn button text-start nav-selected" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/agenda\')`}})"><i class="fas fa-user">&nbsp;&nbsp;</i>Clientes</button>
+                        <button id="btn3" class="btn button text-start nav-selected" dmx-on:click=""><i class="fas fa-user">&nbsp;&nbsp;</i>Clientes</button>
                         <button id="btn4" class="btn button text-start"><i class="fas fa-home">&nbsp;&nbsp;</i>Início</button>
                         <button id="btn5" class="btn button text-start"><i class="fas fa-home">&nbsp;&nbsp;</i>Início</button>
                     </div>
@@ -90,7 +90,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-secondary">Nome</th>
-                                                <th class="text-secondary text-start">Tipo</th>
+                                                <th class="text-secondary text-start">Pessoa</th>
                                                 <th class="text-secondary text-start">Departamento</th>
                                                 <th></th>
                                             </tr>
@@ -98,7 +98,7 @@
                                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_listar_clientes.data.listar_clientes" id="tableRepeat1">
                                             <tr>
                                                 <td dmx-text="nome" class="text-start"></td>
-                                                <td dmx-text="tipo" class="text-start"></td>
+                                                <td dmx-text="tipo.capitalize()" class="text-start"></td>
                                                 <td dmx-text="departamento" class="text-start"></td>
                                                 <td dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/clientes/\'+slug)`}})" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-html="true" dmx-style:cursor="'pointer'" class="text-center">...</td>
                                             </tr>

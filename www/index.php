@@ -2,12 +2,12 @@
 <html lang="pt">
 
 <head>
-    <meta name="ac:route" content="/*">
+    <meta name="ac:route" content="/">
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dashboard Jurídico</title>
+    <title>Login - AS Jurídico</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -28,7 +28,7 @@
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
 </head>
 
-<body class="d-flex align-items-center justify-content-center" is="dmx-app" id="login">
+<body class="d-flex align-items-center justify-content-center" is="dmx-app" id="LoginASJurdico">
     <div is="dmx-browser" id="browser1"></div>
 
     <main class="main">
