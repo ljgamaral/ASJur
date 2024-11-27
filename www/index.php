@@ -22,7 +22,7 @@
     <script src="dmxAppConnect/dmxTyped/typed.min.js" defer></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxValidator/dmxValidator.css" />
     <script src="dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
-    <link rel="icon" href="assets/logo/as-favicon.png" type="image/x-icon">
+    <link rel="icon" href="assets/logo/as-favicon.png" type="image/png">
     <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
