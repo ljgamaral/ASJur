@@ -21,6 +21,7 @@ a {
     border-right: 1px solid;
     border-color: rgba(86, 94, 100, 0.2);
     padding: 0;
+    position: fixed;
 }
 .style1 {
     height: 100vh;
@@ -70,16 +71,16 @@ a {
 .info-card{
     font-size: 25px;}
 .main-content{
-    width: 85%;
+    width: 86%;
     background-color: #f8f9fa;
-    padding: 0;
 .card-icon{
     font-size: 15px;
     background-color: #6c757d20;}
 border-top-left-radius: 20px;
 border-top-right-radius: 20px;
 border-bottom-left-radius: 20px;
-border-bottom-right-radius: 20px
+border-bottom-right-radius: 20px;
+margin-left: 14%
 }
 .card-icon{
     color: #6C757D;
@@ -176,8 +177,74 @@ border-bottom-right-radius: 20px
     margin-bottom: 2px;}
 
 .table{
+    background-color: #fff;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    background-color: #fff;}    
+    border-bottom-right-radius: 8px;}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.button-tab{
+    border-bottom-color: #3595f6;
+    border-style: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.button-tab:active{
+    border-top-style: none;
+    border-bottom: 4px solid;
+    border-color: #3595f6;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+.button-tab:focus{
+    border-bottom: 4px solid #3595f6;
+}
+
+.card-default{
+    background-color: #fff;
+    border: 1px solid rgba(86, 94, 100, 0.2);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;}    

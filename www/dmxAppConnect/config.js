@@ -97,5 +97,36 @@ dmx.config({
       ],
       "outputType": "array"
     }
+  },
+  "clientedetalhes": {
+    "repeat1": {
+      "meta": [
+        {
+          "type": "text",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "slug"
+        },
+        {
+          "type": "number",
+          "name": "id_cliente"
+        },
+        {
+          "type": "number",
+          "name": "id_processo"
+        },
+        {
+          "type": "text",
+          "name": "descricao"
+        },
+        {
+          "type": "datetime",
+          "name": "criado_em"
+        }
+      ],
+      "outputType": "array"
+    }
   }
 });

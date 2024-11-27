@@ -11,7 +11,68 @@
   "schema": {
     "tables": {
       "andamentos": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "id_cliente": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_processo": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_subprocesso": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "data": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "string",
+              "default": "",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "clientes": {
         "db": {},
@@ -207,13 +268,131 @@
         }
       },
       "documentos": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_cliente": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_processo": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "tipo": {
+            "db": {
+              "type": "string",
+              "maxLength": 32,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "string",
+              "maxLength": 256,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "arquivo": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "financeiro": {
         "db": {}
       },
       "historico": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_cliente": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_processo": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "string",
+              "maxLength": 256,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "permissoes": {
         "db": {}
@@ -222,7 +401,140 @@
         "db": {}
       },
       "processos": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_cliente": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "data_distribuicao": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "data_conclusao": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "ultimo_andamento": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "penultimo_andamento": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "justica": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "comarca": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "vara": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "tese": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "autor": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "reu": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_clickup": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "resetar_senha": {
         "db": {}
