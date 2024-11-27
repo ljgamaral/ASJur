@@ -20,6 +20,14 @@
               "nullable": false
             }
           },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
           "id_cliente": {
             "db": {
               "type": "bigInteger",
@@ -27,9 +35,10 @@
               "nullable": false
             }
           },
-          "id_processo": {
+          "processo": {
             "db": {
-              "type": "bigInteger",
+              "type": "string",
+              "maxLength": 36,
               "primary": false,
               "nullable": false
             }
@@ -37,6 +46,14 @@
           "id_subprocesso": {
             "db": {
               "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "andamento": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
               "primary": false,
               "nullable": false
             }
@@ -51,9 +68,10 @@
           },
           "data": {
             "db": {
-              "type": "date",
+              "type": "string",
               "primary": false,
-              "nullable": false
+              "nullable": false,
+              "maxLength": 36
             }
           },
           "status": {
@@ -67,9 +85,10 @@
           },
           "criado_em": {
             "db": {
-              "type": "date",
+              "type": "datetime",
               "primary": false,
-              "nullable": false
+              "nullable": false,
+              "default": "knex.fn.now()"
             }
           }
         }
@@ -226,8 +245,8 @@
           },
           "filiacao": {
             "db": {
-              "type": "string",
-              "maxLength": 64,
+              "type": "text",
+              "maxLength": 65535,
               "primary": false,
               "nullable": false
             }
@@ -394,6 +413,9 @@
           }
         }
       },
+      "importacoes": {
+        "db": {}
+      },
       "permissoes": {
         "db": {}
       },
@@ -418,9 +440,25 @@
               "nullable": false
             }
           },
+          "arquivo_importacao": {
+            "db": {
+              "type": "string",
+              "maxLength": 32,
+              "primary": false,
+              "nullable": false
+            }
+          },
           "id_cliente": {
             "db": {
               "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "processo": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
               "primary": false,
               "nullable": false
             }
@@ -430,7 +468,7 @@
               "type": "text",
               "maxLength": 65535,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "status": {
@@ -438,21 +476,23 @@
               "type": "string",
               "maxLength": 16,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "data_distribuicao": {
             "db": {
-              "type": "date",
+              "type": "string",
               "primary": false,
-              "nullable": false
+              "nullable": true,
+              "maxLength": 36
             }
           },
           "data_conclusao": {
             "db": {
-              "type": "date",
+              "type": "string",
               "primary": false,
-              "nullable": false
+              "nullable": true,
+              "maxLength": 36
             }
           },
           "ultimo_andamento": {
@@ -460,7 +500,7 @@
               "type": "text",
               "maxLength": 65535,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "penultimo_andamento": {
@@ -468,7 +508,7 @@
               "type": "text",
               "maxLength": 65535,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "justica": {
@@ -476,7 +516,7 @@
               "type": "string",
               "maxLength": 192,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "comarca": {
@@ -484,7 +524,7 @@
               "type": "string",
               "maxLength": 192,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "vara": {
@@ -492,15 +532,15 @@
               "type": "string",
               "maxLength": 192,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "tese": {
             "db": {
-              "type": "string",
-              "maxLength": 192,
+              "type": "text",
+              "maxLength": 65535,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "autor": {
@@ -508,7 +548,7 @@
               "type": "string",
               "maxLength": 192,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "reu": {
@@ -516,14 +556,22 @@
               "type": "string",
               "maxLength": 192,
               "primary": false,
-              "nullable": false
+              "nullable": true
             }
           },
           "id_clickup": {
             "db": {
               "type": "bigInteger",
               "primary": false,
-              "nullable": false
+              "nullable": true
+            }
+          },
+          "url": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": true
             }
           },
           "criado_em": {

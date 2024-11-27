@@ -5,6 +5,10 @@ RewriteEngine On
     Options -MultiViews
 </IfModule>
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?processos/([^/]+?)(?:/)?$ processo-detalhes.php?slug=$1 [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?processos(?:/)?$ processos.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?clientes/([^/]+?)(?:/)?$ cliente-detalhes.php?slug=$1 [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?(?:/)?$ index.php [QSA,NC,L]
