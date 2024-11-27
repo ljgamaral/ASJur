@@ -43,7 +43,7 @@
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
                     <div class="d-flex" dmx-style:gap="'20px'">
-                        <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-info justify-content-start w-100 flex-column">
+                        <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-info justify-content-start w-100 flex-column" dmx-show="!sr_captura_slug.data.query.isEmpty()">
 
                             <div class="d-flex align-items-center justify-content-start mb-2">
                                 <p class="fw-bold align-self-center mb-0 text-black">Nome:&nbsp;</p>
@@ -56,6 +56,14 @@
                             <div class="d-flex align-items-center justify-content-start mb-2">
                                 <p class="fw-bold align-self-center mb-0 text-black">Responsável:&nbsp;</p>
                                 <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].responsavel}}</p>
+                            </div>
+
+                        </div>
+                        <div class="d-flex pt-3 pb-3 ps-3 pe-3  justify-content-start w-100 flex-column" dmx-show="sr_captura_slug.data.query.isEmpty()">
+
+                            <div class="d-flex align-items-center justify-content-start mb-2 flex-column">
+                                <p class="fw-bold align-self-center mb-0 text-black">Este cliente não existe</p>
+                                <p class="text-secondary align-self-center text-center mt-2 mb-0">O cliente que você está buscando não existe, ou a página pode ter sido removida. <a href="/home">Voltar para o início.</a></p>
                             </div>
 
                         </div>
