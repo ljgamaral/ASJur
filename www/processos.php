@@ -53,8 +53,9 @@
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
                     <div class="d-flex  card-default pt-3 pb-3 ps-3 pe-3 flex-column" dmx-style:gap="'20px'">
-                        <p class="text-secondary">Lista de processos</p>
-                        <table class="table align-middle">
+
+                        <p class="text-secondary fw-bold"><i class="fas fa-bars card-icon"></i>Lista de processos</p>
+                        <table class="table align-middle table-hover">
                             <thead>
                                 <tr>
                                     <th class="text-secondary">Processo</th>

@@ -131,75 +131,20 @@ margin-left: 14%
     border-bottom-right-radius: 10px;
 }
 
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.style10{
-}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
 .button.nav-selected{
     background-color: rgba(0, 0, 0, 0.05);
     color: #383838;
     margin-bottom: 2px;}
 
 .table{
-    background-color: #fff;
     opacity: 1;
     border-width: 0px;
     border-style: none;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
+    border-bottom-right-radius: 8px;
+    background-color: rgba(0, 0, 0, 0);}
 
 .button-tab{
     border-bottom-color: #3595f6;
@@ -209,29 +154,6 @@ margin-left: 14%
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;}
 
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
-
-.wappler-temp{}
 
 .button-tab:active{
     border-top-style: none;
@@ -265,4 +187,62 @@ margin-left: 14%
 }
 
 .celula-tabela{
+    border-width: 0px;
+    border-style: none;
+    background-color: rgba(0, 0, 0, 0);
+    text-transform: capitalize;
+
+}
+
+td.celula-tabela {
+    padding: 0 10px 0 0;
+    font-weight: 500;
+}
+
+.style13{
+    border-width: 0px;
     border-style: none;}    
+
+.table>:not(caption)>*>* {
+    background-color: rgba(0, 0, 0, 0);
+}    
+
+.table.infos-table{
+    margin-right: 60px;
+    width: 18%;}    
+
+.style10{
+    padding: 4px 10px;
+}    
+
+.card-icon-info{
+    color: #6C757D;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin-bottom: 6px;
+    margin-right: 10px;
+    padding: 10px 13px;
+    background-color: rgba(108, 117, 125, 0.13);
+}
+
+.infos-table>tbody {
+    border: 0;
+}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.style14{
+    font-weight: bold;
+}

@@ -80,10 +80,10 @@
 
                     <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
                         <div class="d-flex" dmx-style:gap="'20px'">
-                            <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-info w-50 flex-column justify-content-start">
+                            <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-default w-50 flex-column justify-content-start">
 
                                 <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="text-secondary fw-bold align-self-center mb-0"><i class="far fa-clock card-icon" dmx-style:color="'#6C757D'"></i>Últimos clientes cadastrados</p>
+                                    <p class="text-secondary fw-bold align-self-center mb-0"><i class="fas fa-clock card-icon" dmx-style:color="'#6C757D'"></i>Últimos clientes cadastrados</p>
                                 </div>
 
                                 <div class="table-responsive w-100">
@@ -107,7 +107,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-info w-50 flex-column justify-content-start">
+                            <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-default w-50 flex-column justify-content-start">
                                 <div class="d-flex align-items-center justify-content-start mb-2">
                                     <p class="text-secondary fw-bold align-self-center mb-0"><i class="fas fa-flag card-icon" dmx-style:color="'#6C757D'"></i>Clientes em processos ativos</p>
 

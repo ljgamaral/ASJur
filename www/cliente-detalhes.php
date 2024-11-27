@@ -56,49 +56,114 @@
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
                     <div class="d-flex flex-column justify-content-start mb-3" dmx-style:gap="'5px'">
-                        <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-default flex-row w-100 justify-content-center" dmx-show="!sr_captura_slug.data.query.isEmpty()">
+                        <div class="d-flex table  ps-1 flex-column" dmx-show="!sr_captura_slug.data.query.isEmpty()">
 
-                            <div class="d-flex flex-column">
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Data de cadastro:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].criado_em.formatDate('dd MMM yyyy - hh:mm')}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Estado civil:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].estado_civil}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Profissão:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].profissao}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Endereço:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].endereco}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Celular:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].celular}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Data de nascimento:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].data_nascimento.formatDate('dd/MM/yyyy')}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Sexo:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].sexo}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Responsável:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].responsavel}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Pessoa:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].tipo.capitalize()}}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="fw-bold align-self-center mb-0 text-black">Nome:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0">{{sr_captura_slug.data.query[0].nome}}</p>
-                                </div>
+                            <p class="text-secondary fw-bold">
+                                <i class="fas fa-info card-icon-info"></i>Informações pessoais
+                            </p>
+                            <div class="d-flex">
+                                <table class="table align-middle infos-table" dmx-style:width="">
+                                    <tbody>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Nome</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].nome.isEmpty()">{{sr_captura_slug.data.query[0].nome}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].nome.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Responsável</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].responsavel.isEmpty()">{{sr_captura_slug.data.query[0].responsavel}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].responsavel.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Endereço</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].endereco.isEmpty()">{{sr_captura_slug.data.query[0].endereco}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].endereco.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Bairro</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].bairro.isEmpty()">{{sr_captura_slug.data.query[0].bairro}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].bairro.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Cidade</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].cidade.isEmpty()">{{sr_captura_slug.data.query[0].cidade}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].cidade.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">UF</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].uf.isEmpty()">{{sr_captura_slug.data.query[0].uf}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].uf.isEmpty()">-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table align-middle infos-table">
+                                    <tbody>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Departamento</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].nome.isEmpty()">{{sr_captura_slug.data.query[0].departamento}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].nome.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Data nascimento</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].responsavel.isEmpty()">{{sr_captura_slug.data.query[0].data_nascimento.formatDate('dd/MM/yyyy')}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].responsavel.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">CPF</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].endereco.isEmpty()">{{sr_captura_slug.data.query[0].cpf.replace(/\D/g, "").replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].endereco.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Estado civil</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].bairro.isEmpty()">{{sr_captura_slug.data.query[0].estado_civil}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].bairro.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Profissão</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].cidade.isEmpty()">{{sr_captura_slug.data.query[0].profissao}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].cidade.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Sexo</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].uf.isEmpty()">{{sr_captura_slug.data.query[0].sexo}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].uf.isEmpty()">-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table align-middle infos-table">
+                                    <tbody>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Filiação</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].nome.isEmpty()">{{sr_captura_slug.data.query[0].filiacao}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].nome.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Celular</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].responsavel.isEmpty()">{{sr_captura_slug.data.query[0].celular.replace(/\D/g, "").replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].responsavel.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Origem</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].endereco.isEmpty()">{{sr_captura_slug.data.query[0].origem}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].endereco.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Captador</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].bairro.isEmpty()">{{sr_captura_slug.data.query[0].captador}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].bairro.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Pessoa</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].cidade.isEmpty()">{{sr_captura_slug.data.query[0].tipo}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].cidade.isEmpty()">-</td>
+                                        </tr>
+                                        <tr class="align-middle celula-tabela">
+                                            <td class="celula-tabela text-secondary">Cadastrado em</td>
+                                            <td class="celula-tabela" dmx-show="!sr_captura_slug.data.query[0].uf.isEmpty()">{{sr_captura_slug.data.query[0].criado_em.formatDate('dd/MM/yyyy - hh:mm')}}</td>
+                                            <td class="celula-tabela" dmx-show="sr_captura_slug.data.query[0].uf.isEmpty()">-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -109,45 +174,9 @@
 
 
 
-                            <div class="d-flex flex-column">
 
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Departamento:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].departamento}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">CEP:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].cep}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Cidade:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].cidade}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Bairro:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].bairro}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">CPF:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].cpf}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">RG:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].rg}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Captador:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].captador}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Filiação:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].filiacao}}</p>
-                                </div>
-                                <div class="d-flex justify-content-start mb-2 align-items-center">
-                                    <p class="fw-bold align-self-center mb-0 text-black text-start">Origem:&nbsp;</p>
-                                    <p class="text-secondary align-self-center mb-0 text-start">{{sr_captura_slug.data.query[0].origem}}</p>
-                                </div>
-                            </div>
+
+
 
 
 
@@ -162,14 +191,14 @@
                         </div>
                         <div class="d-flex" dmx-style:gap="'20px'">
                             <div class="d-flex w-50 align-items-center pt-3 pb-3 ps-3 pe-3 flex-column card-default" dmx-show="!sr_captura_slug.data.query.isEmpty()">
-                                <div class="nav nav-tabs">
+                                <div class="nav nav-tabs w-100">
                                     <button id="btn6" class="btn button-tab text-secondary" data-bs-toggle="tab" data-bs-target="#processos_tab1" is="dmx-button" value="" type="button">Processos</button>
-                                    <button id="btn6" class="btn active button-tab text-secondary" data-bs-toggle="tab" data-bs-target="#documentos_tab1" is="dmx-button" value="" type="button">Documentos</button>
+                                    <button id="btn6" class="btn button-tab text-secondary" data-bs-toggle="tab" data-bs-target="#documentos_tab1" is="dmx-button" value="" type="button">Documentos</button>
                                     <button id="btn6" class="btn button-tab text-secondary" data-bs-toggle="tab" data-bs-target="#andamentos_tab1" is="dmx-button" value="" type="button">Andamentos</button>
                                 </div>
 
-                                <div class="tab-content" id="tab1">
-                                    <div class="tab-pane w-100 mt-3 fade" id="processos_tab1" role="tabpanel" aria-labelledby="btn1">
+                                <div class="tab-content" id="tab1" dmx-style:width="'100%'">
+                                    <div class="tab-pane w-100 mt-3 fade" id="processos_tab1" role="tabpanel" aria-labelledby="btn6">
                                         <p class="text-secondary">Processos vinculados</p>
                                         <div class="table-responsive">
                                             <div class="table-responsive">
@@ -177,7 +206,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="text-secondary">Processo</th>
-                                                            <th class="text-secondary">Ultimo andamento</th>
+                                                            <th class="text-secondary">Último andamento</th>
                                                             <th class="text-secondary">Orgão</th>
                                                             <th></th>
                                                         </tr>
@@ -262,8 +291,10 @@
 
                             </div>
                             <div class="d-flex card-info align-items-center pt-3 pb-3 ps-3 pe-3 flex-column justify-content-start h-25 w-50" dmx-show="!sr_captura_slug.data.query.isEmpty()">
-                                <div class="d-flex w-100">
-                                    <p class="text-secondary">Timeline</p>
+                                <div class="d-flex w-100 align-items-center">
+                                    <p class="text-secondary style14">
+                                        <i class="fas fa-clock card-icon"></i>Timeline
+                                    </p>
                                 </div>
                                 <div class="d-flex flex-row align-items-center w-50 justify-content-around" is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_cliente_detalhes_historico.data.query" key="id">
                                     <div class="d-flex flex-column justify-content-center text-end">
