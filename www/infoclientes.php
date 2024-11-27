@@ -47,9 +47,6 @@
         <title>Untitled Document</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="dmxAppConnect/dmxBootstrap5TableGenerator/dmxBootstrap5TableGenerator.css" />
-        <link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/dmxMediumEditor.css" />
         <link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/themes/default.css" />
     </head>
 
@@ -138,40 +135,6 @@
 
         </main>
         <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
-        <script>
-            const ctx = document.getElementById('myChart');
-        var x = dmx.app.data.sc_clientes_processos.data.clientes_totais_processos[0].total_clientes
-        var y = dmx.app.data.sc_clientes_processos.data.clientes_totais_processos[0].clientes_com_processo_ativo
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Red', 'Blue'],
-      datasets: [{
-        label: '',
-        data: [x, y],
-      }]
-    },
-  });
-        </script>
     </body>
 
     </html>
-    <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const ctx = document.getElementById('myChart');
-        var x = dmx.app.data.sc_clientes_processos.data.clientes_totais_processos[0].total_clientes
-        var y = dmx.app.data.sc_clientes_processos.data.clientes_totais_processos[0].clientes_com_processo_ativo
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Red', 'Blue'],
-      datasets: [{
-        label: '',
-        data: [x, y],
-      }]
-    },
-  });
-    </script>
-</body>
-
-</html>
