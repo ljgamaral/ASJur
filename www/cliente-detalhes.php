@@ -51,11 +51,11 @@
             </div>
             <div class="col main-content">
                 <div class="d-flex flex-row align-items-center topbar pt-2 pb-2 ps-5 pe-4">
-                    <h1 class="title-page style8">Detalhe</h1>
+                    <h1 class="title-page style8">Detalhes</h1>
                 </div>
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
-                    <div class="d-flex flex-column justify-content-start" dmx-style:gap="'20px'">
+                    <div class="d-flex flex-column justify-content-start" dmx-style:gap="'5px'">
                         <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-info flex-row w-100 justify-content-center" dmx-show="!sr_captura_slug.data.query.isEmpty()">
 
                             <div class="d-flex flex-column">
@@ -259,17 +259,21 @@
 
 
                             </div>
-                            <div class="d-flex card-info w-50 align-items-center pt-3 pb-3 ps-3 pe-3 flex-column justify-content-start" dmx-show="!sr_captura_slug.data.query.isEmpty()">
+                            <div class="d-flex card-info align-items-center pt-3 pb-3 ps-3 pe-3 flex-column justify-content-start h-25 w-50" dmx-show="!sr_captura_slug.data.query.isEmpty()">
                                 <div class="d-flex w-100">
                                     <p class="text-secondary">Timeline</p>
                                 </div>
-                                <div class="d-flex flex-row" is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_cliente_detalhes_historico.data.query" key="id">
-                                    <div class="d-flex flex-column justify-content-center text-center">
+                                <div class="d-flex flex-row align-items-center w-50 justify-content-around" is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_cliente_detalhes_historico.data.query" key="id">
+                                    <div class="d-flex flex-column justify-content-center text-end">
 
                                         <p class="small text-secondary lh-1">{{sc_cliente_detalhes_historico.data.query[0].criado_em.formatDate('dd MMM yyyy')}}</p>
                                         <p class="small text-secondary lh-1">{{sc_cliente_detalhes_historico.data.query[0].criado_em.formatDate('hh:mm')}}</p>
 
                                     </div>
+                                    <div class="d-flex">
+                                        <p class="text-black">{{descricao}}</p>
+                                    </div>
+
                                 </div>
 
 
