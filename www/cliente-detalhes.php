@@ -31,7 +31,7 @@
     <div is="dmx-browser" id="browser1"></div>
     <dmx-serverconnect id="sc_cliente_detalhes_documentos" url="dmxConnect/api/cliente_detalhes_documentos.php" dmx-param:id_cliente="sr_captura_slug.data.query[0].id"></dmx-serverconnect>
     <dmx-serverconnect id="sc_cliente_detalhes_processos" url="dmxConnect/api/cliente_detalhes_processos.php" dmx-param:id_cliente="sr_captura_slug.data.query[0].id"></dmx-serverconnect>
-    <dmx-serverconnect id="sr_captura_slug" url="dmxConnect/api/capturar_slug.php" dmx-param:slug="browser1.location.pathparts.last(1)"></dmx-serverconnect>
+    <dmx-serverconnect id="sr_captura_slug" url="dmxConnect/api/capturar_slug_cliente.php" dmx-param:slug="browser1.location.pathparts.last(1)"></dmx-serverconnect>
     <main class="dashboard" dmx-style:overflow-y="'scroll'">
         <div class="row row-cols-2 h-100">
             <div class="sidebar col-6 text-center">
@@ -42,7 +42,7 @@
                 <div class="d-flex style9 mt-3 ps-4 pe-3 flex-column" dmx-style:gap="'10px'">
                     <button id="btn2" class="btn button text-start " dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/home\')`}})"><i class="fas fa-home">&nbsp; &nbsp;</i>Início</button>
                     <button id="btn3" class="btn button text-start nav-selected" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/clientes\')`}})"><i class="fas fa-user">&nbsp;&nbsp;</i>Clientes</button>
-                    <button id="btn4" class="btn button text-start"><i class="fas fa-home">&nbsp;&nbsp;</i>Início</button>
+                    <button id="btn4" class="btn button text-start" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/processos\')`}})"><i class="fas fa-file-invoice">&nbsp;&nbsp;</i>Processos</button>
                     <button id="btn5" class="btn button text-start"><i class="fas fa-home">&nbsp;&nbsp;</i>Início</button>
                 </div>
 
@@ -55,8 +55,8 @@
                 </div>
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
-                    <div class="d-flex flex-column justify-content-start" dmx-style:gap="'5px'">
-                        <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-info flex-row w-100 justify-content-center" dmx-show="!sr_captura_slug.data.query.isEmpty()">
+                    <div class="d-flex flex-column justify-content-start mb-3" dmx-style:gap="'5px'">
+                        <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-default flex-row w-100 justify-content-center" dmx-show="!sr_captura_slug.data.query.isEmpty()">
 
                             <div class="d-flex flex-column">
                                 <div class="d-flex justify-content-start mb-2 align-items-center">
@@ -172,26 +172,26 @@
                                     <div class="tab-pane w-100 mt-3 fade" id="processos_tab1" role="tabpanel" aria-labelledby="btn1">
                                         <p class="text-secondary">Processos vinculados</p>
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-secondary">Descrição</th>
-                                                        <th class="text-secondary">Status</th>
-                                                        <th class="text-secondary">Último andamento</th>
-                                                        <th class="text-secondary">Autor</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_cliente_detalhes_processos.data.cliente_detalhes_processos" id="tableRepeat1">
-                                                    <tr>
-                                                        <td dmx-text="descricao"></td>
-                                                        <td dmx-text="status"></td>
-                                                        <td dmx-text="ultimo_andamento"></td>
-                                                        <td dmx-text="autor"></td>
-                                                        <td dmx-style:cursor="'pointer'" dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" class="text-secondary">...</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-secondary">Processo</th>
+                                                            <th class="text-secondary">Ultimo andamento</th>
+                                                            <th class="text-secondary">Orgão</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_cliente_detalhes_processos.data.cliente_detalhes_processos" id="tableRepeat1">
+                                                        <tr>
+                                                            <td dmx-text="processo"></td>
+                                                            <td dmx-text="ultimo_andamento"></td>
+                                                            <td dmx-text="justica"></td>
+                                                            <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/processos/\'+slug)`}})">...</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade mt-3" id="documentos_tab1" role="tabpanel" aria-labelledby="btn2">
@@ -217,21 +217,23 @@
                                     </div>
                                     <div class="tab-pane fade mt-3" id="andamentos_tab1" role="tabpanel">
                                         <p class="text-secondary">Andamentos vinculados</p>
-                                        <table class="table">
+                                        <table class="table align-middle table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-secondary">Descricao</th>
+                                                    <th class="text-secondary">Andamento</th>
+                                                    <th class="text-secondary">Processo</th>
                                                     <th class="text-secondary">Data</th>
-                                                    <th class="text-secondary">Status</th>
                                                     <th class="text-secondary">Criado em</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
-                                            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_cliente_detalhes_andamentos.data.query" id="tableRepeat4">
+                                            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_cliente_detalhes_andamentos.data.query" id="tableRepeat2">
                                                 <tr>
-                                                    <td dmx-text="descricao"></td>
+                                                    <td dmx-text="andamento"></td>
+                                                    <td dmx-text="processo"></td>
                                                     <td dmx-text="data"></td>
-                                                    <td dmx-text="status"></td>
                                                     <td dmx-text="criado_em"></td>
+                                                    <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'">...</td>
                                                 </tr>
                                             </tbody>
                                         </table>

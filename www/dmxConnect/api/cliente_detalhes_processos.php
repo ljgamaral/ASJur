@@ -34,35 +34,7 @@ $app->define(<<<'JSON'
           "columns": [
             {
               "table": "processos",
-              "column": "id"
-            },
-            {
-              "table": "processos",
-              "column": "id_cliente"
-            },
-            {
-              "table": "processos",
-              "column": "slug"
-            },
-            {
-              "table": "processos",
-              "column": "descricao"
-            },
-            {
-              "table": "processos",
-              "column": "status"
-            },
-            {
-              "table": "processos",
-              "column": "ultimo_andamento"
-            },
-            {
-              "table": "processos",
-              "column": "autor"
-            },
-            {
-              "table": "processos",
-              "column": "id_clickup"
+              "column": "*"
             }
           ],
           "params": [
@@ -99,13 +71,14 @@ $app->define(<<<'JSON'
                     "name": "id_cliente"
                   }
                 },
-                "operation": "="
+                "operation": "=",
+                "table": "processos"
               }
             ],
             "conditional": null,
             "valid": true
           },
-          "query": "select `id`, `id_cliente`, `slug`, `descricao`, `status`, `ultimo_andamento`, `autor`, `id_clickup` from `processos` where `processos`.`id_cliente` = ?"
+          "query": "select * from `processos` where `processos`.`id_cliente` = ?"
         }
       },
       "output": true,
@@ -115,12 +88,20 @@ $app->define(<<<'JSON'
           "name": "id"
         },
         {
+          "type": "text",
+          "name": "slug"
+        },
+        {
+          "type": "text",
+          "name": "arquivo_importacao"
+        },
+        {
           "type": "number",
           "name": "id_cliente"
         },
         {
           "type": "text",
-          "name": "slug"
+          "name": "processo"
         },
         {
           "type": "text",
@@ -132,15 +113,55 @@ $app->define(<<<'JSON'
         },
         {
           "type": "text",
+          "name": "data_distribuicao"
+        },
+        {
+          "type": "text",
+          "name": "data_conclusao"
+        },
+        {
+          "type": "text",
           "name": "ultimo_andamento"
+        },
+        {
+          "type": "text",
+          "name": "penultimo_andamento"
+        },
+        {
+          "type": "text",
+          "name": "justica"
+        },
+        {
+          "type": "text",
+          "name": "comarca"
+        },
+        {
+          "type": "text",
+          "name": "vara"
+        },
+        {
+          "type": "text",
+          "name": "tese"
         },
         {
           "type": "text",
           "name": "autor"
         },
         {
+          "type": "text",
+          "name": "reu"
+        },
+        {
           "type": "number",
           "name": "id_clickup"
+        },
+        {
+          "type": "text",
+          "name": "url"
+        },
+        {
+          "type": "datetime",
+          "name": "criado_em"
         }
       ],
       "outputType": "array"

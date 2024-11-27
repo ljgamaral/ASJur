@@ -10,15 +10,15 @@ $app->define(<<<'JSON'
     "$_GET": [
       {
         "type": "text",
+        "name": "slug"
+      },
+      {
+        "type": "text",
         "name": "sort"
       },
       {
         "type": "text",
         "name": "dir"
-      },
-      {
-        "type": "text",
-        "name": "id_cliente"
       }
     ]
   },
@@ -33,7 +33,7 @@ $app->define(<<<'JSON'
           "type": "select",
           "columns": [
             {
-              "table": "andamentos",
+              "table": "processos",
               "column": "*"
             }
           ],
@@ -42,12 +42,12 @@ $app->define(<<<'JSON'
               "operator": "equal",
               "type": "expression",
               "name": ":P1",
-              "value": "{{$_GET.id_cliente}}",
-              "test": "1"
+              "value": "{{$_GET.slug}}",
+              "test": "processolean"
             }
           ],
           "table": {
-            "name": "andamentos"
+            "name": "processos"
           },
           "primary": "id",
           "joins": [],
@@ -55,30 +55,30 @@ $app->define(<<<'JSON'
             "condition": "AND",
             "rules": [
               {
-                "id": "andamentos.id_cliente",
-                "field": "andamentos.id_cliente",
-                "type": "double",
+                "id": "processos.slug",
+                "field": "processos.slug",
+                "type": "string",
                 "operator": "equal",
-                "value": "{{$_GET.id_cliente}}",
+                "value": "{{$_GET.slug}}",
                 "data": {
-                  "table": "andamentos",
-                  "column": "id_cliente",
-                  "type": "number",
+                  "table": "processos",
+                  "column": "slug",
+                  "type": "text",
                   "columnObj": {
-                    "type": "bigInteger",
+                    "type": "string",
+                    "maxLength": 16,
                     "primary": false,
                     "nullable": false,
-                    "name": "id_cliente"
+                    "name": "slug"
                   }
                 },
-                "operation": "=",
-                "table": "andamentos"
+                "operation": "="
               }
             ],
             "conditional": null,
             "valid": true
           },
-          "query": "select * from `andamentos` where `andamentos`.`id_cliente` = ?"
+          "query": "select * from `processos` where `processos`.`slug` = ?"
         }
       },
       "output": true,
@@ -92,6 +92,10 @@ $app->define(<<<'JSON'
           "name": "slug"
         },
         {
+          "type": "text",
+          "name": "arquivo_importacao"
+        },
+        {
           "type": "number",
           "name": "id_cliente"
         },
@@ -100,24 +104,60 @@ $app->define(<<<'JSON'
           "name": "processo"
         },
         {
-          "type": "number",
-          "name": "id_subprocesso"
-        },
-        {
-          "type": "text",
-          "name": "andamento"
-        },
-        {
           "type": "text",
           "name": "descricao"
         },
         {
           "type": "text",
-          "name": "data"
+          "name": "status"
         },
         {
           "type": "text",
-          "name": "status"
+          "name": "data_distribuicao"
+        },
+        {
+          "type": "text",
+          "name": "data_conclusao"
+        },
+        {
+          "type": "text",
+          "name": "ultimo_andamento"
+        },
+        {
+          "type": "text",
+          "name": "penultimo_andamento"
+        },
+        {
+          "type": "text",
+          "name": "justica"
+        },
+        {
+          "type": "text",
+          "name": "comarca"
+        },
+        {
+          "type": "text",
+          "name": "vara"
+        },
+        {
+          "type": "text",
+          "name": "tese"
+        },
+        {
+          "type": "text",
+          "name": "autor"
+        },
+        {
+          "type": "text",
+          "name": "reu"
+        },
+        {
+          "type": "number",
+          "name": "id_clickup"
+        },
+        {
+          "type": "text",
+          "name": "url"
         },
         {
           "type": "datetime",

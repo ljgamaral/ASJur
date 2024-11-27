@@ -36,7 +36,7 @@
                 <div class="d-flex style9 mt-3 ps-4 pe-3 flex-column" dmx-style:gap="'10px'">
                     <button id="btn2" class="btn button text-start nav-selected"><i class="fas fa-home">&nbsp; &nbsp;</i>Início</button>
                     <button id="btn3" class="btn button text-start" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/clientes\')`}})"><i class="fas fa-user">&nbsp;&nbsp;</i>Clientes</button>
-                    <button id="btn4" class="btn button text-start"><i class="fas fa-home">&nbsp;&nbsp;</i>Início</button>
+                    <button id="btn4" class="btn button text-start" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/processos\')`}})"><i class="fas fa-file-invoice">&nbsp;&nbsp;</i>Processos</button>
                     <button id="btn5" class="btn button text-start"><i class="fas fa-home">&nbsp;&nbsp;</i>Início</button>
                 </div>
 

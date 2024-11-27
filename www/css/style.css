@@ -1,5 +1,5 @@
 *{
-    font-family: "Raleway", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -67,6 +67,7 @@ a {
 .style8{
     font-size: 30px;
     margin-bottom: 0px;
+    margin-left: 16px;
 }
 .info-card{
     font-size: 25px;}
@@ -178,6 +179,9 @@ margin-left: 14%
 
 .table{
     background-color: #fff;
+    opacity: 1;
+    border-width: 0px;
+    border-style: none;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -247,4 +251,18 @@ margin-left: 14%
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;}    
+    border-bottom-right-radius: 8px;}
+
+.style11{
+    margin-bottom: 0px;
+}
+
+.texto-detalhes{
+    margin-bottom: 0px;}
+
+.style12{
+    border-style: none;
+}
+
+.celula-tabela{
+    border-style: none;}    
