@@ -52,7 +52,7 @@
 
                 <div class="d-flex text-start justify-content-center flex-column w-100 pt-5 ps-5 pe-5" dmx-style:gap="'20px'">
                     <div class="d-flex flex-column justify-content-start" dmx-style:gap="'5px'">
-                        <div class="d-flex card-info w-100 pt-3 pb-3 ps-3 pe-3 flex-row">
+                        <div class="d-flex  w-100 pt-3 pb-3 ps-3 pe-3 flex-row">
                             <table class="table table-sm align-middle w-25">
                                 <thead>
                                 </thead>
