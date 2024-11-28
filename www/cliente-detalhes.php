@@ -216,7 +216,7 @@
                                                             <td dmx-text="processo"></td>
                                                             <td dmx-text="ultimo_andamento"></td>
                                                             <td dmx-text="justica"></td>
-                                                            <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/processos/\'+slug)`}})">...</td>
+                                                            <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/processos/\'+slug)`}})" data-bs-placement="right">...</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -260,7 +260,7 @@
                                                     <td dmx-text="andamento"></td>
                                                     <td dmx-text="processo"></td>
                                                     <td dmx-text="data"></td>
-                                                    <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'">...</td>
+                                                    <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'" data-bs-placement="right">...</td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -128,5 +128,11 @@ dmx.config({
       ],
       "outputType": "array"
     }
+  },
+  "LoginASJurdico": {
+    "data_detail1": {
+      "meta": null,
+      "outputType": "text"
+    }
   }
 });

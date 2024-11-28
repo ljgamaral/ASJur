@@ -603,7 +603,80 @@
         "db": {}
       },
       "usuarios": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "avatar": {
+            "db": {
+              "type": "string",
+              "default": "'default.png'",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "senha": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nivel_permissao": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "token": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       }
     },
     "views": {},

@@ -26,9 +26,11 @@
     <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
+    <script src="dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
 </head>
 
 <body class="d-flex align-items-center justify-content-center" is="dmx-app" id="LoginASJurdico">
+    <dmx-notifications id="notifies1" timeout="0" position="bottom" align="start"></dmx-notifications>
     <div is="dmx-browser" id="browser1"></div>
 
     <main class="main">
@@ -42,7 +44,7 @@
                     <p class="text-light-emphasis mb-3">Insira as informações abaixo para prosseguir</p>
                 </div>
                 <div class="d-block style2 w-100">
-                    <form action="dmxConnect/api/login.php" post-data="json" is="dmx-serverconnect-form" id="serverconnectform1" site="undefined" method="post" dmx-on:success="run({run:{outputType:'text',action:`browser1.goto(\'home.php\')`}})" dmx-on:unauthorized="">
+                    <form action="dmxConnect/api/login.php" post-data="json" is="dmx-serverconnect-form" id="serverconnectform1" site="" method="post" dmx-on:success="run({run:{outputType:'text',action:`notifies1.success(serverconnectform1.data.login.data.message);browser1.goto(\'/home\',true)`}})" dmx-on:unauthorized="run({run:{outputType:'text',action:`notifies1.danger(lastError.response.message)`}})">
                         <label for="email" class="label col-form-label">Email</label>
                         <input id="email" name="email" type="email" class="form-input"><label for="senha" class="label col-form-label">Senha</label>
                         <input id="senha" name="senha" type="password" class="form-input">

@@ -30,6 +30,7 @@
     <script src="dmxAppConnect/dmxMediumEditor/medium-editor.js" defer></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/themes/default.css" />
     <link rel="icon" href="assets/logo/as-favicon.png" type="image/png">
+    <script src="dmxAppConnect/dmxBootstrap5Popovers/dmxBootstrap5Popovers.js" defer></script>
 </head>
 
 <body is="dmx-app" id="home" class="style6">
@@ -82,8 +83,9 @@
                         <div class="d-flex" dmx-style:gap="'20px'">
                             <div class="d-flex table pt-3 pb-3 ps-3 pe-3 card-default w-50 flex-column justify-content-start">
 
-                                <div class="d-flex align-items-center justify-content-start mb-2">
-                                    <p class="text-secondary fw-bold align-self-center mb-0"><i class="fas fa-clock card-icon" dmx-style:color="'#6C757D'"></i>Últimos clientes cadastrados</p>
+                                <div class="d-flex mb-2 justify-content-between align-items-stretch">
+                                    <p class="text-secondary fw-bold align-self-center mb-0"><i class="fas fa-clock card-icon" dmx-style:color="'#6C757D'"></i>Últimos clientes cadastrados<i class="fas fa-info-circle fa-xs" dmx-style:color="'#6C757D'" dmx-bs-tooltip="'Clientes cadastrados nos últimos 7 dias'" data-bs-trigger="hover" data-bs-placement="top" data-bs-html="true"></i></p>
+
                                 </div>
 
                                 <div class="table-responsive w-100">

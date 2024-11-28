@@ -18,6 +18,7 @@
     <script src="dmxAppConnect/dmxCharts/dmxCharts.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="icon" href="assets/logo/as-favicon.png" type="image/png">
+    <script src="dmxAppConnect/dmxBootstrap5Tooltips/dmxBootstrap5Tooltips.js" defer></script>
 </head>
 
 <body is="dmx-app" id="Incio" class="style6">
@@ -61,8 +62,9 @@
                             </div>
                         </div>
                         <div class="d-block card-info pt-xxl-3 pb-xxl-3 ps-xxl-3 pe-xxl-3 pt-3 pb-3 ps-3 pe-3">
+
                             <p class="text-secondary fw-bolder"><i class="fas fa-user-plus card-icon"></i>
-                                Clientes Novos</p>
+                                Clientes Novos<i class="fas fa-info-circle fa-xs" dmx-style:margin-left="'5px'" dmx-bs-tooltip="'Clientes cadastrados nos últimos 7 dias'" data-bs-trigger="hover" data-bs-placement="top"></i></p>
                             <div class="d-flex flex-xxl-row">
                                 <p class="fw-bold info-card">{{sc_listar_clientes_novos.data.listar_clientes_clientes_novos[0].novos_clientes}}</p>
                             </div>
@@ -75,7 +77,10 @@
                             </div>
                         </div>
                         <div class="d-block card-info pt-xxl-3 pb-xxl-3 ps-xxl-3 pe-xxl-3 pt-3 pb-3 ps-3 pe-3">
-                            <p class="text-secondary fw-bolder"><i class="fas fa-plus card-icon"></i>Andamentos Novos</p>
+                            <div class="d-flex justify-content-between">
+                                <p class="text-secondary fw-bolder"><i class="fas fa-plus card-icon"></i>Andamentos Novos<i class="fas fa-info-circle fa-xs" dmx-style:color="'#6C757D'" dmx-bs-tooltip="'Andamentos dos últimos 7 dias'" data-bs-trigger="hover" data-bs-placement="top" data-bs-html="true" dmx-style:margin-left="'5px'"></i></p>
+                            </div>
+
                             <div class="d-flex flex-xxl-row">
                                 <p class="fw-bold info-card">{{sc_listar_andamentos.data.listar_andamentos[0].andamentos_recentes}}</p>
                             </div>
@@ -86,9 +91,8 @@
                     <div class="d-flex" dmx-style:gap="'20px'">
                         <div class="d-flex flex-row w-50" dmx-style:gap="'10px'">
                             <div class="d-flex w-100 card-info flex-column pt-3 pb-3 ps-3 pe-3">
-                                <div class="d-flex justify-content-between align-items-center mb-4 flex-column">
-
-                                    <div>
+                                <div class="d-flex mw-100 justify-content-between mb-3">
+                                    <div class="d-flex w-100 flex-column">
                                         <h5 class="card-title mb-1">Relatório Anual</h5>
                                         <p class="text-muted m-0">Dados de Atendimentos e Clientes</p>
                                     </div>
@@ -100,6 +104,16 @@
                                             <li><a class="dropdown-item" href="#">Imprimir</a></li>
                                         </ul>
                                     </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-4 flex-column">
+
+                                    <div>
+
+
+
+
+                                    </div>
+
                                     <dmx-chart id="chart2" dataset-1="" width="" responsive="true" dmx-bind:data="" label-x="'Mês'" label-y="'Quantidade'" labels="'(Mês, Quantidade)'"></dmx-chart>
                                 </div>
                                 <div class="chart-container">
