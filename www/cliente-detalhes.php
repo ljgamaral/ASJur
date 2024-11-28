@@ -207,7 +207,7 @@
                                                         <tr>
                                                             <th class="text-secondary">Processo</th>
                                                             <th class="text-secondary">Último andamento</th>
-                                                            <th class="text-secondary">Orgão</th>
+                                                            <th class="text-secondary">Órgão</th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
@@ -230,7 +230,7 @@
                                                 <tr>
                                                     <th class="text-secondary">Nome</th>
                                                     <th class="text-secondary">Tipo</th>
-                                                    <th class="text-secondary">Descricao</th>
+                                                    <th class="text-secondary">Descrição</th>
                                                     <th class="text-secondary">Criado em</th>
                                                 </tr>
                                             </thead>
@@ -239,20 +239,19 @@
                                                     <td dmx-text="nome"></td>
                                                     <td dmx-text="tipo"></td>
                                                     <td dmx-text="descricao"></td>
-                                                    <td dmx-text="criado_em"></td>
+                                                    <td dmx-text="criado_em">{{criado_em.formatDate('dd/MM/yyyyy')}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="tab-pane fade mt-3" id="andamentos_tab1" role="tabpanel">
                                         <p class="text-secondary">Andamentos vinculados</p>
-                                        <table class="table align-middle table-hover">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th class="text-secondary">Andamento</th>
                                                     <th class="text-secondary">Processo</th>
                                                     <th class="text-secondary">Data</th>
-                                                    <th class="text-secondary">Criado em</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -261,10 +260,10 @@
                                                     <td dmx-text="andamento"></td>
                                                     <td dmx-text="processo"></td>
                                                     <td dmx-text="data"></td>
-                                                    <td dmx-text="criado_em"></td>
                                                     <td dmx-bs-tooltip="'Mais detalhes'" data-bs-trigger="hover" data-bs-html="true" dmx-style:cursor="'pointer'">...</td>
                                                 </tr>
                                             </tbody>
+                                        </table>
                                         </table>
                                     </div>
                                 </div>
