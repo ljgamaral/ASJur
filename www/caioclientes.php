@@ -1,489 +1,1411 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="pt">
 
 <head>
+    <meta name="ac:route" content="/clientes">
     <base href="/">
+    <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Cliente - Dashboard Jurídico</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Clientes - AS Jurídico</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/logo/as-favicon.png" type="image/png">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap5.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer></script>
+    <script src="dmxAppConnect/dmxFormatter/dmxFormatter.js" defer></script>
+    <script src="dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
+    <script src="dmxAppConnect/dmxStateManagement/dmxStateManagement.js" defer></script>
+    <script src="dmxAppConnect/dmxNotifications/dmxNotifications.js" defer></script>
+    <script src="dmxAppConnect/dmxBootstrap5Tooltips/dmxBootstrap5Tooltips.js" defer></script>
+
     <style>
         :root {
-            --primary-color: #d4af37;
-            --secondary-color: #f8f9fa;
-            --text-color: #333333;
-            --sidebar-bg: #ffffff;
-            --sidebar-hover: #f1f3f5;
-            --active-item: linear-gradient(135deg, #d4af37, #f1c40f);
-            --card-bg: #ffffff;
-            --card-border: #e0e0e0;
-            --folder-bg: #fff8e1;
-            --folder-border: #d4af37;
-            --folder-active: #ffd700;
+            --primary-color: #2c2c2c;
+            --secondary-color: #666666;
+            --accent-color: #1a1a1a;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333333;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
         }
 
         body {
-            background-color: var(--secondary-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--primary-color);
         }
 
+        /* Sidebar Styles */
         .sidebar {
-            width: 280px;
-            position: fixed;
-            top: 0;
-            left: 0;
+            background: white;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
             height: 100vh;
-            background: var(--sidebar-bg);
-            color: var(--text-color);
-            padding: 1rem;
+            position: fixed;
+            padding: 0;
+            z-index: 100;
             transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .main-content {
-            margin-left: 280px;
-            padding: 2rem;
-            transition: all 0.3s ease;
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            margin: 0.5rem 1rem;
         }
 
         .nav-link {
-            color: var(--text-color);
-            padding: 0.8rem 1rem;
-            margin-bottom: 0.5rem;
+            color: var(--secondary-color) !important;
+            padding: 0.8rem 1.2rem;
             border-radius: 10px;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
+            font-weight: 500;
         }
 
         .nav-link:hover {
-            background: var(--sidebar-hover);
-            color: var(--primary-color);
+            background: var(--light-gray);
+            color: var(--primary-color) !important;
         }
 
         .nav-link.active {
-            background: var(--active-item);
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: var(--primary-color);
+            color: white !important;
         }
 
-        .sidebar-icon {
-            width: 24px;
+        .nav-link i {
+            width: 20px;
             margin-right: 10px;
-            text-align: center;
+            font-size: 1.1rem;
         }
 
+        /* Cards */
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .btn-custom {
-            background-color: var(--primary-color);
-            color: #ffffff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            background: white;
             transition: all 0.3s ease;
         }
 
-        .btn-custom:hover {
-            background-color: #b8860b;
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(184, 134, 11, 0.3);
-        }
-
-        .badge-custom {
-            background-color: var(--primary-color);
-            color: #ffffff;
-        }
-
-        .folder-tabs {
-            display: flex;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--folder-border);
-            margin-bottom: -2px;
-        }
-
-        .folder-tab {
-            background-color: var(--folder-bg);
-            border: 2px solid var(--folder-border);
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            padding: 12px 24px;
-            margin-right: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            top: 2px;
-            font-weight: 600;
-        }
-
-        .folder-tab:hover {
-            background-color: #fff3c4;
-        }
-
-        .folder-tab.active {
-            background-color: var(--folder-active);
-            border-bottom: 2px solid var(--folder-active);
-            font-weight: bold;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .folder-content {
-            background-color: var(--folder-bg);
-            border: 2px solid var(--folder-border);
-            border-top: none;
-            border-radius: 0 0 15px 15px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .folder-item {
-            background-color: #ffffff;
-            border: 1px solid var(--folder-border);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .folder-item:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .activity-icon {
-            background-color: var(--folder-bg);
-            color: var(--primary-color);
-            padding: 15px;
-            border-radius: 50%;
-            margin-right: 20px;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        .stats-card {
+            padding: 1.5rem;
         }
 
-        .client-avatar {
-            width: 100px;
-            height: 100px;
-            background-color: var(--primary-color);
-            color: #ffffff;
-            font-size: 2.5rem;
-            font-weight: bold;
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            background: var(--light-gray);
+            color: var(--primary-color);
+            font-size: 1.5rem;
         }
 
-        .client-info {
-            background: linear-gradient(135deg, #fff8e1, #fffde7);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .stats-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
         }
 
-        .client-info p {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+        .stats-label {
+            color: var(--secondary-color);
+            font-size: 0.875rem;
+            font-weight: 500;
         }
 
-        .client-info i {
-            margin-right: 10px;
+        /* Header */
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            color: var(--secondary-color);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table thead th {
+            background: var(--light-gray);
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 1rem;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--medium-gray);
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+            background: var(--light-gray);
             color: var(--primary-color);
         }
 
-        .tab-content {
-            display: none;
+        /* Action Buttons */
+        .action-buttons .btn {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin: 0 4px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--medium-gray);
+            color: var(--secondary-color);
         }
 
-        .tab-content.active {
-            display: block;
+        .action-buttons .btn:hover {
+            background: var(--light-gray);
+            color: var(--primary-color);
+            transform: translateY(-2px);
         }
 
+        /* Avatar */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--light-gray);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Responsividade */
         @media (max-width: 768px) {
             .sidebar {
-                width: 70px;
-                overflow: hidden;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .page-header {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .table-container {
+                padding: 1rem;
+            }
+
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Melhorias na Responsividade */
+        @media (max-width: 1200px) {
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+
+            .stats-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
             }
 
             .main-content {
-                margin-left: 70px;
+                margin-left: 0 !important;
+                width: 100% !important;
             }
 
-            .nav-link span:not(.sidebar-icon) {
-                display: none;
+            .mobile-nav-toggle {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
 
-            .sidebar-icon {
+            .action-buttons {
+                display: flex;
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+
+            .table-responsive {
+                margin: 0 -1rem;
+            }
+
+            .status-badge {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+
+            .table-container {
+                padding: 1rem;
+            }
+
+            .action-buttons .btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Overlay para menu mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* Botão toggle menu mobile */
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            padding: 0.5rem;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Paginação personalizada */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5rem 1rem;
+            margin: 0 2px;
+            border-radius: 8px;
+            border: 1px solid var(--medium-gray);
+            background: white;
+            color: var(--primary-color) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: var(--primary-color) !important;
+            color: white !important;
+            border-color: var(--primary-color);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: var(--light-gray) !important;
+            color: var(--primary-color) !important;
+            border-color: var(--medium-gray);
+        }
+
+        /* Filtros e busca */
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin: 0 0.5rem;
+        }
+
+        /* Layout Base */
+        .main-content {
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* Desktop */
+        @media (min-width: 992px) {
+            .sidebar {
+                width: 280px;
+            }
+
+            .main-content {
+                margin-left: 280px;
+                padding: 2rem;
+            }
+
+            .mobile-nav-toggle {
+                display: none !important;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .sidebar {
+                width: 240px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+
+            .page-header {
+                flex-direction: row !important;
+                text-align: left !important;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                width: 100%;
+                max-width: 300px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column !important;
+                text-align: center;
+                padding: 1.5rem !important;
+            }
+
+            .page-header .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+
+            .table-container {
+                padding: 1rem !important;
+                margin: -1rem;
+                border-radius: 0;
+            }
+
+            .table-responsive {
+                margin: 0 -1rem;
+            }
+
+            .btn-group {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .btn-filter {
+                flex: 1;
+                min-width: calc(33.333% - 0.5rem);
+                text-align: center;
+            }
+
+            .modal-dialog {
+                margin: 0.5rem;
+            }
+        }
+
+        /* Small Mobile */
+        @media (max-width: 575.98px) {
+            .page-title {
+                font-size: 1.5rem !important;
+            }
+
+            .page-subtitle {
+                font-size: 0.875rem !important;
+            }
+
+            .stats-value {
+                font-size: 1.5rem !important;
+            }
+
+            .stats-label {
+                font-size: 0.75rem !important;
+            }
+
+            .btn-filter {
+                min-width: calc(50% - 0.5rem);
+            }
+
+            .table thead th {
+                font-size: 0.75rem !important;
+                padding: 0.75rem !important;
+            }
+
+            .table tbody td {
+                font-size: 0.813rem !important;
+                padding: 0.75rem !important;
+            }
+
+            .action-buttons .btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.875rem;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+        }
+
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 359.98px) {
+            .page-title {
+                font-size: 1.25rem !important;
+            }
+
+            .btn-filter {
+                min-width: 100%;
+            }
+
+            .stats-card {
+                padding: 1rem !important;
+            }
+        }
+
+        /* Ajustes para telas muito grandes */
+        @media (min-width: 1400px) {
+            .container-fluid {
+                max-width: 1600px;
+                margin: 0 auto;
+            }
+
+            .sidebar {
+                width: 300px;
+            }
+
+            .main-content {
+                margin-left: 300px;
+                padding: 2.5rem;
+            }
+
+            .page-title {
+                font-size: 2rem !important;
+            }
+
+            .stats-value {
+                font-size: 2.5rem !important;
+            }
+        }
+
+        /* Ajustes para altura da tela */
+        @media (max-height: 700px) {
+            .sidebar {
+                overflow-y: auto;
+            }
+
+            .nav-item {
+                margin: 0.25rem 1rem;
+            }
+
+            .nav-link {
+                padding: 0.6rem 1rem;
+            }
+        }
+
+        /* Melhorias na Tabela Responsiva */
+        .table-responsive {
+            margin: 0;
+            border-radius: inherit;
+        }
+
+        @media (max-width: 991.98px) {
+            .table-responsive .table {
+                min-width: 800px;
+            }
+        }
+
+        /* Melhorias nos Botões de Exportação */
+        .dt-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-right: 1rem;
+        }
+
+        .dt-buttons .btn {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: auto;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            margin-right: 1rem;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            margin-left: auto;
+        }
+
+        @media (max-width: 767.98px) {
+            .dataTables_wrapper .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .dt-buttons {
+                margin-right: 0;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .dataTables_length {
+                text-align: center;
+                width: 100%;
                 margin-right: 0;
             }
 
-            .folder-tabs {
-                flex-wrap: wrap;
+            .dataTables_filter {
+                width: 100%;
+                margin-left: 0;
             }
 
-            .folder-tab {
-                margin-bottom: 5px;
+            .dataTables_filter input {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        /* Melhorias nos Modais */
+        @media (max-width: 575.98px) {
+            .modal-dialog {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: flex-end;
+            }
+
+            .modal-content {
+                border-radius: 1.5rem 1.5rem 0 0;
+                min-height: 80vh;
+            }
+
+            .modal-header {
+                border-radius: 1.5rem 1.5rem 0 0;
+                padding: 1.25rem;
+            }
+
+            .modal-footer {
+                padding: 1rem;
+                flex-wrap: nowrap;
+            }
+
+            .modal-footer .btn {
+                flex: 1;
+            }
+        }
+
+        /* Ajustes para Dark Mode do Sistema */
+        @media (prefers-color-scheme: dark) {
+            .search-highlight {
+                background: rgba(255, 243, 205, 0.2);
+            }
+
+            .table-hover tbody tr:hover {
+                background-color: rgba(255, 255, 255, 0.05) !important;
+            }
+        }
+
+        /* Botões personalizados */
+        .btn-dark-custom {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark-custom:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            color: white;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .quick-action-btn {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Melhorias nos cards */
+        .stats-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+        }
+
+        .stats-trend {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .stats-trend.up {
+            color: var(--success-color);
+        }
+
+        .stats-trend.down {
+            color: var(--danger-color);
+        }
+
+        /* Melhorias na tabela */
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-gray);
+            transform: scale(1.01);
+        }
+
+        .action-buttons .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-buttons .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .action-buttons .btn:active::after {
+            width: 200%;
+            height: 200%;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Melhorias nos modais */
+        .modal-content {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--medium-gray);
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--medium-gray);
+            padding: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 767.98px) {
+            .quick-actions {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .quick-action-btn {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.2rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .modal-dialog {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: flex-end;
+            }
+
+            .modal-content {
+                border-radius: 1.5rem 1.5rem 0 0;
+                min-height: 80vh;
+            }
+
+            .modal-header {
+                border-radius: 1.5rem 1.5rem 0 0;
+                padding: 1.25rem;
+            }
+
+            .modal-footer {
+                padding: 1rem;
+                flex-wrap: nowrap;
+            }
+
+            .modal-footer .btn {
+                flex: 1;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous" />
+    <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
 </head>
 
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="d-flex align-items-center mb-4 ps-2">
-            <h3 class="m-0" style="color: var(--primary-color);">AS</h3>
-        </div>
+<body is="dmx-app" id="clientes">
+    <dmx-notifications id="notifies1"></dmx-notifications>
+    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/clientes.php"></dmx-serverconnect>
+    <div is="dmx-browser" id="browser1"></div>
+    <dmx-value id="varClienteAtual"></dmx-value>
+    <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifies1.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
 
-        <nav class="nav flex-column">
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-house-door-fill"></i></span>
-                <span>Início</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-calendar3"></i></span>
-                <span>Agenda</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-folder2-open"></i></span>
-                <span>Processos</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-file-text"></i></span>
-                <span>Publicações</span>
-            </a>
-            <a class="nav-link active" href="#">
-                <span class="sidebar-icon"><i class="bi bi-people-fill"></i></span>
-                <span>Clientes</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-currency-dollar"></i></span>
-                <span>Financeiro</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-paperclip"></i></span>
-                <span>GED</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-journal-text"></i></span>
-                <span>Acervo Jurídico</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-clock-history"></i></span>
-                <span>Timesheet</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-handshake"></i></span>
-                <span>Contratos</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="sidebar-icon"><i class="bi bi-gear"></i></span>
-                <span>Configurações</span>
-            </a>
-        </nav>
-    </div>
+    <!-- Mobile Nav Toggle -->
+    <button class="mobile-nav-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="container-fluid">
-            <!-- Breadcrumb/Back Button -->
-            <div class="d-flex align-items-center mb-4">
-                <a href="#" class="btn btn-link text-decoration-none" style="color: var(--primary-color);">
-                    <i class="bi bi-arrow-left me-2"></i>Voltar para Clientes
-                </a>
-            </div>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-            <!-- Client Header -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="client-avatar me-4">
-                            AE
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <nav class="col-auto d-md-block sidebar">
+                <div class="sidebar-header">
+                    <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block mx-auto">
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
+                            <i class="fas fa-home"></i>
+                            Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active">
+                            <i class="fas fa-user"></i>
+                            Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                            <i class="fas fa-file-invoice"></i>
+                            Processos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/agenda">
+                            <i class="fas fa-calendar"></i>
+                            Agenda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/relatorios">
+                            <i class="fas fa-chart-bar"></i>
+                            Relatórios
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a class="nav-link" href="/configuracoes">
+                            <i class="fas fa-cog"></i>
+                            Configurações
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col main-content">
+                <!-- Page Header -->
+                <div class="page-header animate-fade-in">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="page-title">Gestão de Clientes</h1>
+                            <p class="page-subtitle mb-0">Gerencie todos os seus clientes em um só lugar</p>
                         </div>
-                        <div class="flex-grow-1">
-                            <h1 class="mb-1">A ABRAO E SILVA ADVOGADOS ASSOCIADOS</h1>
-                            <p class="text-muted mb-2">(Associado do escritório)</p>
-                            <div>
-                                <span class="badge bg-warning text-dark me-2">Pessoa Jurídica</span>
-                                <span class="badge bg-light text-dark me-2">OAB MA 2552</span>
-                                <span class="badge bg-light text-dark">OAB GO 002552</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-custom"><i class="bi bi-plus-circle me-2"></i>Novo Processo</button>
+                        <button class="btn btn-dark-custom" dmx-on:click="modalNovoCliente.show()">
+                            <i class="fas fa-plus me-2"></i>Novo Cliente
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <!-- Left Column - Client Info and Tabs -->
-                <div class="col-lg-8">
-                    <!-- Client Info Card -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">Informações do Cliente</h5>
-                            <div class="client-info">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><i class="bi bi-building"></i> <strong>Tipo de Pessoa:</strong> Pessoa Jurídica</p>
-                                        <p><i class="bi bi-envelope"></i> <strong>Email:</strong> abraoesilvaadv@hotmail.com</p>
-                                        <p><i class="bi bi-telephone"></i> <strong>Telefone:</strong> -</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p><i class="bi bi-calendar-check"></i> <strong>Data de Cadastro:</strong> 27 mai 2024</p>
-                                        <p><i class="bi bi-globe"></i> <strong>Site:</strong> -</p>
-                                        <p><i class="bi bi-geo-alt"></i> <strong>Endereço:</strong> -</p>
-                                    </div>
-                                </div>
+                <!-- Filtros Rápidos -->
+                <div class="mb-4">
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes_novos.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
+                            <div class="stats-label">Total de Clientes</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>12% este mês
                             </div>
                         </div>
                     </div>
-
-                    <!-- Folder Tabs -->
-                    <div class="folder-tabs mb-3">
-                        <div class="folder-tab active" data-tab="processos">Processos</div>
-                        <div class="folder-tab" data-tab="compromissos">Compromissos</div>
-                        <div class="folder-tab" data-tab="documentos">Documentos</div>
-                        <div class="folder-tab" data-tab="financeiro">Financeiro</div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes_novos.data.listar_clientes_clientes_novos[0].novos_clientes||0}}</div>
+                            <div class="stats-label">Novos Clientes</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>5% esta semana
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="folder-content">
-                        <div class="tab-content active" id="processos">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="card-title">Processos Ativos</h5>
-                                <button class="btn btn-custom">
-                                    <i class="bi bi-plus-circle me-2"></i>Novo Processo
-                                </button>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-handshake"></i>
                             </div>
-                            <p class="text-muted text-center">Nenhum processo encontrado</p>
-                        </div>
-                        <div class="tab-content" id="compromissos">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="card-title">Compromissos</h5>
-                                <div>
-                                    <button class="btn btn-outline-warning me-2">
-                                        <i class="bi bi-clock me-2"></i>Timeline
-                                    </button>
-                                    <button class="btn btn-custom">
-                                        <i class="bi bi-plus-circle me-2"></i>Novo Compromisso
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <span class="badge bg-secondary me-2">Pendente</span>
-                                <span class="badge bg-secondary me-2">Cancelado</span>
-                                <span class="badge bg-secondary me-2">Concluído</span>
-                                <span class="badge bg-secondary">Em andamento</span>
-                            </div>
-                            <p class="text-muted text-center">Nenhum compromisso encontrado</p>
-                        </div>
-                        <div class="tab-content" id="documentos">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="card-title">Documentos</h5>
-                                <button class="btn btn-custom">
-                                    <i class="bi bi-plus-circle me-2"></i>Novo Documento
-                                </button>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 mb-4">
-                                    <div class="folder-item">
-                                        <i class="bi bi-folder2 fs-1 text-warning mb-2"></i>
-                                        <p class="mb-1">Documentos Pessoais</p>
-                                        <small class="text-muted">3 arquivos</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-4">
-                                    <div class="folder-item">
-                                        <i class="bi bi-folder2 fs-1 text-warning mb-2"></i>
-                                        <p class="mb-1">Procurações</p>
-                                        <small class="text-muted">2 arquivos</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-4">
-                                    <div class="folder-item">
-                                        <i class="bi bi-folder2 fs-1 text-warning mb-2"></i>
-                                        <p class="mb-1">Contratos</p>
-                                        <small class="text-muted">5 arquivos</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-4">
-                                    <div class="folder-item">
-                                        <i class="bi bi-plus-circle fs-1 text-muted mb-2"></i>
-                                        <p class="mb-1">Nova Pasta</p>
-                                    </div>
-                                </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.ativos || 0}}</div>
+                            <div class="stats-label">Clientes Ativos</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>8% este mês
                             </div>
                         </div>
-                        <div class="tab-content" id="financeiro">
-                            <h5 class="card-title mb-4">Financeiro</h5>
-                            <p class="text-muted text-center">Nenhuma movimentação financeira encontrada</p>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.processos || 0}}</div>
+                            <div class="stats-label">Processos Ativos</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>15% este mês
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column - Recent Activity -->
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">Atividade Recente</h5>
-                            <div class="d-flex mb-4 align-items-center">
-                                <div class="activity-icon">
-                                    <i class="bi bi-file-text"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-1"><strong>Documento adicionado</strong></p>
-                                    <p class="mb-1 text-muted">Procuração.pdf foi adicionado à pasta Documentos</p>
-                                    <small class="text-muted">Há 2 horas</small>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="activity-icon">
-                                    <i class="bi bi-person"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-1"><strong>Cliente atualizado</strong></p>
-                                    <p class="mb-1 text-muted">Informações do cliente foram atualizadas</p>
-                                    <small class="text-muted">Há 1 dia</small>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Tabela de Clientes -->
+                <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="table-responsive">
+                        <table id="tabelaClientes" class="table w-100">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Telefone</th>
+                                    <th>PESSOA</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody is="dmx-repeat" id="repeat1" key="id" dmx-bind:repeat="sc_listar_clientes.data.listar_clientes">
+                                <tr>
+                                    <td>#{{id}}</td>
+                                    <td>{{nome}}
+                                    </td>
+                                    <td>{{celular.replace(/\D/g, "").replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")}}</td>
+                                    <td>{{tipo}}
+
+                                    </td>
+                                    <td class="action-buttons">
+                                        <button class="btn" title="Editar" dmx-bs-tooltip="'Editar cliente'" data-bs-trigger="hover" dmx-on:click="modalEditarCliente.show();varClienteAtual.setValue($this.dmxRowData)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este cliente?')){sc_excluir_cliente.load({data:{id:id}});}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="modalDetalhesCliente.show();varClienteAtual.setValue($this.dmxRowData)">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
+            <i class="fas fa-plus"></i>
+        </button>
+        <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
+            <i class="fas fa-file-export"></i>
+        </button>
+    </div>
+
+    <!-- Modal Novo Cliente -->
+    <div class="modal fade" id="modalNovoCliente" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoCliente" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-on:success="modalNovoCliente.hide();sc_listar_clientes.load();notifySuccess.success('Cliente cadastrado com sucesso!')">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" name="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" name="telefone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" name="status" required>
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="formNovoCliente">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Cliente -->
+    <div class="modal fade" id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarCliente" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/editar_cliente.php" dmx-on:success="modalEditarCliente.hide();sc_listar_clientes.load();notifySuccess.success('Cliente atualizado com sucesso!')">
+                        <input type="hidden" name="id" dmx-bind:value="varClienteAtual.data.id">
+                        <div class="mb-3">
+                            <label class="form-label">Nome</label>
+                            <input type="text" class="form-control" name="nome" required dmx-bind:value="varClienteAtual.data.nome">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required dmx-bind:value="varClienteAtual.data.email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" name="telefone" required dmx-bind:value="varClienteAtual.data.telefone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" name="status" required dmx-bind:value="varClienteAtual.data.status">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="formEditarCliente">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes Cliente -->
+    <div class="modal fade" id="modalDetalhesCliente" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes do Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="avatar me-3">
+                            {{varClienteAtual.data.nome.charAt(0)}}
+                        </div>
+                        <div>
+                            <h4 class="mb-1">{{varClienteAtual.data.nome}}</h4>
+                            <p class="text-muted mb-0">Cliente #{{varClienteAtual.data.id}}</p>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label text-muted">Email</label>
+                            <p class="mb-0">{{varClienteAtual.data.email}}</p>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label text-muted">Telefone</label>
+                            <p class="mb-0">{{varClienteAtual.data.telefone.formatPhone()}}</p>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label text-muted">Status</label>
+                            <p class="mb-0">
+                                <span class="status-badge" dmx-class:bg-success-subtle="varClienteAtual.data.status=='Ativo'" dmx-class:text-success="varClienteAtual.data.status=='Ativo'" dmx-class:bg-danger-subtle="varClienteAtual.data.status=='Inativo'" dmx-class:text-danger="varClienteAtual.data.status=='Inativo'">
+                                    {{varClienteAtual.data.status}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label text-muted">Data de Cadastro</label>
+                            <p class="mb-0">{{varClienteAtual.data.data_cadastro.formatDate('dd/MM/yyyy')}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const folderTabs = document.querySelectorAll('.folder-tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            folderTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-
-                    // Remove active class from all tabs and contents
-                    folderTabs.forEach(t => t.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active'));
-
-                    // Add active class to clicked tab and corresponding content
-                    this.classList.add('active');
-                    document.getElementById(tabId).classList.add('active');
-                });
+        $(document).ready(function() {
+            // Inicializa DataTable com recursos extras
+            var table = $('#tabelaClientes').DataTable({
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json'
+                },
+                dom: '<"d-flex flex-wrap align-items-center mb-4"<"me-auto d-flex align-items-center"lB>f>rtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: '<i class="fas fa-file-excel me-2"></i>Excel',
+                        className: 'btn btn-sm btn-dark-custom',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fas fa-file-pdf me-2"></i>PDF',
+                        className: 'btn btn-sm btn-dark-custom ms-2',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    }
+                ],
+                pageLength: 10,
+                lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]],
+                order: [[0, 'desc']],
+                columnDefs: [
+                    {
+                        targets: -1,
+                        orderable: false
+                    }
+                ]
+            });
+            
+            // Ajuste automático da altura do sidebar
+            function adjustSidebarHeight() {
+                const windowHeight = window.innerHeight;
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) {
+                    sidebar.style.height = `${windowHeight}px`;
+                }
+            }
+            
+            // Chamar no carregamento e no redimensionamento
+            adjustSidebarHeight();
+            window.addEventListener('resize', adjustSidebarHeight);
+            
+            // Fechar sidebar ao clicar em link em telas pequenas
+            $('.nav-link').on('click', function() {
+                if (window.innerWidth < 992) {
+                    $('.sidebar').removeClass('show');
+                    $('#sidebarOverlay').removeClass('show');
+                }
+            });
+            
+            // Ajustar layout em tempo real
+            function adjustLayout() {
+                const width = window.innerWidth;
+                
+                // Ajustar cards de estatísticas
+                if (width < 768) {
+                    $('.stats-card').parent().removeClass('col-md-3').addClass('col-6');
+                } else {
+                    $('.stats-card').parent().removeClass('col-6').addClass('col-md-3');
+                }
+                
+                // Ajustar botões de ação
+                if (width < 576) {
+                    $('.action-buttons').addClass('d-flex justify-content-center');
+                } else {
+                    $('.action-buttons').removeClass('d-flex justify-content-center');
+                }
+            }
+            
+            // Chamar ajustes iniciais e no redimensionamento
+            adjustLayout();
+            window.addEventListener('resize', adjustLayout);
+            
+            // Melhorar scroll em dispositivos móveis
+            if ('ontouchstart' in window) {
+                document.querySelector('.sidebar').style.overscrollBehavior = 'contain';
+                document.querySelector('.main-content').style.overscrollBehavior = 'contain';
+            }
+            
+            // Highlight na pesquisa
+            var searchTimeout;
+            $('.dataTables_filter input').on('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(function() {
+                    var searchTerm = $('.dataTables_filter input').val();
+                    if (searchTerm) {
+                        $('.table tbody td').each(function() {
+                            var text = $(this).text();
+                            if (text.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) {
+                                $(this).html(text.replace(new RegExp(searchTerm, 'gi'), 
+                                    '<span class="search-highlight">$&</span>'));
+                            }
+                        });
+                    } else {
+                        $('.search-highlight').contents().unwrap();
+                    }
+                }, 300);
+            });
+            
+            // Inicializar tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
     </script>

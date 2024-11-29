@@ -15,6 +15,10 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "status"
       }
     ]
   },
@@ -47,15 +51,56 @@ $app->define(<<<'JSON'
             {
               "table": "processos",
               "column": "justica"
+            },
+            {
+              "table": "processos",
+              "column": "status"
             }
           ],
-          "params": [],
+          "params": [
+            {
+              "operator": "contains",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.status}}",
+              "test": ""
+            }
+          ],
           "table": {
             "name": "processos"
           },
           "primary": "id",
           "joins": [],
-          "query": "select `id`, `slug`, `processo`, `ultimo_andamento`, `justica` from `processos`"
+          "query": "select `id`, `slug`, `processo`, `ultimo_andamento`, `justica`, `status` from `processos` where `processos`.`status` like ?",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "processos.status",
+                "field": "processos.status",
+                "type": "string",
+                "operator": "contains",
+                "value": "{{$_GET.status}}",
+                "data": {
+                  "table": "processos",
+                  "column": "status",
+                  "type": "text",
+                  "columnObj": {
+                    "type": "string",
+                    "maxLength": 16,
+                    "primary": false,
+                    "nullable": true,
+                    "name": "status"
+                  }
+                },
+                "operation": "LIKE",
+                "table": "processos"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "orders": []
         }
       },
       "output": true,
@@ -79,6 +124,10 @@ $app->define(<<<'JSON'
         {
           "type": "text",
           "name": "justica"
+        },
+        {
+          "type": "text",
+          "name": "status"
         }
       ],
       "outputType": "array"

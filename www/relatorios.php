@@ -2,11 +2,11 @@
 <html lang="pt">
 
 <head>
-    <meta name="ac:route" content="/agenda">
+    <meta name="ac:route" content="/relatorios">
     <base href="/">
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <meta charset="UTF-8">
-    <title>Agenda - AS Jurídico</title>
+    <title>Relatórios - AS Jurídico</title>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -1036,13 +1036,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active">
+                        <a class="nav-link" href="/agenda">
                             <i class="fas fa-calendar"></i>
                             Agenda
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/relatorios">
+                        <a class="nav-link active">
                             <i class="fas fa-chart-bar"></i>
                             Relatórios
                         </a>
@@ -1062,7 +1062,7 @@
                 <div class="page-header animate-fade-in">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h1 class="page-title">Agenda</h1>
+                            <h1 class="page-title">Relatórios</h1>
                         </div>
                     </div>
                 </div>

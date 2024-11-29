@@ -1,12 +1,16 @@
 {
   "routes": [
     {
+      "path": "/relatorios",
+      "url": "/relatorios.php"
+    },
+    {
       "path": "/processos/:slug",
       "url": "/processo-detalhes.php"
     },
     {
       "path": "/processos",
-      "url": "/processos.php"
+      "url": "/caioprocessos.php"
     },
     {
       "path": "/clientes/:slug",
@@ -18,11 +22,15 @@
     },
     {
       "path": "/home",
-      "url": "/home.php"
+      "url": "/caiohome.php"
+    },
+    {
+      "path": "/agenda",
+      "url": "/agenda.php"
     },
     {
       "path": "/clientes",
-      "url": "/infoclientes.php"
+      "url": "/caioclientes.php"
     }
   ]
 }

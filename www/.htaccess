@@ -5,15 +5,19 @@ RewriteEngine On
     Options -MultiViews
 </IfModule>
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?relatorios(?:/)?$ relatorios.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?processos/([^/]+?)(?:/)?$ processo-detalhes.php?slug=$1 [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^/?processos(?:/)?$ processos.php [QSA,NC,L]
+RewriteRule ^/?processos(?:/)?$ caioprocessos.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?clientes/([^/]+?)(?:/)?$ cliente-detalhes.php?slug=$1 [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?(?:/)?$ index.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^/?home(?:/)?$ home.php [QSA,NC,L]
+RewriteRule ^/?home(?:/)?$ caiohome.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^/?clientes(?:/)?$ infoclientes.php [QSA,NC,L]
+RewriteRule ^/?agenda(?:/)?$ agenda.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?clientes(?:/)?$ caioclientes.php [QSA,NC,L]
 ## End Wappler routing

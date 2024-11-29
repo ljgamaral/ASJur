@@ -30,7 +30,7 @@ $app->define(<<<'JSON'
       "module": "api",
       "action": "send",
       "options": {
-        "url": "http://localhost:23000/api/login",
+        "url": "https://darkgoldenrod-dugong-239956.hostingersite.com/api/login",
         "method": "POST",
         "dataType": "x-www-form-urlencoded",
         "data": {

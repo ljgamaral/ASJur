@@ -2,11 +2,11 @@
 <html lang="pt">
 
 <head>
-    <meta name="ac:route" content="/agenda">
+    <meta name="ac:route" content="/home">
     <base href="/">
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <meta charset="UTF-8">
-    <title>Agenda - AS Jurídico</title>
+    <title>Início - AS Jurídico</title>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.bootstrap5.min.css" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
     <script src="dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer></script>
     <script src="dmxAppConnect/dmxFormatter/dmxFormatter.js" defer></script>
     <script src="dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
@@ -982,16 +981,6 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/daterangepicker.min.css" />
-    <script src="dmxAppConnect/dmxDatePicker/daterangepicker.min.js" defer></script>
-    <link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/dmxDatePicker.css" />
-    <script src="dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/index.global.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales-all.global.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.11/index.global.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/index.global.min.js" defer></script>
-    <script src="dmxAppConnect/dmxCalendar/dmxCalendar.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -1018,7 +1007,7 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
+                        <a class="nav-link active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
                             <i class="fas fa-home"></i>
                             Início
                         </a>
@@ -1036,7 +1025,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active">
+                        <a class="nav-link" href="/agenda">
                             <i class="fas fa-calendar"></i>
                             Agenda
                         </a>
@@ -1062,7 +1051,8 @@
                 <div class="page-header animate-fade-in">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h1 class="page-title">Agenda</h1>
+                            <h1 class="page-title">Início</h1>
+                            <p class="page-subtitle mb-0">Resumo das informações</p>
                         </div>
                     </div>
                 </div>
@@ -1072,6 +1062,56 @@
                 </div>
 
                 <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.total || 0}}</div>
+                            <div class="stats-label">Total de Clientes</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>12% este mês
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.novos || 0}}</div>
+                            <div class="stats-label">Total de Andamentos</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>5% esta semana
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.ativos || 0}}</div>
+                            <div class="stats-label">Tarefas pendentes</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>8% este mês
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.processos || 0}}</div>
+                            <div class="stats-label">Processos Ativos</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>15% este mês
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <!-- Tabela de Clientes -->
@@ -1079,36 +1119,65 @@
                     <div class="d-flex flex-column pe-1 contain-flex-1" dmx-style:gap="'20px'">
 
 
-                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100 h-50" style="animation-delay: 0.1s">
+                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100" style="animation-delay: 0.1s">
                             <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
-                                <div class="d-flex flex-column h-100 align-items-center">
-                                    <div class="d-flex w-100">
-                                        <p class="stats-label text-start mb-3">Meus compromissos próximos</p>
+                                <div class="d-flex flex-column">
+                                    <div class="d-flex flex-column">
+                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                        <p class="stats-label">Publicações não lidas</p>
                                     </div>
-                                    <i class="fas fa-calendar-alt fa-6x" dmx-style:color="'#6C757D'"></i>
-                                    <p class="text-secondary mt-3">Seus novos compromissos aparecerão aqui</p>
-
+                                    <div class="d-flex flex-column">
+                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                        <p class="stats-label">Andamentos não lidos</p>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                        <p class="stats-label">Movimentações não lidas</p>
+                                    </div>
 
 
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100 h-50" style="animation-delay: 0.1s">
-                            <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
-                                <div class="d-flex flex-column">
-                                    <p class="stats-label text-start mb-3">Compromissos por status</p><i class="fas fa-calendar-alt fa-6x" dmx-style:color="'#6C757D'"></i>
-                                    <p class="text-secondary mt-3">Nenhum compromisso</p>
-
-
-
+                        <div class="col-sm-6 col-md-3 animate-fade-in ps-0 pe-2 w-100" style="animation-delay: 0.2s">
+                            <div class="card ms-0 me-0 pt-3 pb-3 ps-3 pe-3">
+                                <div class="d-flex mb-1">
+                                    <p class="stats-label">Jurisprudência</p>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <button id="btn1" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Ambiental'" data-bs-trigger="hover">
+                                        <i class="fas fa-leaf jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn2" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Cível'" data-bs-trigger="hover">
+                                        <i class="fas fa-user jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn3" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Empresarial'" data-bs-trigger="hover">
+                                        <i class="fas fa-building jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn4" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Consumidor'" data-bs-trigger="hover">
+                                        <i class="fas fa-shopping-cart jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn5" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Trabalhista'" data-bs-trigger="hover">
+                                        <i class="fas fa-briefcase jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn6" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Família'" data-bs-trigger="hover">
+                                        <i class="fas fa-user-friends jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn7" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Tributário'" data-bs-trigger="hover">
+                                        <i class="fas fa-coins jurisprudencia-button"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="table-container animate-fade-in card ms-2 me-0 d-none d-sm-flex" style="animation-delay: 0.5s" dmx-style:width="'49%'">
-                        <div class="d-flex">
-                            <dmx-calendar id="calendar1" views="dayGridMonth,dayGridWeek,dayGridDay"></dmx-calendar>
+                        <div class="d-flex justify-content-center style17 align-items-center h-100 w-100">
+
+
+                            <canvas id="myChart1"></canvas>
+
+
                         </div>
                     </div>
                 </div>
@@ -1364,26 +1433,7 @@
       }
     }
   });
-  const ctx2 = document.getElementById('myChart2');
 
-  new Chart(ctx2, {
-    type: 'bar',
-    data: {
-      labels: ['Entrada', 'Saída', 'Aguardando documentos', 'Suspenso', 'Arquivado', 'Em revisão'],
-      datasets: [{
-        label: 'Processos por status',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
     </script>
 </body>
 

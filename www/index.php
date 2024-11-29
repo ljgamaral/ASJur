@@ -44,7 +44,7 @@
                     <p class="text-light-emphasis mb-3">Insira as informações abaixo para prosseguir</p>
                 </div>
                 <div class="d-block style2 w-100">
-                    <form action="dmxConnect/api/login.php" post-data="json" is="dmx-serverconnect-form" id="serverconnectform1" site="" method="post" dmx-on:success="run({run:{outputType:'text',action:`notifies1.success(serverconnectform1.data.login.data.message);browser1.goto(\'/home\',true)`}})" dmx-on:unauthorized="run({run:{outputType:'text',action:`notifies1.danger(lastError.response.message)`}})">
+                    <form action="dmxConnect/api/login.php" post-data="json" is="dmx-serverconnect-form" id="serverconnectform1" site="" method="post" dmx-on:success="run({run:{outputType:'text',action:`notifies1.success(serverconnectform1.data.login.data.message);browser1.goto(\'/home\')`}})" dmx-on:unauthorized="run({run:{outputType:'text',action:`notifies1.danger(lastError.response.message)`}})">
                         <label for="email" class="label col-form-label">Email</label>
                         <input id="email" name="email" type="email" class="form-input"><label for="senha" class="label col-form-label">Senha</label>
                         <input id="senha" name="senha" type="password" class="form-input">
