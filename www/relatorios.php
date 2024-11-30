@@ -1163,19 +1163,19 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Processos Ativos</td>
-                                                <td class="text-black bg-body-tertiary">Tarefas Pendentes</td>
-                                                <td class="text-black bg-body-tertiary">Clientes Atendidos</td>
-                                                <td class="text-black bg-body-tertiary">Saldo Financeiro</td>
+                                                <td class="bg-body-tertiary text-secondary">Processos Ativos</td>
+                                                <td class="bg-body-tertiary text-secondary">Tarefas Pendentes</td>
+                                                <td class="bg-body-tertiary text-secondary">Clientes Atendidos</td>
+                                                <td class="bg-body-tertiary text-secondary">Saldo Financeiro</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">32</td>
-                                                <td class="text-secondary">14</td>
-                                                <td class="text-secondary">&nbsp;54</td>
-                                                <td class="text-secondary">R$ 25.300,00</td>
+                                                <td class="text-black">32</td>
+                                                <td class="text-black">14</td>
+                                                <td class="text-black">&nbsp;54</td>
+                                                <td class="text-black">R$ 25.300,00</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1188,31 +1188,31 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Título</td>
-                                                <td class="text-black bg-body-tertiary">Cliente</td>
-                                                <td class="text-black bg-body-tertiary">Status</td>
-                                                <td class="text-black bg-body-tertiary">Último Andamento</td>
+                                                <td class="bg-body-tertiary text-secondary">Título</td>
+                                                <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                                <td class="bg-body-tertiary text-secondary">Status</td>
+                                                <td class="bg-body-tertiary text-secondary">Último Andamento</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">João Silva</td>
-                                                <td class="text-secondary">Ativo</td>
-                                                <td class="text-secondary">Proferido despacho de mero expediente</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">João Silva</td>
+                                                <td class="text-black">Ativo</td>
+                                                <td class="text-black">Proferido despacho de mero expediente</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">0802526-30.2024.8.10.0027</td>
-                                                <td class="text-secondary">Maria Oliveira</td>
-                                                <td class="text-secondary">Concluído</td>
-                                                <td class="text-secondary">Juntada de petição</td>
+                                                <td class="text-black">0802526-30.2024.8.10.0027</td>
+                                                <td class="text-black">Maria Oliveira</td>
+                                                <td class="text-black">Concluído</td>
+                                                <td class="text-black">Juntada de petição</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">1053154-52.2022.4.01.3500</td>
-                                                <td class="text-secondary">Carlos Almeida</td>
-                                                <td class="text-secondary">Suspenso</td>
-                                                <td class="text-secondary">Enviado ao Diário da Justiça Eletrônico</td>
+                                                <td class="text-black">1053154-52.2022.4.01.3500</td>
+                                                <td class="text-black">Carlos Almeida</td>
+                                                <td class="text-black">Suspenso</td>
+                                                <td class="text-black">Enviado ao Diário da Justiça Eletrônico</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1225,35 +1225,35 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Nome</td>
-                                                <td class="text-black bg-body-tertiary">Pessoa</td>
+                                                <td class="bg-body-tertiary text-secondary">Nome</td>
+                                                <td class="bg-body-tertiary text-secondary">Pessoa</td>
 
-                                                <td class="text-black bg-body-tertiary">&nbsp;Número de Processos</td>
-                                                <td class="text-black bg-body-tertiary">Responsável</td>
+                                                <td class="bg-body-tertiary text-secondary">&nbsp;Número de Processos</td>
+                                                <td class="bg-body-tertiary text-secondary">Responsável</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">João Silva</td>
-                                                <td class="text-secondary">Física</td>
+                                                <td class="text-black">João Silva</td>
+                                                <td class="text-black">Física</td>
 
-                                                <td class="text-secondary">3</td>
-                                                <td class="text-secondary">Ana Ribeiro</td>
+                                                <td class="text-black">3</td>
+                                                <td class="text-black">Ana Ribeiro</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">Maria Oliveira</td>
-                                                <td class="text-secondary">Física</td>
+                                                <td class="text-black">Maria Oliveira</td>
+                                                <td class="text-black">Física</td>
 
-                                                <td class="text-secondary">5</td>
-                                                <td class="text-secondary">Pedro Fernandes</td>
+                                                <td class="text-black">5</td>
+                                                <td class="text-black">Pedro Fernandes</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">Carlos Almeida</td>
-                                                <td class="text-secondary">Física</td>
+                                                <td class="text-black">Carlos Almeida</td>
+                                                <td class="text-black">Física</td>
 
-                                                <td class="text-secondary">2</td>
-                                                <td class="text-secondary">Luana Costa</td>
+                                                <td class="text-black">2</td>
+                                                <td class="text-black">Luana Costa</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1266,31 +1266,31 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Processo</td>
-                                                <td class="text-black bg-body-tertiary">Andamento</td>
-                                                <td class="text-black bg-body-tertiary">Data</td>
-                                                <td class="text-black bg-body-tertiary">Cliente</td>
+                                                <td class="bg-body-tertiary text-secondary">Processo</td>
+                                                <td class="bg-body-tertiary text-secondary">Andamento</td>
+                                                <td class="bg-body-tertiary text-secondary">Data</td>
+                                                <td class="bg-body-tertiary text-secondary">Cliente</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">Processo Suspenso ou Sobrestado por Por decisão judicial</td>
-                                                <td class="text-secondary">25/11/2024</td>
-                                                <td class="text-secondary">João Silva</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Processo Suspenso ou Sobrestado por Por decisão judicial</td>
+                                                <td class="text-black">25/11/2024</td>
+                                                <td class="text-black">João Silva</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">Juntada de petição</td>
-                                                <td class="text-secondary">20/11/2024</td>
-                                                <td class="text-secondary">Maria Oliveira</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Juntada de petição</td>
+                                                <td class="text-black">20/11/2024</td>
+                                                <td class="text-black">Maria Oliveira</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">Conclusos para despacho</td>
-                                                <td class="text-secondary">20/11/2024</td>
-                                                <td class="text-secondary">Carlos Almeida</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Conclusos para despacho</td>
+                                                <td class="text-black">20/11/2024</td>
+                                                <td class="text-black">Carlos Almeida</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1303,31 +1303,31 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Nome</td>
-                                                <td class="text-black bg-body-tertiary">Data Limite</td>
-                                                <td class="text-black bg-body-tertiary">Status</td>
-                                                <td class="text-black bg-body-tertiary">Cliente</td>
+                                                <td class="bg-body-tertiary text-secondary">Nome</td>
+                                                <td class="bg-body-tertiary text-secondary">Data Limite</td>
+                                                <td class="bg-body-tertiary text-secondary">Status</td>
+                                                <td class="bg-body-tertiary text-secondary">Cliente</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">Revisar petição inicial</td>
-                                                <td class="text-secondary">28/11/2024</td>
-                                                <td class="text-secondary">Pendente</td>
-                                                <td class="text-secondary">João Silva</td>
+                                                <td class="text-black">Revisar petição inicial</td>
+                                                <td class="text-black">28/11/2024</td>
+                                                <td class="text-black">Pendente</td>
+                                                <td class="text-black">João Silva</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">Organizar documentos cliente</td>
-                                                <td class="text-secondary">25/11/2024</td>
-                                                <td class="text-secondary">&nbsp;Concluído</td>
-                                                <td class="text-secondary">Maria Oliveira</td>
+                                                <td class="text-black">Organizar documentos cliente</td>
+                                                <td class="text-black">25/11/2024</td>
+                                                <td class="text-black">&nbsp;Concluído</td>
+                                                <td class="text-black">Maria Oliveira</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">Verificar datas de audiências</td>
-                                                <td class="text-secondary">&nbsp;30/11/2024</td>
-                                                <td class="text-secondary">&nbsp;Pendente</td>
-                                                <td class="text-secondary">Carlos Almeida</td>
+                                                <td class="text-black">Verificar datas de audiências</td>
+                                                <td class="text-black">&nbsp;30/11/2024</td>
+                                                <td class="text-black">&nbsp;Pendente</td>
+                                                <td class="text-black">Carlos Almeida</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1340,31 +1340,31 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Nome</td>
-                                                <td class="text-black bg-body-tertiary">Tipo</td>
-                                                <td class="text-black bg-body-tertiary">Data de Envio</td>
-                                                <td class="text-black bg-body-tertiary">Processo relacionado</td>
+                                                <td class="bg-body-tertiary text-secondary">Nome</td>
+                                                <td class="bg-body-tertiary text-secondary">Tipo</td>
+                                                <td class="bg-body-tertiary text-secondary">Data de Envio</td>
+                                                <td class="bg-body-tertiary text-secondary">Processo relacionado</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">Procuração João Silva</td>
-                                                <td class="text-secondary">&nbsp;Procuração</td>
-                                                <td class="text-secondary">27/11/2024</td>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Procuração João Silva</td>
+                                                <td class="text-black">&nbsp;Procuração</td>
+                                                <td class="text-black">27/11/2024</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">Contrato Maria Oliveira</td>
-                                                <td class="text-secondary">&nbsp;Contrato</td>
-                                                <td class="text-secondary">15/11/2024</td>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Contrato Maria Oliveira</td>
+                                                <td class="text-black">&nbsp;Contrato</td>
+                                                <td class="text-black">15/11/2024</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">Petição inicial Carlos</td>
-                                                <td class="text-secondary">&nbsp;Petição</td>
-                                                <td class="text-secondary">10/11/2024</td>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Petição inicial Carlos</td>
+                                                <td class="text-black">&nbsp;Petição</td>
+                                                <td class="text-black">10/11/2024</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1377,35 +1377,35 @@
                                         <thead>
                                             <tr>
 
-                                                <td class="text-black bg-body-tertiary">Processo</td>
-                                                <td class="text-black bg-body-tertiary">Descrição</td>
-                                                <td class="text-black bg-body-tertiary">&nbsp;Valor</td>
-                                                <td class="text-black bg-body-tertiary">&nbsp;Data</td>
-                                                <td class="text-black bg-body-tertiary">Status</td>
+                                                <td class="bg-body-tertiary text-secondary">Processo</td>
+                                                <td class="bg-body-tertiary text-secondary">Descrição</td>
+                                                <td class="bg-body-tertiary text-secondary">&nbsp;Valor</td>
+                                                <td class="bg-body-tertiary text-secondary">&nbsp;Data</td>
+                                                <td class="bg-body-tertiary text-secondary">Status</td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">Pagamento João Silva</td>
-                                                <td class="text-secondary">&nbsp;R$ 5.000,00</td>
-                                                <td class="text-secondary">&nbsp;27/11/2024</td>
-                                                <td class="text-secondary">Pago</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Pagamento João Silva</td>
+                                                <td class="text-black">&nbsp;R$ 5.000,00</td>
+                                                <td class="text-black">&nbsp;27/11/2024</td>
+                                                <td class="text-black">Pago</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">Taxa do cartório</td>
-                                                <td class="text-secondary">&nbsp;R$ 350,00</td>
-                                                <td class="text-secondary">20/11/2024</td>
-                                                <td class="text-secondary">Pendente</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Taxa do cartório</td>
+                                                <td class="text-black">&nbsp;R$ 350,00</td>
+                                                <td class="text-black">20/11/2024</td>
+                                                <td class="text-black">Pendente</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-secondary">Adiantamento Maria Oliveira</td>
-                                                <td class="text-secondary">&nbsp;R$ 3.000,00</td>
-                                                <td class="text-secondary">&nbsp;15/11/2024</td>
-                                                <td class="text-secondary">Pago</td>
+                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-black">Adiantamento Maria Oliveira</td>
+                                                <td class="text-black">&nbsp;R$ 3.000,00</td>
+                                                <td class="text-black">&nbsp;15/11/2024</td>
+                                                <td class="text-black">Pago</td>
                                             </tr>
                                         </tbody>
                                     </table>
