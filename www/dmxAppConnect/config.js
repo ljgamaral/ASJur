@@ -182,99 +182,99 @@ dmx.config({
     "repeat1": {
       "meta": [
         {
-          "name": "id",
-          "type": "text"
+          "type": "text",
+          "name": "id"
         },
         {
-          "name": "slug",
-          "type": "text"
+          "type": "text",
+          "name": "slug"
         },
         {
-          "name": "id_crm",
-          "type": "number"
+          "type": "number",
+          "name": "id_crm"
         },
         {
-          "name": "tipo",
-          "type": "text"
+          "type": "text",
+          "name": "tipo"
         },
         {
-          "name": "nome",
-          "type": "text"
+          "type": "text",
+          "name": "nome"
         },
         {
-          "name": "responsavel",
-          "type": "text"
+          "type": "text",
+          "name": "responsavel"
         },
         {
-          "name": "endereco",
-          "type": "text"
+          "type": "text",
+          "name": "endereco"
         },
         {
-          "name": "bairro",
-          "type": "text"
+          "type": "text",
+          "name": "bairro"
         },
         {
-          "name": "cep",
-          "type": "number"
+          "type": "number",
+          "name": "cep"
         },
         {
-          "name": "cidade",
-          "type": "text"
+          "type": "text",
+          "name": "cidade"
         },
         {
-          "name": "uf",
-          "type": "text"
+          "type": "text",
+          "name": "uf"
         },
         {
-          "name": "departamento",
-          "type": "text"
+          "type": "text",
+          "name": "departamento"
         },
         {
-          "name": "data_nascimento",
-          "type": "date"
+          "type": "date",
+          "name": "data_nascimento"
         },
         {
-          "name": "rg",
-          "type": "text"
+          "type": "text",
+          "name": "rg"
         },
         {
-          "name": "cpf",
-          "type": "text"
+          "type": "text",
+          "name": "cpf"
         },
         {
-          "name": "estado_civil",
-          "type": "text"
+          "type": "text",
+          "name": "estado_civil"
         },
         {
-          "name": "profissao",
-          "type": "text"
+          "type": "text",
+          "name": "profissao"
         },
         {
-          "name": "sexo",
-          "type": "text"
+          "type": "text",
+          "name": "sexo"
         },
         {
-          "name": "filiacao",
-          "type": "file"
+          "type": "text",
+          "name": "filiacao"
         },
         {
-          "name": "celular",
-          "type": "text"
+          "type": "text",
+          "name": "celular"
         },
         {
-          "name": "origem",
-          "type": "text"
+          "type": "text",
+          "name": "origem"
         },
         {
-          "name": "captador",
-          "type": "text"
+          "type": "text",
+          "name": "captador"
         },
         {
-          "name": "criado_em",
-          "type": "datetime"
+          "type": "datetime",
+          "name": "criado_em"
         }
       ],
-      "outputType": "text"
+      "outputType": "array"
     },
     "cookies": [
       {
@@ -285,6 +285,103 @@ dmx.config({
         "type": "text",
         "name": "password_user"
       }
-    ]
+    ],
+    "data_detail1": {
+      "meta": [
+        {
+          "type": "text",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "slug"
+        },
+        {
+          "type": "number",
+          "name": "id_crm"
+        },
+        {
+          "type": "text",
+          "name": "tipo"
+        },
+        {
+          "type": "text",
+          "name": "nome"
+        },
+        {
+          "type": "text",
+          "name": "responsavel"
+        },
+        {
+          "type": "text",
+          "name": "endereco"
+        },
+        {
+          "type": "text",
+          "name": "bairro"
+        },
+        {
+          "type": "number",
+          "name": "cep"
+        },
+        {
+          "type": "text",
+          "name": "cidade"
+        },
+        {
+          "type": "text",
+          "name": "uf"
+        },
+        {
+          "type": "text",
+          "name": "departamento"
+        },
+        {
+          "type": "date",
+          "name": "data_nascimento"
+        },
+        {
+          "type": "text",
+          "name": "rg"
+        },
+        {
+          "type": "text",
+          "name": "cpf"
+        },
+        {
+          "type": "text",
+          "name": "estado_civil"
+        },
+        {
+          "type": "text",
+          "name": "profissao"
+        },
+        {
+          "type": "text",
+          "name": "sexo"
+        },
+        {
+          "type": "text",
+          "name": "filiacao"
+        },
+        {
+          "type": "text",
+          "name": "celular"
+        },
+        {
+          "type": "text",
+          "name": "origem"
+        },
+        {
+          "type": "text",
+          "name": "captador"
+        },
+        {
+          "type": "datetime",
+          "name": "criado_em"
+        }
+      ],
+      "outputType": "array"
+    }
   }
 });

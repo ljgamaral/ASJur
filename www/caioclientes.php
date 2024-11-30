@@ -968,12 +968,17 @@
         }
     </style>
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
-    <dmx-notifications id="notifies1"></dmx-notifications>
-    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
+    <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_clientes.data.query" key="id"></dmx-data-detail>
+    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/clientes.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_processosativos" url="dmxConnect/api/percentual_mensal_processos_ativos.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_estados_clientes" url="dmxConnect/api/percentual_estados_clientes.php"></dmx-serverconnect>
+    <dmx-notifications id="notifies1"></dmx-notifications>
+    <dmx-serverconnect id="sc_clientes" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <dmx-value id="varClienteAtual"></dmx-value>
     <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifies1.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
@@ -1075,10 +1080,13 @@
                             <div class="stats-icon">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
-                            <div class="stats-label">Total de Clientes</div>
+                            <div class="stats-value">{{sc_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
+                            <div>
+                                <p class="stats-label mb-0">
+                                    Total de Clientes<i class="fas fa-info-circle fa-xs info-tooltip" dmx-bs-tooltip="'Quantidade total de clientes cadastrados até o momento'"></i></p>
+                            </div>
                             <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>{{12% este mês}}
+                                <i class="fas fa-arrow-up me-1"></i>{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_total_mensal}}
                             </div>
                         </div>
                     </div>
@@ -1087,22 +1095,25 @@
                             <div class="stats-icon">
                                 <i class="fas fa-user-plus"></i>
                             </div>
-                            <div class="stats-value">{{sc_listar_clientes_novos.data.listar_clientes_clientes_novos[0].novos_clientes||0}}</div>
-                            <div class="stats-label">Novos Clientes</div>
+                            <div class="stats-value">{{sc_clientes.data.listar_clientes_clientes_novos[0].novos_clientes_semana||0}}</div>
+                            <div>
+                                <p class="stats-label mb-0">
+                                    Novos Clientes<i class="fas fa-info-circle fa-xs info-tooltip" dmx-bs-tooltip="'Clientes cadastrados essa semana'" data-bs-trigger="hover"></i></p>
+                            </div>
                             <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>5% esta semana
+                                <i class="fas fa-arrow-up me-1"></i>{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_clientes_novos_semanal}}
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
                         <div class="card stats-card">
                             <div class="stats-icon">
-                                <i class="fas fa-handshake"></i>
+                                <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.ativos || 0}}</div>
-                            <div class="stats-label">Clientes Ativos</div>
+                            <div class="stats-value">{{sc_estados_clientes.data.percentual_estados_clientes[0].total_estados_atual||0}}</div>
+                            <div class="stats-label">Estados com clientes</div>
                             <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>8% este mês
+                                {{sc_estados_clientes.data.percentual_estados_clientes[0].mensagem}}
                             </div>
                         </div>
                     </div>
@@ -1111,10 +1122,10 @@
                             <div class="stats-icon">
                                 <i class="fas fa-chart-line"></i>
                             </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.processos || 0}}</div>
+                            <div class="stats-value">{{sc_processosativos.data.query[0].processos_ativos||0}}</div>
                             <div class="stats-label">Processos Ativos</div>
                             <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>15% este mês
+                                <i class="fas fa-arrow-up me-1"></i>{{sc_processosativos.data.query[0].mensagem_processos_ativos}}
                             </div>
                         </div>
                     </div>
@@ -1133,7 +1144,7 @@
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                            <tbody is="dmx-repeat" id="repeat1" key="id" dmx-bind:repeat="sc_listar_clientes.data.listar_clientes">
+                            <tbody is="dmx-repeat" id="repeat1" key="id" dmx-bind:repeat="sc_listar_clientes.data.query">
                                 <tr>
                                     <td>#{{id}}</td>
                                     <td>{{nome}}
@@ -1143,13 +1154,13 @@
 
                                     </td>
                                     <td class="action-buttons">
-                                        <button class="btn" title="Editar" dmx-bs-tooltip="'Editar cliente'" data-bs-trigger="hover" dmx-on:click="modalEditarCliente.show();varClienteAtual.setValue($this.dmxRowData)">
+                                        <button class="btn" title="Editar" dmx-bs-tooltip="'Editar cliente'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarCliente.show();varClienteAtual.setValue()">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este cliente?')){sc_excluir_cliente.load({data:{id:id}});}">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                        <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="modalDetalhesCliente.show();varClienteAtual.setValue($this.dmxRowData)">
+                                        <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/clientes/'+slug)">
                                             <i class="fas fa-info-circle"></i>
                                         </button>
                                     </td>
@@ -1224,7 +1235,7 @@
                         <input type="hidden" name="id" dmx-bind:value="varClienteAtual.data.id">
                         <div class="mb-3">
                             <label class="form-label">Nome</label>
-                            <input type="text" class="form-control" name="nome" required dmx-bind:value="varClienteAtual.data.nome">
+                            <input type="text" class="form-control" name="nome" required="" dmx-bind:value="data_detail1.data.nome">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>

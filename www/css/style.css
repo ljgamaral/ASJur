@@ -397,5 +397,8 @@ td.celula-tabela {
 }
 
 .nav-link.nav-active {
-    color: #fff;
+    color: #fff; 
 }
+
+.info-tooltip{
+    margin-left: 3px;}

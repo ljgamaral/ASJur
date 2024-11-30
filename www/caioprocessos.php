@@ -104,6 +104,11 @@
             font-size: 1.1rem;
         }
 
+        .nav-active {
+            background-color: #2c2c2c;
+            color: #FFF !important;
+        }
+
         /* Cards */
         .card {
             border: none;
@@ -234,7 +239,6 @@
         }
 
         .btn-filter {
-            background: transparent;
             border: 1px solid var(--medium-gray);
             color: var(--secondary-color);
             padding: 0.5rem 1rem;
@@ -903,11 +907,12 @@
 </head>
 
 <body is="dmx-app" id="processos">
+    <dmx-value id="filtro" dmx-bind:value="'Todos'"></dmx-value>
     <dmx-value id="varProcessoAtual"></dmx-value>
     <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php" noload dmx-on:success="sc_listar_processos.load();notifySuccess.success('Processo excluído com sucesso!')"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
-    <dmx-notifications id="notifySuccess"></dmx-notifications>
+    <dmx-notifications id="notifySuccess" closable="true"></dmx-notifications>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
@@ -997,62 +1002,72 @@
 
                 <!-- Filtros Rápidos -->
                 <div class="mb-4">
+                    <div class="row g-3 mb-4">
+                        <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
+                            <div class="card stats-card">
+                                <div class="stats-icon">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <div class="stats-value">{{sc_listar_processos.data.total || 0}}</div>
+                                <div class="stats-label">Total de Processos</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
+                            <div class="card stats-card">
+                                <div class="stats-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stats-value">{{sc_listar_processos.data.em_andamento || 0}}</div>
+                                <div class="stats-label">Em Andamento</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
+                            <div class="card stats-card">
+                                <div class="stats-icon">
+                                    <i class="fas fa-gavel"></i>
+                                </div>
+                                <div class="stats-value">{{sc_listar_processos.data.audiencias || 0}}</div>
+                                <div class="stats-label">Audiências Marcadas</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
+                            <div class="card stats-card">
+                                <div class="stats-icon">
+                                    <i class="fas fa-archive"></i>
+                                </div>
+                                <div class="stats-value">{{sc_listar_processos.data.arquivados || 0}}</div>
+                                <div class="stats-label">Arquivados</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-filter active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}})">
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos" dmx-hide="filtro.value=='Todos'">
                             Todos
                         </button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'})">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos1" dmx-show="filtro.value=='Todos'">
+                            Todos
+                        </button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento" dmx-hide="filtro.value=='Em andamento'">
                             Em Andamento
                         </button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento1" dmx-show="filtro.value=='Em andamento'">
+                            Em Andamento
+                        </button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado" dmx-hide="filtro.value=='Arquivado'">
+                            Arquivados
+                        </button>
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado1" dmx-show="filtro.value=='Arquivado'">
                             Arquivados
                         </button>
                     </div>
                 </div>
 
                 <!-- Stats Cards -->
-                <div class="row g-3 mb-4">
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-file-invoice"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_processos.data.total || 0}}</div>
-                            <div class="stats-label">Total de Processos</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_processos.data.em_andamento || 0}}</div>
-                            <div class="stats-label">Em Andamento</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-gavel"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_processos.data.audiencias || 0}}</div>
-                            <div class="stats-label">Audiências Marcadas</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-archive"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_processos.data.arquivados || 0}}</div>
-                            <div class="stats-label">Arquivados</div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Tabela de Processos -->
                 <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
-                    <div class="table-responsive">
+                    <div class="table-responsive w-100">
                         <table id="tabelaProcessos" class="table">
                             <thead>
                                 <tr>
@@ -1285,44 +1300,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Inicializa DataTable com recursos extras
-            var table = $('#tabelaProcessos').DataTable({
-                responsive: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json'
-                },
-                dom: '<"d-flex justify-content-between align-items-center mb-4"<"d-flex align-items-center"lB><"d-flex"f>>rtip',
-                buttons: [
-                    {
-                        extend: 'excel',
-                        text: '<i class="fas fa-file-excel me-2"></i>Excel',
-                        className: 'btn btn-sm btn-dark-custom',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        }
-                    },
-                    {
-                        extend: 'pdf',
-                        text: '<i class="fas fa-file-pdf me-2"></i>PDF',
-                        className: 'btn btn-sm btn-dark-custom ms-2',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        }
-                    }
-                ],
-                pageLength: 10,
-                lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]],
-                order: [[0, 'desc']],
-                columnDefs: [
-                    {
-                        targets: -1,
-                        orderable: false
-                    }
-                ]
-            });
-            
-            // Inicializa Flatpickr para campos de data
+        // Inicializa Flatpickr para campos de data
             flatpickr(".flatpickr-date", {
                 locale: "pt",
                 dateFormat: "d/m/Y",
@@ -1421,12 +1399,12 @@
                 document.querySelector('.sidebar').style.overscrollBehavior = 'contain';
                 document.querySelector('.main-content').style.overscrollBehavior = 'contain';
             }
-        });
         
         // Função para exportar processos
         function exportarProcessos() {
             // Implementar lógica de exportação
         }
+    
     </script>
 </body>
 

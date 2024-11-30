@@ -15,117 +15,139 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "offset"
       }
     ]
   },
   "exec": {
     "steps": {
-      "name": "listar_clientes",
-      "module": "dbupdater",
-      "action": "custom",
+      "name": "query",
+      "module": "dbconnector",
+      "action": "select",
       "options": {
         "connection": "asj",
         "sql": {
-          "query": "SELECT * FROM clientes\nWHERE criado_em >= CURDATE() - INTERVAL 7 DAY;\n",
-          "params": []
+          "type": "select",
+          "columns": [
+            {
+              "table": "clientes",
+              "column": "*",
+              "recid": 1
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "clientes"
+          },
+          "primary": "id",
+          "joins": [],
+          "query": "select * from `clientes`"
         }
       },
       "output": true,
       "meta": [
         {
-          "name": "id",
-          "type": "text"
+          "type": "text",
+          "name": "id"
         },
         {
-          "name": "slug",
-          "type": "text"
+          "type": "text",
+          "name": "slug"
         },
         {
-          "name": "id_crm",
-          "type": "number"
+          "type": "number",
+          "name": "id_crm"
         },
         {
-          "name": "tipo",
-          "type": "text"
+          "type": "text",
+          "name": "tipo"
         },
         {
-          "name": "nome",
-          "type": "text"
+          "type": "text",
+          "name": "nome"
         },
         {
-          "name": "responsavel",
-          "type": "text"
+          "type": "text",
+          "name": "responsavel"
         },
         {
-          "name": "endereco",
-          "type": "text"
+          "type": "text",
+          "name": "endereco"
         },
         {
-          "name": "bairro",
-          "type": "text"
+          "type": "text",
+          "name": "bairro"
         },
         {
-          "name": "cep",
-          "type": "number"
+          "type": "number",
+          "name": "cep"
         },
         {
-          "name": "cidade",
-          "type": "text"
+          "type": "text",
+          "name": "cidade"
         },
         {
-          "name": "uf",
-          "type": "text"
+          "type": "text",
+          "name": "uf"
         },
         {
-          "name": "departamento",
-          "type": "text"
+          "type": "text",
+          "name": "departamento"
         },
         {
-          "name": "data_nascimento",
-          "type": "date"
+          "type": "date",
+          "name": "data_nascimento"
         },
         {
-          "name": "rg",
-          "type": "text"
+          "type": "text",
+          "name": "rg"
         },
         {
-          "name": "cpf",
-          "type": "text"
+          "type": "text",
+          "name": "cpf"
         },
         {
-          "name": "estado_civil",
-          "type": "text"
+          "type": "text",
+          "name": "estado_civil"
         },
         {
-          "name": "profissao",
-          "type": "text"
+          "type": "text",
+          "name": "profissao"
         },
         {
-          "name": "sexo",
-          "type": "text"
+          "type": "text",
+          "name": "sexo"
         },
         {
-          "name": "filiacao",
-          "type": "file"
+          "type": "text",
+          "name": "filiacao"
         },
         {
-          "name": "celular",
-          "type": "text"
+          "type": "text",
+          "name": "celular"
         },
         {
-          "name": "origem",
-          "type": "text"
+          "type": "text",
+          "name": "origem"
         },
         {
-          "name": "captador",
-          "type": "text"
+          "type": "text",
+          "name": "captador"
         },
         {
-          "name": "criado_em",
-          "type": "datetime"
+          "type": "datetime",
+          "name": "criado_em"
         }
       ],
-      "type": "dbcustom_query"
+      "type": "dbconnector_select",
+      "outputType": "array"
     }
   }
 }
