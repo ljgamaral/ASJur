@@ -981,14 +981,21 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <script src="dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
+    <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-serverconnect id="sc_percentual_processos_ativos" url="dmxConnect/api/percentual_mensal_processos_ativos.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_percentual_tarefas" url="dmxConnect/api/conta_tarefas_pendentes.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_percentual_andamentos" url="dmxConnect/api/percentual_semanal_andamentos.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email_user" dmx-param:senha="cookies.data.password_user"></dmx-serverconnect>
+    <dmx-cookie-manager id="cookies"></dmx-cookie-manager>
+    <dmx-serverconnect id="sc_percentual_clientes" url="dmxConnect/api/percentual_mensal_clientes.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_conta_tarefas_pendentes" url="dmxConnect/api/conta_tarefas_pendentes.php"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
-    <dmx-value id="varClienteAtual"></dmx-value>
-    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" noload dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
-    <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
-    <dmx-notifications id="notifySuccess"></dmx-notifications>
+    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
@@ -999,21 +1006,24 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="container-fluid p-0">
-        <div class="row g-0">
-            <!-- Sidebar -->
-            <nav class="col-auto d-md-block sidebar">
-                <div class="sidebar-header">
-                    <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block mx-auto">
-                </div>
-                <ul class="nav flex-column">
+
+
+        <!-- Sidebar -->
+        <nav class="col-auto d-md-block sidebar">
+            <div class="sidebar-header">
+                <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block mx-auto">
+            </div>
+
+            <div class="d-flex flex-column justify-content-between navbar-itens">
+                <ul class="nav flex-column w-100 h-100">
                     <li class="nav-item">
-                        <a class="nav-link active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
+                        <a class="nav-link style19 active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
                             <i class="fas fa-home"></i>
                             Início
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./clientes">
+                        <a class="nav-link" href="/clientes">
                             <i class="fas fa-user"></i>
                             Clientes
                         </a>
@@ -1036,157 +1046,170 @@
                             Relatórios
                         </a>
                     </li>
-                    <li class="nav-item mt-4">
+                    <li class="nav-item mt-auto">
                         <a class="nav-link" href="/configuracoes">
                             <i class="fas fa-cog"></i>
                             Configurações
                         </a>
                     </li>
                 </ul>
-            </nav>
+                <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                    <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                        <div class="d-flex flex-column lh-sm">
+                            <p class="mb-0 lh-sm">César</p>
+                            <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                        </div>
+                    </div>
 
-            <!-- Main Content -->
-            <main class="col main-content">
-                <!-- Page Header -->
-                <div class="page-header animate-fade-in">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h1 class="page-title">Início</h1>
-                            <p class="page-subtitle mb-0">Resumo das informações</p>
+
+
+                    <i class="fas fa-angle-right"></i>
+
+                </div>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="col main-content">
+            <!-- Page Header -->
+            <div class="page-header animate-fade-in">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="page-title">Início</h1>
+                        <p class="page-subtitle mb-0">Resumo das informações</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros Rápidos -->
+            <div class="mb-4">
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="card stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stats-value">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
+                        <div class="stats-label">Total de Clientes</div>
+                        <div class="stats-trend up">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            {{sc_percentual_clientes.data.calcula_percentual_mensal_clientes[0].mensagem}}
                         </div>
                     </div>
                 </div>
-
-                <!-- Filtros Rápidos -->
-                <div class="mb-4">
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="row g-3 mb-4">
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.total || 0}}</div>
-                            <div class="stats-label">Total de Clientes</div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>12% este mês
-                            </div>
+                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="card stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-tasks"></i>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.novos || 0}}</div>
-                            <div class="stats-label">Total de Andamentos</div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>5% esta semana
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-history"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.ativos || 0}}</div>
-                            <div class="stats-label">Tarefas pendentes</div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>8% este mês
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
-                        <div class="card stats-card">
-                            <div class="stats-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="stats-value">{{sc_listar_clientes.data.processos || 0}}</div>
-                            <div class="stats-label">Processos Ativos</div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>15% este mês
-                            </div>
+                        <div class="stats-value">{{sc_percentual_andamentos.data.percentual_andamentos[0].total_andamentos||0}}</div>
+                        <div class="stats-label">Total de Andamentos</div>
+                        <div class="stats-trend up">
+                            <i class="fas fa-arrow-up me-1"></i>{{sc_percentual_andamentos.data.percentual_andamentos[0].mensagem}}
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
+                    <div class="card stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="stats-value">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].total_tarefas||0}}</div>
+                        <div class="stats-label">Tarefas pendentes</div>
+                        <div class="stats-trend up">
+                            <i class="fas fa-arrow-up me-1"></i>{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
+                    <div class="card stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stats-value">{{sc_percentual_processos_ativos.data.query[0].processos_ativos||0}}</div>
+                        <div class="stats-label">Processos Ativos</div>
+                        <div class="stats-trend up">
+                            <i class="fas fa-arrow-up me-1"></i>{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Clientes -->
+            <div class="d-flex me-0 pe-0 flex-row contain-flex">
+                <div class="d-flex flex-column pe-1 contain-flex-1" dmx-style:gap="'20px'">
 
 
-                <!-- Tabela de Clientes -->
-                <div class="d-flex me-0 pe-0 flex-row contain-flex">
-                    <div class="d-flex flex-column pe-1 contain-flex-1" dmx-style:gap="'20px'">
-
-
-                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100" style="animation-delay: 0.1s">
-                            <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
+                    <div class="d-flex pe-1 contain-flex-1 flex-row w-100" style="animation-delay: 0.1s">
+                        <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
+                            <div class="d-flex flex-column">
                                 <div class="d-flex flex-column">
-                                    <div class="d-flex flex-column">
-                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
-                                        <p class="stats-label">Publicações não lidas</p>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
-                                        <p class="stats-label">Andamentos não lidos</p>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
-                                        <p class="stats-label">Movimentações não lidas</p>
-                                    </div>
-
-
+                                    <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                    <p class="stats-label">Publicações não lidas</p>
                                 </div>
+                                <div class="d-flex flex-column">
+                                    <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                    <p class="stats-label">Andamentos não lidos</p>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                    <p class="stats-label">Movimentações não lidas</p>
+                                </div>
+
+
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3 animate-fade-in ps-0 pe-2 w-100" style="animation-delay: 0.2s">
-                            <div class="card ms-0 me-0 pt-3 pb-3 ps-3 pe-3">
-                                <div class="d-flex mb-1">
-                                    <p class="stats-label">Jurisprudência</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <button id="btn1" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Ambiental'" data-bs-trigger="hover">
-                                        <i class="fas fa-leaf jurisprudencia-button"></i>
-                                    </button>
-                                    <button id="btn2" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Cível'" data-bs-trigger="hover">
-                                        <i class="fas fa-user jurisprudencia-button"></i>
-                                    </button>
-                                    <button id="btn3" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Empresarial'" data-bs-trigger="hover">
-                                        <i class="fas fa-building jurisprudencia-button"></i>
-                                    </button>
-                                    <button id="btn4" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Consumidor'" data-bs-trigger="hover">
-                                        <i class="fas fa-shopping-cart jurisprudencia-button"></i>
-                                    </button>
-                                    <button id="btn5" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Trabalhista'" data-bs-trigger="hover">
-                                        <i class="fas fa-briefcase jurisprudencia-button"></i>
-                                    </button>
-                                    <button id="btn6" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Família'" data-bs-trigger="hover">
-                                        <i class="fas fa-user-friends jurisprudencia-button"></i>
-                                    </button>
-                                    <button id="btn7" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Tributário'" data-bs-trigger="hover">
-                                        <i class="fas fa-coins jurisprudencia-button"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <div class="table-container animate-fade-in card ms-2 me-0 d-none d-sm-flex" style="animation-delay: 0.5s" dmx-style:width="'49%'">
-                        <div class="d-flex justify-content-center style17 align-items-center h-100 w-100">
-
-
-                            <canvas id="myChart1"></canvas>
-
-
+                    <div class="col-sm-6 col-md-3 animate-fade-in w-100 ps-0 pe-0" style="animation-delay: 0.2s">
+                        <div class="card ms-0 me-1 pt-3 pb-3 ps-3 pe-3">
+                            <div class="d-flex mb-1">
+                                <p class="stats-label">Jurisprudência</p>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <button id="btn1" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Ambiental'" data-bs-trigger="hover">
+                                    <i class="fas fa-leaf jurisprudencia-button"></i>
+                                </button>
+                                <button id="btn2" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Cível'" data-bs-trigger="hover">
+                                    <i class="fas fa-user jurisprudencia-button"></i>
+                                </button>
+                                <button id="btn3" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Empresarial'" data-bs-trigger="hover">
+                                    <i class="fas fa-building jurisprudencia-button"></i>
+                                </button>
+                                <button id="btn4" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Consumidor'" data-bs-trigger="hover">
+                                    <i class="fas fa-shopping-cart jurisprudencia-button"></i>
+                                </button>
+                                <button id="btn5" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Trabalhista'" data-bs-trigger="hover">
+                                    <i class="fas fa-briefcase jurisprudencia-button"></i>
+                                </button>
+                                <button id="btn6" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Família'" data-bs-trigger="hover">
+                                    <i class="fas fa-user-friends jurisprudencia-button"></i>
+                                </button>
+                                <button id="btn7" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Tributário'" data-bs-trigger="hover">
+                                    <i class="fas fa-coins jurisprudencia-button"></i>
+                                </button>
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+                <div class="table-container animate-fade-in card ms-2 me-0 d-none d-sm-flex" style="animation-delay: 0.5s" dmx-style:width="'49%'">
+                    <div class="d-flex justify-content-center style17 align-items-center h-100 w-100">
+
+
+                        <canvas id="myChart1" width="400" height="300"></canvas>
+
+
                     </div>
                 </div>
+            </div>
 
 
 
-            </main>
-        </div>
+        </main>
     </div>
+
 
     <!-- Quick Actions -->
     <div class="quick-actions">
@@ -1420,7 +1443,7 @@
     data: {
       labels: ['Finalizado', 'Em andamento', 'Aguardando documentos', 'Suspenso', 'Arquivado', 'Em revisão'],
       datasets: [{
-        label: 'Processos por status',
+        label: 'Processos',
         data: [12, 19, 3, 5, 2, 3],
         borderWidth: 1
       }]

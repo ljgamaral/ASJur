@@ -1049,51 +1049,67 @@
     <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0 w-100">
         <div class="row g-0">
             <!-- Sidebar -->
             <nav class="col-auto d-md-block sidebar">
                 <div class="sidebar-header">
                     <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block mx-auto">
                 </div>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home">
-                            <i class="fas fa-home"></i>
-                            Início
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/clientes">
-                            <i class="fas fa-user"></i>
-                            Clientes
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/processos">
-                            <i class="fas fa-file-invoice"></i>
-                            Processos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/agenda">
-                            <i class="fas fa-calendar"></i>
-                            Agenda
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active">
-                            <i class="fas fa-chart-bar"></i>
-                            Relatórios
-                        </a>
-                    </li>
-                    <li class="nav-item mt-4">
-                        <a class="nav-link" href="/configuracoes">
-                            <i class="fas fa-cog"></i>
-                            Configurações
-                        </a>
-                    </li>
-                </ul>
+
+                <div class="d-flex flex-column justify-content-between navbar-itens">
+                    <ul class="nav flex-column w-100 h-100">
+                        <li class="nav-item">
+                            <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
+                                <i class="fas fa-home"></i>
+                                Início
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./clientes">
+                                <i class="fas fa-user"></i>
+                                Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                                <i class="fas fa-file-invoice"></i>
+                                Processos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/agenda">
+                                <i class="fas fa-calendar"></i>
+                                Agenda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active">
+                                <i class="fas fa-chart-bar"></i>
+                                Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item mt-auto">
+                            <a class="nav-link" href="/configuracoes">
+                                <i class="fas fa-cog"></i>
+                                Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                        <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                            <div class="d-flex flex-column lh-sm">
+                                <p class="mb-0 lh-sm">César</p>
+                                <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                            </div>
+                        </div>
+
+
+
+                        <i class="fas fa-angle-right"></i>
+
+                    </div>
+                </div>
             </nav>
 
             <!-- Main Content -->

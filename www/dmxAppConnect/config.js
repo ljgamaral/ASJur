@@ -275,6 +275,16 @@ dmx.config({
         }
       ],
       "outputType": "text"
-    }
+    },
+    "cookies": [
+      {
+        "type": "text",
+        "name": "email_user"
+      },
+      {
+        "type": "text",
+        "name": "password_user"
+      }
+    ]
   }
 });

@@ -457,7 +457,90 @@
         "db": {}
       },
       "importacoes": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "arquivo": {
+            "db": {
+              "type": "string",
+              "maxLength": 32,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "total_registros": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "tamanho": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "importados": {
+            "db": {
+              "type": "enum",
+              "enumValues": [
+                "true",
+                "false"
+              ],
+              "default": "'false'",
+              "maxLength": 5,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "tipo": {
+            "db": {
+              "type": "string",
+              "maxLength": 24,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_por": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "datetime",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "permissoes": {
         "db": {}
@@ -708,7 +791,80 @@
         "db": {}
       },
       "usuarios": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "avatar": {
+            "db": {
+              "type": "string",
+              "default": "'default.png'",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "senha": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nivel_permissao": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "token": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       }
     },
     "views": {},
