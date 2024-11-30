@@ -1,8 +1,30 @@
 {
   "routes": [
     {
+      "path": "/home",
+      "url": "/caiohome.php"
+    },
+    {
+      "path": "/clientes",
+      "url": "/caioclientes.php"
+    },
+    {
+      "path": "/processos/:tab",
+      "routeType": "page",
+      "page": "/relatorios.php"
+    },
+    {
       "path": "/relatorios",
-      "url": "/relatorios.php"
+      "url": "/relatorios.php",
+      "routes": [
+        {
+          "type": "page",
+          "path": "/geral",
+          "id": "geral",
+          "url": "_geral.html",
+          "exact": "true"
+        }
+      ]
     },
     {
       "path": "/processos/:slug",
@@ -21,16 +43,8 @@
       "url": "/index.php"
     },
     {
-      "path": "/home",
-      "url": "/caiohome.php"
-    },
-    {
       "path": "/agenda",
       "url": "/agenda.php"
-    },
-    {
-      "path": "/clientes",
-      "url": "/caioclientes.php"
     }
   ]
 }

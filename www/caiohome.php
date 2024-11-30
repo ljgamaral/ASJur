@@ -1013,7 +1013,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/clientes">
+                        <a class="nav-link" href="./clientes">
                             <i class="fas fa-user"></i>
                             Clientes
                         </a>

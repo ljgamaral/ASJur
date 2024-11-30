@@ -454,6 +454,27 @@
             padding: 1rem;
         }
 
+        .btn-filter {
+            background: transparent;
+            border: 1px solid var(--medium-gray);
+            color: var(--secondary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-filter:hover:not(.active) {
+            background: var(--light-gray);
+            color: var(--primary-color);
+        }
+
         /* Desktop */
         @media (min-width: 992px) {
             .sidebar {
@@ -992,9 +1013,28 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.11/index.global.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/index.global.min.js" defer></script>
     <script src="dmxAppConnect/dmxCalendar/dmxCalendar.js" defer></script>
+    <script src="dmxAppConnect/dmxBootstrap5Popovers/dmxBootstrap5Popovers.js" defer></script>
+    <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
+    <script src="dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
+    <script src="dmxAppConnect/dmxBootstrap5Offcanvas/dmxBootstrap5Offcanvas.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+    <div class="modal fade" id="modal1" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Baixar relatório</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button id="btn2" class="btn w-100 text-bg-dark mb-2">Baixar versão .xlsx</button>
+                    <button id="btn3" class="btn w-100 text-bg-dark mb-2">Baixar versão .csv</button>
+                    <button id="btn4" class="btn w-100 text-bg-dark">Baixar versão .pdf</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div is="dmx-browser" id="browser1"></div>
     <dmx-value id="varClienteAtual"></dmx-value>
     <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" noload dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
@@ -1018,7 +1058,7 @@
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
+                        <a class="nav-link" href="/home">
                             <i class="fas fa-home"></i>
                             Início
                         </a>
@@ -1030,7 +1070,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                        <a class="nav-link" href="/processos">
                             <i class="fas fa-file-invoice"></i>
                             Processos
                         </a>
@@ -1060,57 +1100,327 @@
             <main class="col main-content">
                 <!-- Page Header -->
                 <div class="page-header animate-fade-in">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h1 class="page-title">Relatórios</h1>
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                        <h1 class="page-title">Relatórios</h1>
+                        <div class="d-flex flex-row" dmx-style:gap="'5px'">
+
+                            <select id="select1" class="form-select" name="periodo">
+                                <option value="1">Hoje</option>
+                                <option selected="" value="2">Última semana</option>
+                                <option value="3">Último mês</option>
+                                <option value="4">Último semestre</option>
+                                <option value="5">Último ano</option>
+                            </select>
+
                         </div>
+
+
+
                     </div>
+
+
                 </div>
+
+
 
                 <!-- Filtros Rápidos -->
                 <div class="mb-4">
+                    <div class="btn-group" role="group">
+                        <a href="./geral" internal="true" id="geral" class="btn btn-filter active">Geral</a><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}})" data-bs-target="#tab_processos">Processos</button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'})">Andamentos</button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Clientes</button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Tarefas</button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Financeiro</button>
+                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Documentos</button>
+                    </div>
                 </div>
 
                 <!-- Stats Cards -->
 
 
                 <!-- Tabela de Clientes -->
-                <div class="d-flex me-0 pe-0 flex-row contain-flex">
-                    <div class="d-flex flex-column pe-1 contain-flex-1" dmx-style:gap="'20px'">
+                <div class="d-flex me-0 pe-0 contain-flex flex-column">
+                    <div class="tab-content" id="tabContent1">
+                        <div class="tab-pane fade active show" id="tab_geral" role="tabpanel" aria-labelledby="buttongeral">
+                            <div class="d-flex table-container animate-fade-in flex-column">
+                                <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
 
+                                    <h3>Relatório Geral</h3>
+                                    <div class="dropdown">
+                                        <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-download"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                            <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
 
-                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100 h-50" style="animation-delay: 0.1s">
-                            <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
-                                <div class="d-flex flex-column h-100 align-items-center">
-                                    <div class="d-flex w-100">
-                                        <p class="stats-label text-start mb-3">Meus compromissos próximos</p>
+                                            <a class="dropdown-item" href="#">Baixar .cls</a>
+                                        </div>
                                     </div>
-                                    <i class="fas fa-calendar-alt fa-6x" dmx-style:color="'#6C757D'"></i>
-                                    <p class="text-secondary mt-3">Seus novos compromissos aparecerão aqui</p>
-
-
-
                                 </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start">
+                                    <p class="subtitulo-relatorio">Resumo</p>
+
+
+                                    <table class="table table-sm w-100 table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Processos Ativos</td>
+                                                <td class="text-black bg-body-tertiary">Tarefas Pendentes</td>
+                                                <td class="text-black bg-body-tertiary">Clientes Atendidos</td>
+                                                <td class="text-black bg-body-tertiary">Saldo Financeiro</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">32</td>
+                                                <td class="text-secondary">14</td>
+                                                <td class="text-secondary">&nbsp;54</td>
+                                                <td class="text-secondary">R$ 25.300,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                                    <p class="subtitulo-relatorio">Processos</p>
+
+
+                                    <table class="table table-responsive table-bordered table-hover table-sm w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Título</td>
+                                                <td class="text-black bg-body-tertiary">Cliente</td>
+                                                <td class="text-black bg-body-tertiary">Status</td>
+                                                <td class="text-black bg-body-tertiary">Último Andamento</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">João Silva</td>
+                                                <td class="text-secondary">Ativo</td>
+                                                <td class="text-secondary">Proferido despacho de mero expediente</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">0802526-30.2024.8.10.0027</td>
+                                                <td class="text-secondary">Maria Oliveira</td>
+                                                <td class="text-secondary">Concluído</td>
+                                                <td class="text-secondary">Juntada de petição</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">1053154-52.2022.4.01.3500</td>
+                                                <td class="text-secondary">Carlos Almeida</td>
+                                                <td class="text-secondary">Suspenso</td>
+                                                <td class="text-secondary">Enviado ao Diário da Justiça Eletrônico</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                                    <p class="subtitulo-relatorio">Clientes</p>
+
+
+                                    <table class="table table-bordered table-hover table-sm w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Nome</td>
+                                                <td class="text-black bg-body-tertiary">Pessoa</td>
+
+                                                <td class="text-black bg-body-tertiary">&nbsp;Número de Processos</td>
+                                                <td class="text-black bg-body-tertiary">Responsável</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">João Silva</td>
+                                                <td class="text-secondary">Física</td>
+
+                                                <td class="text-secondary">3</td>
+                                                <td class="text-secondary">Ana Ribeiro</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">Maria Oliveira</td>
+                                                <td class="text-secondary">Física</td>
+
+                                                <td class="text-secondary">5</td>
+                                                <td class="text-secondary">Pedro Fernandes</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">Carlos Almeida</td>
+                                                <td class="text-secondary">Física</td>
+
+                                                <td class="text-secondary">2</td>
+                                                <td class="text-secondary">Luana Costa</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                                    <p class="subtitulo-relatorio">Andamentos</p>
+
+
+                                    <table class="table table-bordered table-hover table-sm w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Processo</td>
+                                                <td class="text-black bg-body-tertiary">Andamento</td>
+                                                <td class="text-black bg-body-tertiary">Data</td>
+                                                <td class="text-black bg-body-tertiary">Cliente</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">Processo Suspenso ou Sobrestado por Por decisão judicial</td>
+                                                <td class="text-secondary">25/11/2024</td>
+                                                <td class="text-secondary">João Silva</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">Juntada de petição</td>
+                                                <td class="text-secondary">20/11/2024</td>
+                                                <td class="text-secondary">Maria Oliveira</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">Conclusos para despacho</td>
+                                                <td class="text-secondary">20/11/2024</td>
+                                                <td class="text-secondary">Carlos Almeida</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                                    <p class="subtitulo-relatorio">Tarefas</p>
+
+
+                                    <table class="table table-bordered table-hover table-sm w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Nome</td>
+                                                <td class="text-black bg-body-tertiary">Data Limite</td>
+                                                <td class="text-black bg-body-tertiary">Status</td>
+                                                <td class="text-black bg-body-tertiary">Cliente</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">Revisar petição inicial</td>
+                                                <td class="text-secondary">28/11/2024</td>
+                                                <td class="text-secondary">Pendente</td>
+                                                <td class="text-secondary">João Silva</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">Organizar documentos cliente</td>
+                                                <td class="text-secondary">25/11/2024</td>
+                                                <td class="text-secondary">&nbsp;Concluído</td>
+                                                <td class="text-secondary">Maria Oliveira</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">Verificar datas de audiências</td>
+                                                <td class="text-secondary">&nbsp;30/11/2024</td>
+                                                <td class="text-secondary">&nbsp;Pendente</td>
+                                                <td class="text-secondary">Carlos Almeida</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                                    <p class="subtitulo-relatorio">Documentos</p>
+
+
+                                    <table class="table table-bordered table-hover table-sm w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Nome</td>
+                                                <td class="text-black bg-body-tertiary">Tipo</td>
+                                                <td class="text-black bg-body-tertiary">Data de Envio</td>
+                                                <td class="text-black bg-body-tertiary">Processo relacionado</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">Procuração João Silva</td>
+                                                <td class="text-secondary">&nbsp;Procuração</td>
+                                                <td class="text-secondary">27/11/2024</td>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">Contrato Maria Oliveira</td>
+                                                <td class="text-secondary">&nbsp;Contrato</td>
+                                                <td class="text-secondary">15/11/2024</td>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">Petição inicial Carlos</td>
+                                                <td class="text-secondary">&nbsp;Petição</td>
+                                                <td class="text-secondary">10/11/2024</td>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                                    <p class="subtitulo-relatorio">Financeiro</p>
+
+
+                                    <table class="table table-bordered table-hover table-sm w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <td class="text-black bg-body-tertiary">Processo</td>
+                                                <td class="text-black bg-body-tertiary">Descrição</td>
+                                                <td class="text-black bg-body-tertiary">&nbsp;Valor</td>
+                                                <td class="text-black bg-body-tertiary">&nbsp;Data</td>
+                                                <td class="text-black bg-body-tertiary">Status</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">Pagamento João Silva</td>
+                                                <td class="text-secondary">&nbsp;R$ 5.000,00</td>
+                                                <td class="text-secondary">&nbsp;27/11/2024</td>
+                                                <td class="text-secondary">Pago</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">Taxa do cartório</td>
+                                                <td class="text-secondary">&nbsp;R$ 350,00</td>
+                                                <td class="text-secondary">20/11/2024</td>
+                                                <td class="text-secondary">Pendente</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-secondary">0801255-02.2024.8.10.0054</td>
+                                                <td class="text-secondary">Adiantamento Maria Oliveira</td>
+                                                <td class="text-secondary">&nbsp;R$ 3.000,00</td>
+                                                <td class="text-secondary">&nbsp;15/11/2024</td>
+                                                <td class="text-secondary">Pago</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
                             </div>
                         </div>
-                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100 h-50" style="animation-delay: 0.1s">
-                            <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
-                                <div class="d-flex flex-column">
-                                    <p class="stats-label text-start mb-3">Compromissos por status</p><i class="fas fa-calendar-alt fa-6x" dmx-style:color="'#6C757D'"></i>
-                                    <p class="text-secondary mt-3">Nenhum compromisso</p>
-
-
-
-                                </div>
-                            </div>
+                        <div class="tab-pane fade show active" id="tab_processos" role="tabpanel">
                         </div>
-
-                    </div>
-                    <div class="table-container animate-fade-in card ms-2 me-0 d-none d-sm-flex" style="animation-delay: 0.5s" dmx-style:width="'49%'">
-                        <div class="d-flex">
-                            <dmx-calendar id="calendar1" views="dayGridMonth,dayGridWeek,dayGridDay"></dmx-calendar>
+                        <div class="tab-pane fade show active" id="tabContent1_3" role="tabpanel">
                         </div>
                     </div>
+
+
                 </div>
 
 

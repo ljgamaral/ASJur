@@ -1,0 +1,110 @@
+<!-- Wappler include head-page="caioclientes.php" appConnect="local" is="dmx-app" bootstrap5="local" fontawesome_5="cdn" -->
+<main class="col main-content">
+                <!-- Page Header -->
+                <div class="page-header animate-fade-in">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="page-title">Gestão de Clientes</h1>
+                            <p class="page-subtitle mb-0">Gerencie todos os seus clientes em um só lugar</p>
+                        </div>
+                        <button class="btn btn-dark-custom" dmx-on:click="modalNovoCliente.show()">
+                            <i class="fas fa-plus me-2"></i>Novo Cliente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros Rápidos -->
+                <div class="mb-4">
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes_novos.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
+                            <div class="stats-label">Total de Clientes</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>12% este mês
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes_novos.data.listar_clientes_clientes_novos[0].novos_clientes||0}}</div>
+                            <div class="stats-label">Novos Clientes</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>5% esta semana
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.ativos || 0}}</div>
+                            <div class="stats-label">Clientes Ativos</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>8% este mês
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stats-value">{{sc_listar_clientes.data.processos || 0}}</div>
+                            <div class="stats-label">Processos Ativos</div>
+                            <div class="stats-trend up">
+                                <i class="fas fa-arrow-up me-1"></i>15% este mês
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Clientes -->
+                <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="table-responsive">
+                        <table id="tabelaClientes" class="table w-100">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Telefone</th>
+                                    <th>PESSOA</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody is="dmx-repeat" id="repeat1" key="id" dmx-bind:repeat="sc_listar_clientes.data.listar_clientes">
+                                <tr>
+                                    <td>#{{id}}</td>
+                                    <td>{{nome}}
+                                    </td>
+                                    <td>{{celular.replace(/\D/g, "").replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")}}</td>
+                                    <td>{{tipo}}
+
+                                    </td>
+                                    <td class="action-buttons">
+                                        <button class="btn" title="Editar" dmx-bs-tooltip="'Editar cliente'" data-bs-trigger="hover" dmx-on:click="modalEditarCliente.show();varClienteAtual.setValue($this.dmxRowData)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este cliente?')){sc_excluir_cliente.load({data:{id:id}});}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="modalDetalhesCliente.show();varClienteAtual.setValue($this.dmxRowData)">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
