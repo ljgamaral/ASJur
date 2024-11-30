@@ -77,16 +77,20 @@
         }
 
         .nav-link {
-            color: var(--secondary-color) !important;
+            color: var(--secondary-color);
             padding: 0.8rem 1.2rem;
             border-radius: 10px;
             transition: all 0.3s ease;
             font-weight: 500;
         }
 
+        .nav-link.nav-active {
+            color: #fff;
+        }
+
         .nav-link:hover {
             background: var(--light-gray);
-            color: var(--primary-color) !important;
+            color: var(--primary-color);
         }
 
         .nav-link.active {
@@ -936,7 +940,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                            <a class="nav-link nav-active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
                                 <i class="fas fa-file-invoice"></i>
                                 Processos
                             </a>

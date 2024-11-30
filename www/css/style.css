@@ -387,3 +387,15 @@ td.celula-tabela {
 
 .email-card{
     font-size: 13px;}
+
+.style21{
+    background-color: #2c2c2c;
+}
+
+.nav-active{
+    background-color: #2c2c2c;
+}
+
+.nav-link.nav-active {
+    color: #fff;
+}

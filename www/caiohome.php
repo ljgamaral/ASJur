@@ -71,7 +71,7 @@
         }
 
         .nav-link {
-            color: var(--secondary-color) !important;
+            color: var(--secondary-color);
             padding: 0.8rem 1.2rem;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -1017,7 +1017,7 @@
             <div class="d-flex flex-column justify-content-between navbar-itens">
                 <ul class="nav flex-column w-100 h-100">
                     <li class="nav-item">
-                        <a class="nav-link style19 active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
+                        <a class="nav-link nav-active">
                             <i class="fas fa-home"></i>
                             Início
                         </a>

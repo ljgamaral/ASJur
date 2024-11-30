@@ -71,7 +71,7 @@
         }
 
         .nav-link {
-            color: var(--secondary-color) !important;
+            color: var(--secondary-color);
             padding: 0.8rem 1.2rem;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -1003,7 +1003,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active">
+                            <a class="nav-link nav-active">
                                 <i class="fas fa-user"></i>
                                 Clientes
                             </a>
@@ -1078,7 +1078,7 @@
                             <div class="stats-value">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
                             <div class="stats-label">Total de Clientes</div>
                             <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>12% este mês
+                                <i class="fas fa-arrow-up me-1"></i>{{12% este mês}}
                             </div>
                         </div>
                     </div>

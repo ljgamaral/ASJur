@@ -72,7 +72,7 @@
         }
 
         .nav-link {
-            color: var(--secondary-color) !important;
+            color: var(--secondary-color);
             padding: 0.8rem 1.2rem;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -1084,7 +1084,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active">
+                            <a class="nav-link nav-active">
                                 <i class="fas fa-chart-bar"></i>
                                 Relatórios
                             </a>
