@@ -410,7 +410,18 @@ td.celula-tabela {
     height: 2.3em;
     margin: 10px 0;
     border-radius: 4px;
-    animation: shimmer 1.5s infinite;
+    -webkit-animation: shimmer 1.5s infinite;
+            animation: shimmer 1.5s infinite;
+}
+
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
 }
 
 @keyframes shimmer {
@@ -424,6 +435,7 @@ td.celula-tabela {
 }
 
 .skeleton-loader {
+    background: -webkit-gradient(linear, left top, right top, color-stop(25%, #ddd), color-stop(50%, #f0f0f0), color-stop(75%, #ddd));
     background: linear-gradient(90deg, #ddd 25%, #f0f0f0 50%, #ddd 75%);
     background-size: 200% 100%;
 }
@@ -433,10 +445,41 @@ td.celula-tabela {
     height: 0.8em;
     margin: 10px 0;
     border-radius: 4px;
-    animation: shimmer 1.5s infinite;
+    -webkit-animation: shimmer 1.5s infinite;
+            animation: shimmer 1.5s infinite;
 }
 
 .skeleton-loader-little {
+    background: -webkit-gradient(linear, left top, right top, color-stop(25%, #ddd), color-stop(50%, #f0f0f0), color-stop(75%, #ddd));
     background: linear-gradient(90deg, #ddd 25%, #f0f0f0 50%, #ddd 75%);
     background-size: 200% 100%;
 }
+
+.card-detalhes {
+    margin-top:20px;
+}
+
+.wappler-temp{}
+
+.logout-button{
+    border: 1px solid #dc3545;
+    background-color: #dc3545;}
+
+.count-button{
+    border: 1px solid #6c757d;
+    background-color: #fff;}
+
+.style22{
+}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}

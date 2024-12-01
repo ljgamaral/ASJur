@@ -984,6 +984,7 @@
     <script src="dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -1017,19 +1018,19 @@
             <div class="d-flex flex-column justify-content-between navbar-itens">
                 <ul class="nav flex-column w-100 h-100">
                     <li class="nav-item">
-                        <a class="nav-link nav-active">
+                        <a class="nav-link style19 nav-active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
                             <i class="fa-solid fa-house"></i>
                             Início
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/clientes">
+                        <a class="nav-link" href="./clientes">
                             <i class="fa-solid fa-user"></i>
                             Clientes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                        <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
                             <i class="fa-solid fa-file-invoice"></i>
                             Processos
                         </a>
@@ -1053,7 +1054,15 @@
                         </a>
                     </li>
                 </ul>
-                <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                    <div class="d-flex flex-column mb-2 ms-4 me-4">
+                        <button id="btn7" class="btn w-100 count-button text-secondary">
+                            <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                        </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                    </div>
+                </div>
+                <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
                     <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
                         <div class="d-flex flex-column lh-sm">
                             <p class="mb-0 lh-sm">César</p>
@@ -1098,7 +1107,6 @@
                         <div class="stats-label">Total de Clientes</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_clientes.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_clientes.status">
-                            <i class="fa-solid fa-arrow-up me-1"></i>
                             <p class="mb-0">{{sc_percentual_clientes.data.calcula_percentual_mensal_clientes[0].mensagem}}</p>
                         </div>
                     </div>
@@ -1115,7 +1123,6 @@
                         <div class="stats-label">Total de Andamentos</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_andamentos.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_andamentos.status">
-                            <i class="fa-solid fa-arrow-up me-1"></i>
                             <p class="mb-0">{{sc_percentual_andamentos.data.percentual_andamentos[0].mensagem}}</p>
                         </div>
                     </div>
@@ -1132,7 +1139,6 @@
                         <div class="stats-label">Tarefas pendentes</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_conta_tarefas_pendentes.status">
-                            <i class="fa-solid fa-arrow-up me-1"></i>
                             <p class="mb-0">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes}}</p>
                         </div>
                     </div>
@@ -1149,7 +1155,6 @@
                         <div class="stats-label">Processos Ativos</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_processos_ativos.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_processos_ativos.status">
-                            <i class="fa-solid fa-arrow-up me-1"></i>
                             <p class="mb-0">{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos}}</p>
                         </div>
                     </div>
@@ -1231,14 +1236,6 @@
 
 
     <!-- Quick Actions -->
-    <div class="quick-actions">
-        <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-        <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
-            <i class="fa-solid fa-file-export"></i>
-        </button>
-    </div>
 
     <!-- Modal Novo Cliente -->
 

@@ -112,6 +112,31 @@
             padding: 1.5rem;
         }
 
+        .btn-filter {
+            border: 1px solid var(--medium-gray);
+            color: var(--secondary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-filter:hover:not(.active) {
+            background: var(--light-gray);
+            color: var(--primary-color);
+        }
+
+        .nav-active {
+            background-color: #2c2c2c;
+            color: #FFF !important;
+        }
+
         .stats-icon {
             width: 48px;
             height: 48px;
@@ -1000,6 +1025,11 @@
                 padding: 0;
             }
         }
+
+        .nav-active {
+            background-color: #2c2c2c;
+            color: #FFF !important;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/daterangepicker.min.css" />
@@ -1017,9 +1047,19 @@
     <script src="dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
     <script src="dmxAppConnect/dmxBootstrap5Offcanvas/dmxBootstrap5Offcanvas.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <script src="dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
+    <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-serverconnect id="sc_financeiro" url="dmxConnect/api/relatorio_financeiro.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_documentos" url="dmxConnect/api/relatorio_documentos.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_andamentos" url="dmxConnect/api/relatorio_andamentos.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_clientes" url="dmxConnect/api/relatorio_clientes.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_tarefas" url="dmxConnect/api/relatorio_tarefas.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_processos" url="dmxConnect/api/relatorio_processos.php"></dmx-serverconnect>
+    <dmx-value id="filtro" dmx-bind:value="'geral'"></dmx-value>
     <div class="modal fade" id="modal1" is="dmx-bs5-modal" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -1036,10 +1076,6 @@
         </div>
     </div>
     <div is="dmx-browser" id="browser1"></div>
-    <dmx-value id="varClienteAtual"></dmx-value>
-    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" noload dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
-    <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
-    <dmx-notifications id="notifySuccess"></dmx-notifications>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
@@ -1066,13 +1102,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./clientes">
+                            <a class="nav-link" href="/clientes">
                                 <i class="fa-solid fa-user"></i>
                                 Clientes
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                            <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
                                 <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
@@ -1096,7 +1132,15 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                    <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                        <div class="d-flex flex-column mb-2 ms-4 me-4">
+                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                                <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                        </div>
+                    </div>
+                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
                         <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
                             <div class="d-flex flex-column lh-sm">
                                 <p class="mb-0 lh-sm">César</p>
@@ -1140,14 +1184,20 @@
 
 
                 <!-- Filtros Rápidos -->
-                <div class="mb-4">
+                <div class="d-flex mt-3 mb-3">
                     <div class="btn-group" role="group">
-                        <a href="./geral" internal="true" id="geral" class="btn btn-filter active">Geral</a><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}})" data-bs-target="#tab_processos">Processos</button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'})">Andamentos</button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Clientes</button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Tarefas</button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Financeiro</button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivados'})">Documentos</button>
+                        <button class="btn btn-filter nav-active" id="geral2" dmx-show="filtro.value=='geral'">Geral</button><button class="btn btn-filter buttons-radius" dmx-on:click="filtro.setValue('geral')" id="geral" dmx-hide="filtro.value=='geral'">Geral</button><button class="btn btn-filter nav-active" id="processos2" dmx-show="filtro.value=='processos'">Processos</button>
+                        <button class="btn btn-filter buttons-radius" dmx-on:click="filtro.setValue('processos')" id="processos" dmx-hide="filtro.value=='processos'">Processos</button>
+
+                        <button class="btn btn-filter nav-active" id="clientes2" dmx-show="filtro.value=='clientes'">Clientes</button><button class="btn btn-filter" dmx-on:click="filtro.setValue('clientes')" id="clientes" dmx-hide="filtro.value=='clientes'">Clientes</button><button class="btn btn-filter nav-active" id="andamentos2" dmx-show="filtro.value=='andamentos'">Andamentos</button>
+                        <button class="btn btn-filter" dmx-on:click="filtro.setValue('andamentos')" id="andamentos" dmx-hide="filtro.value=='andamentos'">Andamentos</button>
+
+                        <button class="btn btn-filter nav-active" id="tarefas2" dmx-show="filtro.value=='tarefas'">Tarefas</button>
+
+                        <button class="btn btn-filter" id="tarefas" dmx-on:click="filtro.setValue('tarefas')" dmx-hide="filtro.value=='tarefas'">Tarefas</button><button class="btn btn-filter nav-active" id="documentos2" dmx-show="filtro.value=='documentos'">Documentos</button>
+                        <button class="btn btn-filter" dmx-on:click="filtro.setValue('documentos')" id="documentos" dmx-hide="filtro.value=='documentos'">Documentos</button>
+                        <button class="btn btn-filter nav-active" id="financeiro2" dmx-show="filtro.value=='financeiro'">Financeiro</button><button class="btn btn-filter" id="financeiro" dmx-on:click="filtro.setValue('financeiro')" dmx-hide="filtro.value=='financeiro'">Financeiro</button>
+
                     </div>
                 </div>
 
@@ -1156,284 +1206,455 @@
 
                 <!-- Tabela de Clientes -->
                 <div class="d-flex me-0 pe-0 contain-flex flex-column">
-                    <div class="tab-content" id="tabContent1">
-                        <div class="tab-pane fade active show" id="tab_geral" role="tabpanel" aria-labelledby="buttongeral">
-                            <div class="d-flex table-container animate-fade-in flex-column">
-                                <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatoriogeral" dmx-show="filtro.value=='geral'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
 
-                                    <h3>Relatório Geral</h3>
-                                    <div class="dropdown">
-                                        <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdown1">
-                                            <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+                            <h3>Relatório Geral</h3>
+                            <div class="dropdown">
+                                <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
 
-                                            <a class="dropdown-item" href="#">Baixar .cls</a>
-                                        </div>
-                                    </div>
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
                                 </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start">
-                                    <p class="subtitulo-relatorio">Resumo</p>
-
-
-                                    <table class="table table-sm w-100 table-bordered">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Processos Ativos</td>
-                                                <td class="bg-body-tertiary text-secondary">Tarefas Pendentes</td>
-                                                <td class="bg-body-tertiary text-secondary">Clientes Atendidos</td>
-                                                <td class="bg-body-tertiary text-secondary">Saldo Financeiro</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">32</td>
-                                                <td class="text-black">14</td>
-                                                <td class="text-black">&nbsp;54</td>
-                                                <td class="text-black">R$ 25.300,00</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
-                                    <p class="subtitulo-relatorio">Processos</p>
-
-
-                                    <table class="table table-responsive table-bordered table-hover table-sm w-100">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Título</td>
-                                                <td class="bg-body-tertiary text-secondary">Cliente</td>
-                                                <td class="bg-body-tertiary text-secondary">Status</td>
-                                                <td class="bg-body-tertiary text-secondary">Último Andamento</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">João Silva</td>
-                                                <td class="text-black">Ativo</td>
-                                                <td class="text-black">Proferido despacho de mero expediente</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">0802526-30.2024.8.10.0027</td>
-                                                <td class="text-black">Maria Oliveira</td>
-                                                <td class="text-black">Concluído</td>
-                                                <td class="text-black">Juntada de petição</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">1053154-52.2022.4.01.3500</td>
-                                                <td class="text-black">Carlos Almeida</td>
-                                                <td class="text-black">Suspenso</td>
-                                                <td class="text-black">Enviado ao Diário da Justiça Eletrônico</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
-                                    <p class="subtitulo-relatorio">Clientes</p>
-
-
-                                    <table class="table table-bordered table-hover table-sm w-100">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Nome</td>
-                                                <td class="bg-body-tertiary text-secondary">Pessoa</td>
-
-                                                <td class="bg-body-tertiary text-secondary">&nbsp;Número de Processos</td>
-                                                <td class="bg-body-tertiary text-secondary">Responsável</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">João Silva</td>
-                                                <td class="text-black">Física</td>
-
-                                                <td class="text-black">3</td>
-                                                <td class="text-black">Ana Ribeiro</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">Maria Oliveira</td>
-                                                <td class="text-black">Física</td>
-
-                                                <td class="text-black">5</td>
-                                                <td class="text-black">Pedro Fernandes</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">Carlos Almeida</td>
-                                                <td class="text-black">Física</td>
-
-                                                <td class="text-black">2</td>
-                                                <td class="text-black">Luana Costa</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
-                                    <p class="subtitulo-relatorio">Andamentos</p>
-
-
-                                    <table class="table table-bordered table-hover table-sm w-100">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Processo</td>
-                                                <td class="bg-body-tertiary text-secondary">Andamento</td>
-                                                <td class="bg-body-tertiary text-secondary">Data</td>
-                                                <td class="bg-body-tertiary text-secondary">Cliente</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">Processo Suspenso ou Sobrestado por Por decisão judicial</td>
-                                                <td class="text-black">25/11/2024</td>
-                                                <td class="text-black">João Silva</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">Juntada de petição</td>
-                                                <td class="text-black">20/11/2024</td>
-                                                <td class="text-black">Maria Oliveira</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">Conclusos para despacho</td>
-                                                <td class="text-black">20/11/2024</td>
-                                                <td class="text-black">Carlos Almeida</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
-                                    <p class="subtitulo-relatorio">Tarefas</p>
-
-
-                                    <table class="table table-bordered table-hover table-sm w-100">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Nome</td>
-                                                <td class="bg-body-tertiary text-secondary">Data Limite</td>
-                                                <td class="bg-body-tertiary text-secondary">Status</td>
-                                                <td class="bg-body-tertiary text-secondary">Cliente</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">Revisar petição inicial</td>
-                                                <td class="text-black">28/11/2024</td>
-                                                <td class="text-black">Pendente</td>
-                                                <td class="text-black">João Silva</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">Organizar documentos cliente</td>
-                                                <td class="text-black">25/11/2024</td>
-                                                <td class="text-black">&nbsp;Concluído</td>
-                                                <td class="text-black">Maria Oliveira</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">Verificar datas de audiências</td>
-                                                <td class="text-black">&nbsp;30/11/2024</td>
-                                                <td class="text-black">&nbsp;Pendente</td>
-                                                <td class="text-black">Carlos Almeida</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
-                                    <p class="subtitulo-relatorio">Documentos</p>
-
-
-                                    <table class="table table-bordered table-hover table-sm w-100">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Nome</td>
-                                                <td class="bg-body-tertiary text-secondary">Tipo</td>
-                                                <td class="bg-body-tertiary text-secondary">Data de Envio</td>
-                                                <td class="bg-body-tertiary text-secondary">Processo relacionado</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">Procuração João Silva</td>
-                                                <td class="text-black">&nbsp;Procuração</td>
-                                                <td class="text-black">27/11/2024</td>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">Contrato Maria Oliveira</td>
-                                                <td class="text-black">&nbsp;Contrato</td>
-                                                <td class="text-black">15/11/2024</td>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">Petição inicial Carlos</td>
-                                                <td class="text-black">&nbsp;Petição</td>
-                                                <td class="text-black">10/11/2024</td>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
-                                    <p class="subtitulo-relatorio">Financeiro</p>
-
-
-                                    <table class="table table-bordered table-hover table-sm w-100">
-                                        <thead>
-                                            <tr>
-
-                                                <td class="bg-body-tertiary text-secondary">Processo</td>
-                                                <td class="bg-body-tertiary text-secondary">Descrição</td>
-                                                <td class="bg-body-tertiary text-secondary">&nbsp;Valor</td>
-                                                <td class="bg-body-tertiary text-secondary">&nbsp;Data</td>
-                                                <td class="bg-body-tertiary text-secondary">Status</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">Pagamento João Silva</td>
-                                                <td class="text-black">&nbsp;R$ 5.000,00</td>
-                                                <td class="text-black">&nbsp;27/11/2024</td>
-                                                <td class="text-black">Pago</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">Taxa do cartório</td>
-                                                <td class="text-black">&nbsp;R$ 350,00</td>
-                                                <td class="text-black">20/11/2024</td>
-                                                <td class="text-black">Pendente</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black">0801255-02.2024.8.10.0054</td>
-                                                <td class="text-black">Adiantamento Maria Oliveira</td>
-                                                <td class="text-black">&nbsp;R$ 3.000,00</td>
-                                                <td class="text-black">&nbsp;15/11/2024</td>
-                                                <td class="text-black">Pago</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-
                             </div>
                         </div>
-                        <div class="tab-pane fade show active" id="tab_processos" role="tabpanel">
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start">
+                            <p class="subtitulo-relatorio">Resumo</p>
+
+
+                            <table class="table table-sm w-100 table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Processos Ativos</td>
+                                        <td class="bg-body-tertiary text-secondary">Tarefas Pendentes</td>
+                                        <td class="bg-body-tertiary text-secondary">Clientes Atendidos</td>
+                                        <td class="bg-body-tertiary text-secondary">Saldo Financeiro</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td class="text-black">{{sc_processos.data.query_processos[0].quantidade_processos_ativos || "0"}}</td>
+                                        <td class="text-black">{{sc_tarefas.data.query_tarefas[0].quantidade_tarefas_pendentes || "0"}}</td>
+                                        <td class="text-black">&nbsp;54</td>
+                                        <td class="text-black">R$ 25.300,00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="tab-pane fade show active" id="tabContent1_3" role="tabpanel">
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                            <p class="subtitulo-relatorio">Processos</p>
+
+
+                            <table class="table table-responsive table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Título</td>
+                                        <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                        <td class="bg-body-tertiary text-secondary">Status</td>
+                                        <td class="bg-body-tertiary text-secondary">Último Andamento</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_processos.data.query_processos" key="id">
+                                    <tr>
+                                        <td class="text-black">{{processo}}</td>
+                                        <td class="text-black">{{id_cliente}}</td>
+                                        <td class="text-black">{{status || "-"}}</td>
+                                        <td class="text-black">{{ultimo_andamento}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                            <p class="subtitulo-relatorio">Clientes</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Nome</td>
+                                        <td class="bg-body-tertiary text-secondary">Pessoa</td>
+
+                                        <td class="bg-body-tertiary text-secondary">&nbsp;Número de Processos</td>
+                                        <td class="bg-body-tertiary text-secondary">Responsável</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat4" dmx-bind:repeat="sc_clientes.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{nome}}</td>
+                                        <td class="text-black text-capitalize">{{tipo}}</td>
+
+                                        <td class="text-black">-</td>
+                                        <td class="text-black">{{responsavel}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                            <p class="subtitulo-relatorio">Andamentos</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Processo</td>
+                                        <td class="bg-body-tertiary text-secondary">Andamento</td>
+                                        <td class="bg-body-tertiary text-secondary">Data</td>
+                                        <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat6" dmx-bind:repeat="sc_andamentos.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{processo}}</td>
+                                        <td class="text-black">{{andamento}}</td>
+                                        <td class="text-black">{{repeat6[0].data.formatDate('dd/MM/yyyy')||"-"}}</td>
+                                        <td class="text-black">{{id_cliente}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                            <p class="subtitulo-relatorio">Tarefas</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Nome</td>
+                                        <td class="bg-body-tertiary text-secondary">Data Limite</td>
+                                        <td class="bg-body-tertiary text-secondary">Status</td>
+                                        <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_tarefas.data.query_tarefas" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{descricao}}</td>
+                                        <td class="text-black">{{repeat2.data}}</td>
+                                        <td class="text-black">{{status}}</td>
+                                        <td class="text-black">{{id_cliente}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                            <p class="subtitulo-relatorio">Documentos</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Nome</td>
+                                        <td class="bg-body-tertiary text-secondary">Tipo</td>
+                                        <td class="bg-body-tertiary text-secondary">Data de Envio</td>
+                                        <td class="bg-body-tertiary text-secondary">Processo relacionado</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat9" dmx-bind:repeat="sc_documentos.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{nome}}</td>
+                                        <td class="text-black">{{tipo}}</td>
+                                        <td class="text-black">{{criado_em.formatDate('dd/MM/yyyy')}}</td>
+                                        <td class="text-black">{{id_processo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-3">
+                            <p class="subtitulo-relatorio">Financeiro</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Processo</td>
+                                        <td class="bg-body-tertiary text-secondary">Descrição</td>
+                                        <td class="bg-body-tertiary text-secondary">Valor</td>
+                                        <td class="bg-body-tertiary text-secondary">Data de pagamento</td>
+                                        <td class="bg-body-tertiary text-secondary">Status</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat11" dmx-bind:repeat="sc_financeiro.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{id_processo}}</td>
+                                        <td class="text-black">{{descricao}}</td>
+                                        <td class="text-black">{{valor}}</td>
+                                        <td class="text-black">{{data_pagamento}}</td>
+                                        <td class="text-black">{{status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatorioprocessos" dmx-show="filtro.value=='processos'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+
+                            <h3>Relatório de Processos</h3>
+                            <div class="dropdown">
+                                <button id="dropdown2" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-2">
+                            <p class="subtitulo-relatorio">Processos</p>
+
+
+                            <table class="table table-responsive table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Título</td>
+                                        <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                        <td class="bg-body-tertiary text-secondary">Status</td>
+                                        <td class="bg-body-tertiary text-secondary">Último Andamento</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat3" dmx-bind:repeat="sc_processos.data.query_processos" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{processo}}</td>
+                                        <td class="text-black">{{id_cliente}}</td>
+                                        <td class="text-black">{{status || "-"}}</td>
+                                        <td class="text-black">{{ultimo_andamento}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatorioclientes" dmx-show="filtro.value=='clientes'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+
+                            <h3>Relatório de Clientes</h3>
+                            <div class="dropdown">
+                                <button id="dropdown3" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-2">
+                            <p class="subtitulo-relatorio">Clientes</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Nome</td>
+                                        <td class="bg-body-tertiary text-secondary">Pessoa</td>
+
+                                        <td class="bg-body-tertiary text-secondary">&nbsp;Número de Processos</td>
+                                        <td class="bg-body-tertiary text-secondary">Responsável</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat5" dmx-bind:repeat="sc_clientes.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{nome}}</td>
+                                        <td class="text-black text-capitalize">{{tipo}}</td>
+
+                                        <td class="text-black">-</td>
+                                        <td class="text-black">{{responsavel}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatorioandamentos" dmx-show="filtro.value=='andamentos'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+
+                            <h3>Relatório de Andamentos</h3>
+                            <div class="dropdown">
+                                <button id="dropdown4" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-2">
+                            <p class="subtitulo-relatorio">Andamentos</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Processo</td>
+                                        <td class="bg-body-tertiary text-secondary">Andamento</td>
+                                        <td class="bg-body-tertiary text-secondary">Data</td>
+                                        <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat7" dmx-bind:repeat="sc_andamentos.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{processo}}</td>
+                                        <td class="text-black">{{andamento}}</td>
+                                        <td class="text-black">{{repeat6[0].data.formatDate('dd/MM/yyyy') || "-"}}</td>
+                                        <td class="text-black">{{id_cliente}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatoriotarefas" dmx-show="filtro.value=='tarefas'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+
+                            <h3>Relatório de Tarefas</h3>
+                            <div class="dropdown">
+                                <button id="dropdown5" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-2">
+                            <p class="subtitulo-relatorio">Tarefas</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Nome</td>
+                                        <td class="bg-body-tertiary text-secondary">Data Limite</td>
+                                        <td class="bg-body-tertiary text-secondary">Status</td>
+                                        <td class="bg-body-tertiary text-secondary">Cliente</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat8" dmx-bind:repeat="sc_tarefas.data.query_tarefas" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{descricao}}</td>
+                                        <td class="text-black">{{repeat2.data}}</td>
+                                        <td class="text-black">{{status}}</td>
+                                        <td class="text-black">{{id_cliente}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatoriodocumentos" dmx-show="filtro.value=='documentos'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+
+                            <h3>Relatório de Documentos</h3>
+                            <div class="dropdown">
+                                <button id="dropdown6" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-2">
+                            <p class="subtitulo-relatorio">Documentos</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Nome</td>
+                                        <td class="bg-body-tertiary text-secondary">Tipo</td>
+                                        <td class="bg-body-tertiary text-secondary">Data de Envio</td>
+                                        <td class="bg-body-tertiary text-secondary">Processo relacionado</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat10" dmx-bind:repeat="sc_documentos.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{nome}}</td>
+                                        <td class="text-black">{{tipo}}</td>
+                                        <td class="text-black">{{criado_em.formatDate('dd/MM/yyyy')}}</td>
+                                        <td class="text-black">{{id_processo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="d-flex table-container animate-fade-in flex-column" id="relatoriofinanceiro" dmx-show="filtro.value=='financeiro'">
+                        <div class="d-flex w-100 titulo-relatorio justify-content-between mb-3 pb-3">
+
+                            <h3>Relatório do Financeiro</h3>
+                            <div class="dropdown">
+                                <button id="dropdown7" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
+
+                                    <a class="dropdown-item" href="#">Baixar .cls</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex resumo-geral text-start flex-column justify-content-start align-items-start mt-2">
+                            <p class="subtitulo-relatorio">Financeiro</p>
+
+
+                            <table class="table table-bordered table-hover table-sm w-100">
+                                <thead>
+                                    <tr>
+
+                                        <td class="bg-body-tertiary text-secondary">Processo</td>
+                                        <td class="bg-body-tertiary text-secondary">Descrição</td>
+                                        <td class="bg-body-tertiary text-secondary">Valor</td>
+                                        <td class="bg-body-tertiary text-secondary">Data de pagamento</td>
+                                        <td class="bg-body-tertiary text-secondary">Status</td>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat12" dmx-bind:repeat="sc_financeiro.data.query" key="id">
+
+                                    <tr>
+                                        <td class="text-black">{{id_processo}}</td>
+                                        <td class="text-black">{{descricao}}</td>
+                                        <td class="text-black">{{valor}}</td>
+                                        <td class="text-black">{{data_pagamento}}</td>
+                                        <td class="text-black">{{status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
                     </div>
 
 

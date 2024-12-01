@@ -904,12 +904,16 @@
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
 </head>
 
 <body is="dmx-app" id="processos">
+    <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_processos.data.listar_processos.data" key="id"></dmx-data-detail>
+    <dmx-serverconnect id="sc_processos" url="dmxConnect/api/processos.php"></dmx-serverconnect>
+    <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
     <dmx-value id="filtro" dmx-bind:value="'Todos'"></dmx-value>
     <dmx-value id="varProcessoAtual"></dmx-value>
-    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php" noload dmx-on:success="sc_listar_processos.load();notifySuccess.success('Processo excluído com sucesso!')"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
     <dmx-notifications id="notifySuccess" closable="true"></dmx-notifications>
@@ -969,7 +973,15 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                    <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                        <div class="d-flex flex-column mb-2 ms-4 me-4">
+                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                                <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                        </div>
+                    </div>
+                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
                         <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
                             <div class="d-flex flex-column lh-sm">
                                 <p class="mb-0 lh-sm">César</p>
@@ -1012,7 +1024,7 @@
                                 </div>
                                 <div>
                                     <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.total || 0}}</p>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_processos.data.query[0].total_processos||0}}</p>
                                 </div>
 
                                 <div class="stats-label">Total de Processos</div>
@@ -1026,7 +1038,7 @@
                                 </div>
                                 <div>
                                     <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.em_andamento || 0}}</p>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_processos.data.query[0].processos_em_andamento||0}}</p>
                                 </div>
                                 <div class="stats-label">Em Andamento</div>
                             </div>
@@ -1050,7 +1062,7 @@
                                 </div>
                                 <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
                                 <div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.arquivados || 0}}</p>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_processos.data.query[0].processos_arquivados||0}}</p>
                                 </div>
                                 <div class="stats-label">Arquivados</div>
                             </div>
@@ -1081,49 +1093,63 @@
 
                 <!-- Tabela de Processos -->
                 <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
-                    <div class="table-responsive w-100">
-                        <table id="tabelaProcessos" class="table">
+                    <div class="d-flex align-items-center pt-2 pb-2 justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Exibir</p>
+                            <div class="d-flex align-items-center"><select id="select1" class="form-select ms-2 me-2 pt-1 pb-1 ps-2" name="quantidade_celulas">
+                                    <option value="1">1</option>
+                                    <option selected="" value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select></div>
+                            <p class="mb-0">resultados por página</p>
+                        </div>
+                        <div class="d-flex">
+                            <button id="btn1" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value-1)"><i class="fa-solid fa-angle-left"></i></button>
+                            <button id="btn2" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value+1)"><i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Processo</th>
-                                    <th>Cliente</th>
-                                    <th>Último Andamento</th>
-                                    <th>Órgão</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
+                                    <th scope="col">PROCESSO</th>
+                                    <th scope="col">ÚLTIMO ANDAMENTO</th>
+                                    <th scope="col">ÓRGÃO</th>
+                                    <th scope="col">STATUS</th>
+                                    <th scope="col">AÇÕES</th>
                                 </tr>
                             </thead>
-                            <tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_listar_processos.data.listar_processos" key="id">
+                            <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_listar_processos.data.listar_processos.data" key="id">
                                 <tr>
-                                    <td>
-                                        <div class="fw-semibold">{{processo}}</div>
-                                        <small class="text-muted">Cadastrado em {{data_cadastro.formatDate('dd/MM/yyyy')}}</small>
-                                    </td>
-                                    <td>{{cliente}}</td>
-                                    <td>
-                                        <div>{{ultimo_andamento}}</div>
-                                        <small class="text-muted">{{data_andamento.formatDate('dd/MM/yyyy')}}</small>
-                                    </td>
+                                    <td>{{processo}}</td>
+                                    <td>{{ultimo_andamento}}</td>
                                     <td>{{justica}}</td>
+                                    <td class="text-capitalize">{{status}}</td>
                                     <td>
-                                        <span class="status-badge" dmx-class:bg-success-subtle="status=='Em Andamento'" dmx-class:text-success="status=='Em Andamento'" dmx-class:bg-secondary-subtle="status=='Arquivado'" dmx-class:text-secondary="status=='Arquivado'">
-                                            {{status}}
-                                        </span>
+                                        <div class="d-flex">
+                                            <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarProcesso.show()"><i class="fa-solid fa-pen"></i></button>
+                                            <button id="btn4" class="btn" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover"><i class="fa-solid fa-trash"></i></button>
+                                            <button id="btn5" class="btn" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/processos/'+slug)"><i class="fa-solid fa-circle-info"></i></button>
+                                        </div>
                                     </td>
-                                    <td class="action-buttons">
-                                        <button class="btn" title="Editar" dmx-bs-tooltip="'Editar processo'" data-bs-trigger="hover" dmx-on:click="modalEditarProcesso.show();varProcessoAtual.setValue($this.dmxRowData)">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                        <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir processo'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este processo?')){sc_excluir_processo.load({data:{id:id}});}">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                        <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos/'+slug)`}})">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                        </button>
-                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="d-flex pt-3 pb-2">
+                        <p class="text-secondary mb-0">Página:&nbsp;</p>
+                        <p class="mb-0">{{pagina_atual_tabela.value}}</p>
+                        <p class="mb-0 text-secondary">&nbsp;de&nbsp;</p>
+                        <p class="mb-0 text-black">{{sc_listar_processos.data.listar_processos.page.total}}</p>
                     </div>
                 </div>
             </main>
@@ -1185,7 +1211,7 @@
                         <input type="hidden" name="id" dmx-bind:value="varProcessoAtual.data.id">
                         <div class="mb-3">
                             <label class="form-label">Número do Processo</label>
-                            <input type="text" class="form-control" name="processo" required dmx-bind:value="varProcessoAtual.data.processo">
+                            <input type="text" class="form-control" name="processo" required="" dmx-bind:value="data_detail1.data.processo">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Cliente</label>
@@ -1196,11 +1222,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Órgão</label>
-                            <input type="text" class="form-control" name="justica" required dmx-bind:value="varProcessoAtual.data.justica">
+                            <input type="text" class="form-control" name="justica" required="" dmx-bind:value="data_detail1.data.justica">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required dmx-bind:value="varProcessoAtual.data.status">
+                            <select class="form-select" name="status" required="" dmx-bind:value="data_detail1.data.status">
                                 <option value="Em Andamento">Em Andamento</option>
                                 <option value="Arquivado">Arquivado</option>
                             </select>

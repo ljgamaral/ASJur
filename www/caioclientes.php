@@ -969,12 +969,14 @@
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
     <div is="dmx-browser" id="browser1"></div>
-    <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_clientes.data.query" key="id"></dmx-data-detail>
-    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/clientes.php"></dmx-serverconnect>
+    <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_clientes.data.query.data" key="id"></dmx-data-detail>
+    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/clientes.php" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value"></dmx-serverconnect>
     <dmx-serverconnect id="sc_processosativos" url="dmxConnect/api/percentual_mensal_processos_ativos.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_estados_clientes" url="dmxConnect/api/percentual_estados_clientes.php"></dmx-serverconnect>
     <dmx-notifications id="notifies1"></dmx-notifications>
@@ -1014,7 +1016,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                            <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
                                 <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
@@ -1038,7 +1040,15 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                    <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                        <div class="d-flex flex-column mb-2 ms-4 me-4">
+                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                                <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                        </div>
+                    </div>
+                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
                         <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
                             <div class="d-flex flex-column lh-sm">
                                 <p class="mb-0 lh-sm">César</p>
@@ -1090,7 +1100,6 @@
                             </div>
                             <div class="d-flex skeleton-loader-little" dmx-show="!sc_clientes.status"></div>
                             <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_listar_clientes.status">
-                                <i class="fa-solid fa-arrow-up me-1"></i>
                                 <p class="mb-0">{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_total_mensal}}</p>
                             </div>
                         </div>
@@ -1111,7 +1120,6 @@
                             <div class="d-flex skeleton-loader-little" dmx-show="!sc_listar_clientes_novos.status"></div>
                             <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_clientes.status">
 
-                                <i class="fa-solid fa-arrow-up me-1"></i>
                                 <p class="mb-0">{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_clientes_novos_semanal}}</p>
                             </div>
                         </div>
@@ -1145,7 +1153,6 @@
                             <div class="stats-label">Processos Ativos</div>
                             <div class="d-flex skeleton-loader-little" dmx-show="!sc_processosativos.status"></div>
                             <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_processosativos.status">
-                                <i class="fa-solid fa-arrow-up me-1"></i>
                                 <p class="mb-0">{{sc_processosativos.data.query[0].mensagem_processos_ativos}}</p>
                             </div>
                         </div>
@@ -1154,40 +1161,63 @@
 
                 <!-- Tabela de Clientes -->
                 <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="d-flex align-items-center pt-2 pb-2 justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Exibir</p>
+                            <div class="d-flex align-items-center"><select id="select1" class="form-select ms-2 me-2 pt-1 pb-1 ps-2" name="quantidade_celulas">
+                                    <option value="1">1</option>
+                                    <option selected="" value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select></div>
+                            <p class="mb-0">resultados por página</p>
+                        </div>
+                        <div class="d-flex">
+                            <button id="btn1" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value-1)"><i class="fa-solid fa-angle-left"></i></button>
+                            <button id="btn2" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value+1)"><i class="fa-solid fa-angle-right"></i></button>
+                        </div>
+
+
+
+
+                    </div>
                     <div class="table-responsive">
-                        <table id="tabelaClientes" class="table w-100">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Telefone</th>
-                                    <th>PESSOA</th>
-                                    <th>Ações</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">TELEFONE</th>
+                                    <th scope="col">PESSOA</th>
+                                    <th scope="col">AÇÕES</th>
                                 </tr>
                             </thead>
-                            <tbody is="dmx-repeat" id="repeat1" key="id" dmx-bind:repeat="sc_listar_clientes.data.query">
+                            <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_listar_clientes.data.query.data" key="id">
                                 <tr>
-                                    <td>#{{id}}</td>
-                                    <td>{{nome}}
-                                    </td>
+                                    <td>{{id}}</td>
+                                    <td>{{nome}}</td>
                                     <td>{{celular.replace(/\D/g, "").replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")}}</td>
-                                    <td>{{tipo}}
-
+                                    <td class="text-capitalize">{{tipo}}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarCliente.show()"><i class="fa-solid fa-pen"></i></button>
+                                            <button id="btn4" class="btn" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover"><i class="fa-solid fa-trash"></i></button>
+                                            <button id="btn5" class="btn" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/clientes/'+slug)"><i class="fa-solid fa-circle-info"></i></button>
+                                        </div>
                                     </td>
-                                    <td class="action-buttons">
-                                        <button class="btn" title="Editar" dmx-bs-tooltip="'Editar cliente'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarCliente.show();varClienteAtual.setValue()">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                        <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este cliente?')){sc_excluir_cliente.load({data:{id:id}});}">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                        <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/clientes/'+slug)">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                        </button>
-                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="d-flex pt-3 pb-2">
+                        <p class="text-secondary mb-0">Página:&nbsp;</p>
+                        <p class="mb-0">{{pagina_atual_tabela.value}}</p>
+                        <p class="mb-0 text-secondary">&nbsp;de&nbsp;</p>
+                        <p class="mb-0 text-black">{{sc_listar_clientes.data.query.page.total}}</p>
                     </div>
                 </div>
             </main>
@@ -1195,14 +1225,6 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="quick-actions">
-        <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-        <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
-            <i class="fa-solid fa-file-export"></i>
-        </button>
-    </div>
 
     <!-- Modal Novo Cliente -->
     <div class="modal fade" id="modalNovoCliente" is="dmx-bs5-modal" tabindex="-1">
@@ -1259,18 +1281,14 @@
                             <input type="text" class="form-control" name="nome" required="" dmx-bind:value="data_detail1.data.nome">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" required dmx-bind:value="varClienteAtual.data.email">
-                        </div>
-                        <div class="mb-3">
                             <label class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" name="telefone" required dmx-bind:value="varClienteAtual.data.telefone">
+                            <input type="email" class="form-control" name="email" required="" dmx-bind:value="data_detail1.data.celular">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required dmx-bind:value="varClienteAtual.data.status">
-                                <option value="Ativo">Ativo</option>
-                                <option value="Inativo">Inativo</option>
+                            <label class="form-label">Pessoa</label>
+                            <select class="form-select" name="status" required="" dmx-bind:value="data_detail1.data.tipo">
+                                <option value="fisica">Física</option>
+                                <option value="juridica">Jurídica</option>
                             </select>
                         </div>
                     </form>

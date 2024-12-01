@@ -6,9 +6,8 @@
     <base href="/">
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <meta charset="UTF-8">
-    <title>Clientes - AS Jurídico</title>
+    <title>Cliente detalhes - AS Jurídico</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -92,6 +91,11 @@
             width: 20px;
             margin-right: 10px;
             font-size: 1.1rem;
+        }
+
+        .nav-active {
+            background-color: #2c2c2c;
+            color: #FFF !important;
         }
 
         /* Cards */
@@ -242,6 +246,26 @@
             background: var(--light-gray);
             color: var(--primary-color);
             transform: translateY(-2px);
+        }
+
+        .btn-filter {
+            border: 1px solid var(--medium-gray);
+            color: var(--secondary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-filter:hover:not(.active) {
+            background: var(--light-gray);
+            color: var(--primary-color);
         }
 
         /* Avatar */
@@ -969,15 +993,21 @@
     </style>
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-serverconnect id="sc_andamentos" url="dmxConnect/api/cliente_detalhes_andamentos.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_documentos" url="dmxConnect/api/cliente_detalhes_documentos.php" dmx-param:id_cliente="sc_captura_slug.data.query[0].id"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_processos" url="dmxConnect/api/cliente_detalhes_processos.php" dmx-param:id_cliente="sc_captura_slug.data.query[0].id"></dmx-serverconnect>
+    <dmx-value id="filtro" dmx-bind:value="'processos'"></dmx-value>
     <dmx-serverconnect id="sc_captura_slug" url="dmxConnect/api/capturar_slug_cliente.php" dmx-param:slug="browser1.location.pathparts.last(1)"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar Overlay -->
@@ -995,42 +1025,50 @@
                     <ul class="nav flex-column w-100 h-100">
                         <li class="nav-item">
                             <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
-                                <i class="fas fa-home"></i>
+                                <i class="fa-solid fa-house"></i>
                                 Início
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-active" href="/clientes">
-                                <i class="fas fa-user"></i>
+                                <i class="fa-solid fa-user"></i>
                                 Clientes
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
-                                <i class="fas fa-file-invoice"></i>
+                            <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
+                                <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/agenda">
-                                <i class="fas fa-calendar"></i>
+                                <i class="fa-solid fa-calendar"></i>
                                 Agenda
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/relatorios">
-                                <i class="fas fa-chart-bar"></i>
+                                <i class="fa-solid fa-chart-bar"></i>
                                 Relatórios
                             </a>
                         </li>
                         <li class="nav-item mt-auto">
                             <a class="nav-link" href="/configuracoes">
-                                <i class="fas fa-cog"></i>
+                                <i class="fa-solid fa-gear"></i>
                                 Configurações
                             </a>
                         </li>
                     </ul>
-                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                    <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                        <div class="d-flex flex-column mb-2 ms-4 me-4">
+                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                                <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                        </div>
+                    </div>
+                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
                         <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
                             <div class="d-flex flex-column lh-sm">
                                 <p class="mb-0 lh-sm">César</p>
@@ -1040,7 +1078,7 @@
 
 
 
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa-solid fa-angle-right"></i>
 
                     </div>
                 </div>
@@ -1063,7 +1101,7 @@
 
                             <h3>Ficha do cliente</h3>
                             <div class="dropdown">
-                                <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-download"></i></button>
+                                <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
                                 <div class="dropdown-menu" aria-labelledby="dropdown1">
                                     <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
 
@@ -1326,6 +1364,95 @@
                         </div>
                     </div>
                 </div>
+                <div class="d-flex mt-3">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-filter nav-active" id="processos2" dmx-show="filtro.value=='processos'">Processos</button><button class="btn btn-filter buttons-radius" dmx-on:click="filtro.setValue('processos')" id="processos" dmx-hide="filtro.value=='processos'">Processos</button>
+                        <button class="btn btn-filter nav-active" id="em_andamento2" dmx-show="filtro.value=='documentos'">Documentos</button><button class="btn btn-filter" dmx-on:click="filtro.setValue('documentos')" id="em_andamento" dmx-hide="filtro.value=='documentos'">Documentos</button>
+                        <button class="btn btn-filter nav-active" id="arquivado2" dmx-show="filtro.value=='andamentos'">Andamentos</button><button class="btn btn-filter" dmx-on:click="filtro.setValue('andamentos')" id="arquivado" dmx-hide="filtro.value=='andamentos'">Andamentos</button>
+
+                    </div>
+                </div>
+
+                <div class="table-container animate-fade-in card-detalhes" style="animation-delay: 0.5s">
+                    <div class="d-flex align-items-center w-100 flex-column justify-content-start" dmx-show="filtro.value=='processos'" id="processos">
+                        <div class="d-flex w-100">
+                            <p class="text-start">Processos vinculados</p>
+                        </div>
+                        <div class="table-responsive w-100">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">título</th>
+                                        <th scope="col">última movimentação</th>
+                                        <th scope="col">órgão</th>
+                                        <th scope="col">data de conclusão</th>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_processos.data.cliente_detalhes_processos" key="id">
+                                    <tr dmx-on:click="run({run:{outputType:'text',action:`browser1.goto(\'/processos/\'+slug)`}})" dmx-style:cursor="'pointer'">
+                                        <td>{{processo}}</td>
+                                        <td>{{ultimo_andamento}}</td>
+                                        <td>{{justica}}</td>
+                                        <td>{{data_conclusao}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="d-flex align-items-center w-100 flex-column justify-content-start" dmx-show="filtro.value=='documentos'" id="documentos">
+                        <div class="d-flex w-100">
+                            <p class="text-start">Documentos vinculados</p>
+                        </div>
+                        <div class="table-responsive w-100">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">NOME</th>
+                                        <th scope="col">DESCRIÇÃO</th>
+                                        <th scope="col">TIPO</th>
+                                        <th scope="col">CADASTRADO EM</th>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_documentos.data.cliente_detalhes_documentos" key="id">
+                                    <tr>
+                                        <td>{{nome}}</td>
+                                        <td>{{descricao}}</td>
+                                        <td>{{tipo}}</td>
+                                        <td>{{criado_em}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="d-flex align-items-center w-100 flex-column justify-content-start" dmx-show="filtro.value=='andamentos'" id="andamentos">
+                        <div class="d-flex w-100">
+                            <p class="text-start">Andamentos vinculados</p>
+                        </div>
+                        <div class="table-responsive w-100">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">tÍTULO</th>
+                                        <th scope="col">PROCESSO</th>
+                                        <th scope="col">DESCRIÇÃO</th>
+                                        <th scope="col">DATA</th>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat3" dmx-bind:repeat="sc_andamentos.data.query" key="id">
+                                    <tr>
+                                        <td>{{andamento}}</td>
+                                        <td>{{processo}}</td>
+                                        <td>{{descricao}}</td>
+                                        <td>{{repeat3[0].data}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -1333,10 +1460,10 @@
     <!-- Quick Actions -->
     <div class="quick-actions">
         <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
-            <i class="fas fa-plus"></i>
+            <i class="fa-solid fa-plus"></i>
         </button>
         <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
-            <i class="fas fa-file-export"></i>
+            <i class="fa-solid fa-file-export"></i>
         </button>
     </div>
 

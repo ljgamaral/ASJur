@@ -19,6 +19,14 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "status"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "offset"
       }
     ]
   },
@@ -26,7 +34,7 @@ $app->define(<<<'JSON'
     "steps": {
       "name": "listar_processos",
       "module": "dbconnector",
-      "action": "select",
+      "action": "paged",
       "options": {
         "connection": "asj",
         "sql": {
@@ -106,31 +114,86 @@ $app->define(<<<'JSON'
       "output": true,
       "meta": [
         {
-          "type": "text",
-          "name": "id"
+          "name": "offset",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "slug"
+          "name": "limit",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "processo"
+          "name": "total",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "ultimo_andamento"
+          "name": "page",
+          "type": "object",
+          "sub": [
+            {
+              "name": "offset",
+              "type": "object",
+              "sub": [
+                {
+                  "name": "first",
+                  "type": "number"
+                },
+                {
+                  "name": "prev",
+                  "type": "number"
+                },
+                {
+                  "name": "next",
+                  "type": "number"
+                },
+                {
+                  "name": "last",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "name": "current",
+              "type": "number"
+            },
+            {
+              "name": "total",
+              "type": "number"
+            }
+          ]
         },
         {
-          "type": "text",
-          "name": "justica"
-        },
-        {
-          "type": "text",
-          "name": "status"
+          "name": "data",
+          "type": "array",
+          "sub": [
+            {
+              "type": "text",
+              "name": "id"
+            },
+            {
+              "type": "text",
+              "name": "slug"
+            },
+            {
+              "type": "text",
+              "name": "processo"
+            },
+            {
+              "type": "text",
+              "name": "ultimo_andamento"
+            },
+            {
+              "type": "text",
+              "name": "justica"
+            },
+            {
+              "type": "text",
+              "name": "status"
+            }
+          ]
         }
       ],
-      "outputType": "array"
+      "outputType": "object",
+      "type": "dbconnector_paged_select"
     }
   }
 }

@@ -992,6 +992,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/index.global.min.js" defer></script>
     <script src="dmxAppConnect/dmxCalendar/dmxCalendar.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -1032,7 +1033,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                            <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
                                 <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
@@ -1056,7 +1057,15 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'">
+                    <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                        <div class="d-flex flex-column mb-2 ms-4 me-4">
+                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                                <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                        </div>
+                    </div>
+                    <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
                         <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
                             <div class="d-flex flex-column lh-sm">
                                 <p class="mb-0 lh-sm">César</p>
