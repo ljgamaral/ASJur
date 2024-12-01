@@ -407,7 +407,7 @@ td.celula-tabela {
 
 .skeleton-loader {
     background-color: #ddd;
-    height: 3em;
+    height: 2.3em;
     margin: 10px 0;
     border-radius: 4px;
     animation: shimmer 1.5s infinite;
@@ -430,7 +430,7 @@ td.celula-tabela {
 
 .skeleton-loader-little {
     background-color: #ddd;
-    height: 1em;
+    height: 0.8em;
     margin: 10px 0;
     border-radius: 4px;
     animation: shimmer 1.5s infinite;
