@@ -916,7 +916,6 @@
     <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php" noload dmx-on:success="sc_listar_processos.load();notifySuccess.success('Processo excluído com sucesso!')"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
-    <dmx-notifications id="notifySuccess" closable="true"></dmx-notifications>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">

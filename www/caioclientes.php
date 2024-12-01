@@ -979,7 +979,6 @@
     <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/clientes.php" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value"></dmx-serverconnect>
     <dmx-serverconnect id="sc_processosativos" url="dmxConnect/api/percentual_mensal_processos_ativos.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_estados_clientes" url="dmxConnect/api/percentual_estados_clientes.php"></dmx-serverconnect>
-    <dmx-notifications id="notifies1"></dmx-notifications>
     <dmx-serverconnect id="sc_clientes" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <dmx-value id="varClienteAtual"></dmx-value>
     <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifies1.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
