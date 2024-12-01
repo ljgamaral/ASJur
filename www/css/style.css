@@ -402,3 +402,41 @@ td.celula-tabela {
 
 .info-tooltip{
     margin-left: 3px;}
+
+.buttons-radius{}
+
+.skeleton-loader {
+    background-color: #ddd;
+    height: 3em;
+    margin: 10px 0;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton-loader {
+    background: linear-gradient(90deg, #ddd 25%, #f0f0f0 50%, #ddd 75%);
+    background-size: 200% 100%;
+}
+
+.skeleton-loader-little {
+    background-color: #ddd;
+    height: 1em;
+    margin: 10px 0;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-loader-little {
+    background: linear-gradient(90deg, #ddd 25%, #f0f0f0 50%, #ddd 75%);
+    background-size: 200% 100%;
+}

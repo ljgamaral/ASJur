@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Início - AS Jurídico</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -984,6 +983,7 @@
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
     <script src="dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -999,7 +999,7 @@
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar Overlay -->
@@ -1018,37 +1018,37 @@
                 <ul class="nav flex-column w-100 h-100">
                     <li class="nav-item">
                         <a class="nav-link nav-active">
-                            <i class="fas fa-home"></i>
+                            <i class="fa-solid fa-house"></i>
                             Início
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/clientes">
-                            <i class="fas fa-user"></i>
+                            <i class="fa-solid fa-user"></i>
                             Clientes
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
-                            <i class="fas fa-file-invoice"></i>
+                            <i class="fa-solid fa-file-invoice"></i>
                             Processos
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/agenda">
-                            <i class="fas fa-calendar"></i>
+                            <i class="fa-solid fa-calendar"></i>
                             Agenda
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/relatorios">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fa-solid fa-chart-bar"></i>
                             Relatórios
                         </a>
                     </li>
                     <li class="nav-item mt-auto">
                         <a class="nav-link" href="/configuracoes">
-                            <i class="fas fa-cog"></i>
+                            <i class="fa-solid fa-gear"></i>
                             Configurações
                         </a>
                     </li>
@@ -1063,7 +1063,7 @@
 
 
 
-                    <i class="fas fa-angle-right"></i>
+                    <i class="fa-solid fa-angle-right"></i>
 
                 </div>
             </div>
@@ -1089,49 +1089,68 @@
                 <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
                     <div class="card stats-card">
                         <div class="stats-icon">
-                            <i class="fas fa-users"></i>
+                            <i class="fa-solid fa-users"></i>
                         </div>
-                        <div class="stats-value">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
+                        <div>
+                            <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_clientes.status"></div>
+                            <p class="stats-value" dmx-show="sc_percentual_clientes.status">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</p>
+                        </div>
                         <div class="stats-label">Total de Clientes</div>
-                        <div class="stats-trend up">
-                            <i class="fas fa-arrow-up me-1"></i>
-                            {{sc_percentual_clientes.data.calcula_percentual_mensal_clientes[0].mensagem}}
+                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_clientes.status"></div>
+                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_clientes.status">
+                            <i class="fa-solid fa-arrow-up me-1"></i>
+                            <p class="mb-0">{{sc_percentual_clientes.data.calcula_percentual_mensal_clientes[0].mensagem}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
                     <div class="card stats-card">
                         <div class="stats-icon">
-                            <i class="fas fa-tasks"></i>
+                            <i class="fa-solid fa-list-check"></i>
                         </div>
-                        <div class="stats-value">{{sc_percentual_andamentos.data.percentual_andamentos[0].total_andamentos||0}}</div>
+                        <div>
+                            <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_andamentos.status"></div>
+                            <p class="stats-value" dmx-show="sc_percentual_andamentos.status">{{sc_percentual_andamentos.data.percentual_andamentos[0].total_andamentos||0}}</p>
+                        </div>
                         <div class="stats-label">Total de Andamentos</div>
-                        <div class="stats-trend up">
-                            <i class="fas fa-arrow-up me-1"></i>{{sc_percentual_andamentos.data.percentual_andamentos[0].mensagem}}
+                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_andamentos.status"></div>
+                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_andamentos.status">
+                            <i class="fa-solid fa-arrow-up me-1"></i>
+                            <p class="mb-0">{{sc_percentual_andamentos.data.percentual_andamentos[0].mensagem}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
                     <div class="card stats-card">
                         <div class="stats-icon">
-                            <i class="fas fa-history"></i>
+                            <i class="fa-solid fa-clock-rotate-left"></i>
                         </div>
-                        <div class="stats-value">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].total_tarefas||0}}</div>
+                        <div>
+                            <div class="d-flex skeleton-loader" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
+                            <p class="stats-value" dmx-show="sc_conta_tarefas_pendentes.status">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].total_tarefas||0}}</p>
+                        </div>
                         <div class="stats-label">Tarefas pendentes</div>
-                        <div class="stats-trend up">
-                            <i class="fas fa-arrow-up me-1"></i>{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes}}
+                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
+                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_conta_tarefas_pendentes.status">
+                            <i class="fa-solid fa-arrow-up me-1"></i>
+                            <p class="mb-0">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
                     <div class="card stats-card">
                         <div class="stats-icon">
-                            <i class="fas fa-chart-line"></i>
+                            <i class="fa-solid fa-chart-line"></i>
                         </div>
-                        <div class="stats-value">{{sc_percentual_processos_ativos.data.query[0].processos_ativos||0}}</div>
+                        <div>
+                            <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_processos_ativos.status"></div>
+                            <p class="stats-value" dmx-show="sc_percentual_processos_ativos.status">{{sc_percentual_processos_ativos.data.query[0].processos_ativos||0}}</p>
+                        </div>
                         <div class="stats-label">Processos Ativos</div>
-                        <div class="stats-trend up">
-                            <i class="fas fa-arrow-up me-1"></i>{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos}}
+                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_processos_ativos.status"></div>
+                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_processos_ativos.status">
+                            <i class="fa-solid fa-arrow-up me-1"></i>
+                            <p class="mb-0">{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos}}</p>
                         </div>
                     </div>
                 </div>
@@ -1169,25 +1188,25 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <button id="btn1" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Ambiental'" data-bs-trigger="hover">
-                                    <i class="fas fa-leaf jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-leaf jurisprudencia-button"></i>
                                 </button>
                                 <button id="btn2" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Cível'" data-bs-trigger="hover">
-                                    <i class="fas fa-user jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-user jurisprudencia-button"></i>
                                 </button>
                                 <button id="btn3" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Empresarial'" data-bs-trigger="hover">
-                                    <i class="fas fa-building jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-building jurisprudencia-button"></i>
                                 </button>
                                 <button id="btn4" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Consumidor'" data-bs-trigger="hover">
-                                    <i class="fas fa-shopping-cart jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-cart-shopping jurisprudencia-button"></i>
                                 </button>
                                 <button id="btn5" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Trabalhista'" data-bs-trigger="hover">
-                                    <i class="fas fa-briefcase jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-briefcase jurisprudencia-button"></i>
                                 </button>
                                 <button id="btn6" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Família'" data-bs-trigger="hover">
-                                    <i class="fas fa-user-friends jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-user-group jurisprudencia-button"></i>
                                 </button>
                                 <button id="btn7" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Tributário'" data-bs-trigger="hover">
-                                    <i class="fas fa-coins jurisprudencia-button"></i>
+                                    <i class="fa-solid fa-coins jurisprudencia-button"></i>
                                 </button>
                             </div>
                         </div>
@@ -1214,10 +1233,10 @@
     <!-- Quick Actions -->
     <div class="quick-actions">
         <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
-            <i class="fas fa-plus"></i>
+            <i class="fa-solid fa-plus"></i>
         </button>
         <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
-            <i class="fas fa-file-export"></i>
+            <i class="fa-solid fa-file-export"></i>
         </button>
     </div>
 

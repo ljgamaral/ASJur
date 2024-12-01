@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Relatórios - AS Jurídico</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -1017,6 +1016,7 @@
     <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
     <script src="dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
     <script src="dmxAppConnect/dmxBootstrap5Offcanvas/dmxBootstrap5Offcanvas.js" defer></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -1043,7 +1043,7 @@
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar Overlay -->
@@ -1061,37 +1061,37 @@
                     <ul class="nav flex-column w-100 h-100">
                         <li class="nav-item">
                             <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
-                                <i class="fas fa-home"></i>
+                                <i class="fa-solid fa-house"></i>
                                 Início
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./clientes">
-                                <i class="fas fa-user"></i>
+                                <i class="fa-solid fa-user"></i>
                                 Clientes
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
-                                <i class="fas fa-file-invoice"></i>
+                                <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/agenda">
-                                <i class="fas fa-calendar"></i>
+                                <i class="fa-solid fa-calendar"></i>
                                 Agenda
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-active">
-                                <i class="fas fa-chart-bar"></i>
+                                <i class="fa-solid fa-chart-bar"></i>
                                 Relatórios
                             </a>
                         </li>
                         <li class="nav-item mt-auto">
                             <a class="nav-link" href="/configuracoes">
-                                <i class="fas fa-cog"></i>
+                                <i class="fa-solid fa-gear"></i>
                                 Configurações
                             </a>
                         </li>
@@ -1106,7 +1106,7 @@
 
 
 
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa-solid fa-angle-right"></i>
 
                     </div>
                 </div>
@@ -1163,7 +1163,7 @@
 
                                     <h3>Relatório Geral</h3>
                                     <div class="dropdown">
-                                        <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-download"></i></button>
+                                        <button id="dropdown1" class="btn btn-secondary dropdown-toggle d-print-none text-bg-dark" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-download"></i></button>
                                         <div class="dropdown-menu" aria-labelledby="dropdown1">
                                             <a class="dropdown-item" href="#">Baixar .pdf</a><a class="dropdown-item" href="#">Baixar .xslx</a>
 
@@ -1448,10 +1448,10 @@
     <!-- Quick Actions -->
     <div class="quick-actions">
         <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
-            <i class="fas fa-plus"></i>
+            <i class="fa-solid fa-plus"></i>
         </button>
         <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
-            <i class="fas fa-file-export"></i>
+            <i class="fa-solid fa-file-export"></i>
         </button>
     </div>
 

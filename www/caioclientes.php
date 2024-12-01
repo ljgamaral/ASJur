@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Clientes - AS Jurídico</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -969,6 +968,7 @@
     </style>
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -985,7 +985,7 @@
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar Overlay -->
@@ -1003,37 +1003,37 @@
                     <ul class="nav flex-column w-100 h-100">
                         <li class="nav-item">
                             <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
-                                <i class="fas fa-home"></i>
+                                <i class="fa-solid fa-house"></i>
                                 Início
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-active">
-                                <i class="fas fa-user"></i>
+                                <i class="fa-solid fa-user"></i>
                                 Clientes
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/processos" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
-                                <i class="fas fa-file-invoice"></i>
+                                <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/agenda">
-                                <i class="fas fa-calendar"></i>
+                                <i class="fa-solid fa-calendar"></i>
                                 Agenda
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/relatorios">
-                                <i class="fas fa-chart-bar"></i>
+                                <i class="fa-solid fa-chart-bar"></i>
                                 Relatórios
                             </a>
                         </li>
                         <li class="nav-item mt-auto">
                             <a class="nav-link" href="/configuracoes">
-                                <i class="fas fa-cog"></i>
+                                <i class="fa-solid fa-gear"></i>
                                 Configurações
                             </a>
                         </li>
@@ -1048,7 +1048,7 @@
 
 
 
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa-solid fa-angle-right"></i>
 
                     </div>
                 </div>
@@ -1064,7 +1064,7 @@
                             <p class="page-subtitle mb-0">Gerencie todos os seus clientes em um só lugar</p>
                         </div>
                         <button class="btn btn-dark-custom" dmx-on:click="modalNovoCliente.show()">
-                            <i class="fas fa-plus me-2"></i>Novo Cliente
+                            <i class="fa-solid fa-plus me-2"></i>Novo Cliente
                         </button>
                     </div>
                 </div>
@@ -1078,54 +1078,75 @@
                     <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
                         <div class="card stats-card">
                             <div class="stats-icon">
-                                <i class="fas fa-users"></i>
+                                <i class="fa-solid fa-users"></i>
                             </div>
-                            <div class="stats-value">{{sc_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_clientes_novos.status"></div>
+                                <p class="stats-value" dmx-show="sc_clientes.status">{{sc_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</p>
+                            </div>
                             <div>
                                 <p class="stats-label mb-0">
-                                    Total de Clientes<i class="fas fa-info-circle fa-xs info-tooltip" dmx-bs-tooltip="'Quantidade total de clientes cadastrados até o momento'"></i></p>
+                                    Total de Clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Quantidade total de clientes cadastrados até o momento'"></i></p>
                             </div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_total_mensal}}
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_clientes.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_listar_clientes.status">
+                                <i class="fa-solid fa-arrow-up me-1"></i>
+                                <p class="mb-0">{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_total_mensal}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
                         <div class="card stats-card">
                             <div class="stats-icon">
-                                <i class="fas fa-user-plus"></i>
+                                <i class="fa-solid fa-user-plus"></i>
                             </div>
-                            <div class="stats-value">{{sc_clientes.data.listar_clientes_clientes_novos[0].novos_clientes_semana||0}}</div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_clientes_novos.status"></div>
+                                <p class="stats-value" dmx-show="sc_clientes.status">{{sc_clientes.data.listar_clientes_clientes_novos[0].novos_clientes_semana||0}}</p>
+                            </div>
                             <div>
                                 <p class="stats-label mb-0">
-                                    Novos Clientes<i class="fas fa-info-circle fa-xs info-tooltip" dmx-bs-tooltip="'Clientes cadastrados essa semana'" data-bs-trigger="hover"></i></p>
+                                    Novos Clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Clientes cadastrados essa semana'" data-bs-trigger="hover"></i></p>
                             </div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_clientes_novos_semanal}}
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_listar_clientes_novos.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_clientes.status">
+
+                                <i class="fa-solid fa-arrow-up me-1"></i>
+                                <p class="mb-0">{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_clientes_novos_semanal}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
                         <div class="card stats-card">
                             <div class="stats-icon">
-                                <i class="fas fa-map-marker-alt"></i>
+                                <i class="fa-solid fa-location-dot"></i>
                             </div>
-                            <div class="stats-value">{{sc_estados_clientes.data.percentual_estados_clientes[0].total_estados_atual||0}}</div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_estados_clientes.status"></div>
+                                <p class="stats-value" dmx-show="sc_estados_clientes.status">{{sc_estados_clientes.data.percentual_estados_clientes[0].total_estados_atual||0}}</p>
+                            </div>
                             <div class="stats-label">Estados com clientes</div>
-                            <div class="stats-trend up">
-                                {{sc_estados_clientes.data.percentual_estados_clientes[0].mensagem}}
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_estados_clientes.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_estados_clientes.status">
+                                <p class="mb-0">{{sc_estados_clientes.data.percentual_estados_clientes[0].mensagem}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
                         <div class="card stats-card">
                             <div class="stats-icon">
-                                <i class="fas fa-chart-line"></i>
+                                <i class="fa-solid fa-chart-line"></i>
                             </div>
-                            <div class="stats-value">{{sc_processosativos.data.query[0].processos_ativos||0}}</div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_processosativos.status"></div>
+                                <p class="stats-value flex-shrink-0" dmx-show="sc_processosativos.status">{{sc_processosativos.data.query[0].processos_ativos||0}}</p>
+                            </div>
+
                             <div class="stats-label">Processos Ativos</div>
-                            <div class="stats-trend up">
-                                <i class="fas fa-arrow-up me-1"></i>{{sc_processosativos.data.query[0].mensagem_processos_ativos}}
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_processosativos.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_processosativos.status">
+                                <i class="fa-solid fa-arrow-up me-1"></i>
+                                <p class="mb-0">{{sc_processosativos.data.query[0].mensagem_processos_ativos}}</p>
                             </div>
                         </div>
                     </div>
@@ -1155,13 +1176,13 @@
                                     </td>
                                     <td class="action-buttons">
                                         <button class="btn" title="Editar" dmx-bs-tooltip="'Editar cliente'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarCliente.show();varClienteAtual.setValue()">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este cliente?')){sc_excluir_cliente.load({data:{id:id}});}">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fa-solid fa-trash"></i>
                                         </button>
                                         <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/clientes/'+slug)">
-                                            <i class="fas fa-info-circle"></i>
+                                            <i class="fa-solid fa-circle-info"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -1176,10 +1197,10 @@
     <!-- Quick Actions -->
     <div class="quick-actions">
         <button class="quick-action-btn" title="Novo Cliente" dmx-bs-tooltip="'Adicionar novo cliente'" data-bs-trigger="hover" dmx-on:click="modalNovoCliente.show()">
-            <i class="fas fa-plus"></i>
+            <i class="fa-solid fa-plus"></i>
         </button>
         <button class="quick-action-btn" title="Exportar" dmx-bs-tooltip="'Exportar dados'" data-bs-trigger="hover">
-            <i class="fas fa-file-export"></i>
+            <i class="fa-solid fa-file-export"></i>
         </button>
     </div>
 

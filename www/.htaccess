@@ -9,9 +9,6 @@ RewriteRule ^/?home(?:/)?$ caiohome.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?clientes(?:/)?$ caioclientes.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{HTTP:Accept} text/fragment\+html [NC]
-RewriteRule ^/?processos/([^/]+?)(?:/)?$ relatorios.php?tab=$1 [QSA,NC,L]
-RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?relatorios(?:/)?$ relatorios.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?relatorios/geral(?:/)?$ relatorios.php [QSA,NC,L]

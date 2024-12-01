@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Processos - AS Jurídico</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -904,6 +903,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/index.global.min.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
 </head>
 
 <body is="dmx-app" id="processos">
@@ -916,7 +916,7 @@
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar Overlay -->
@@ -934,37 +934,37 @@
                     <ul class="nav flex-column w-100 h-100">
                         <li class="nav-item">
                             <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
-                                <i class="fas fa-home"></i>
+                                <i class="fa-solid fa-house"></i>
                                 Início
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./clientes">
-                                <i class="fas fa-user"></i>
+                                <i class="fa-solid fa-user"></i>
                                 Clientes
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
-                                <i class="fas fa-file-invoice"></i>
+                                <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/agenda">
-                                <i class="fas fa-calendar"></i>
+                                <i class="fa-solid fa-calendar"></i>
                                 Agenda
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/relatorios">
-                                <i class="fas fa-chart-bar"></i>
+                                <i class="fa-solid fa-chart-bar"></i>
                                 Relatórios
                             </a>
                         </li>
                         <li class="nav-item mt-auto">
                             <a class="nav-link" href="/configuracoes">
-                                <i class="fas fa-cog"></i>
+                                <i class="fa-solid fa-gear"></i>
                                 Configurações
                             </a>
                         </li>
@@ -979,7 +979,7 @@
 
 
 
-                        <i class="fas fa-angle-right"></i>
+                        <i class="fa-solid fa-angle-right"></i>
 
                     </div>
                 </div>
@@ -995,7 +995,7 @@
                             <p class="page-subtitle mb-0">Acompanhe e gerencie todos os processos em andamento</p>
                         </div>
                         <button class="btn btn-dark-custom" dmx-on:click="modalNovoProcesso.show()">
-                            <i class="fas fa-plus me-2"></i>Novo Processo
+                            <i class="fa-solid fa-plus me-2"></i>Novo Processo
                         </button>
                     </div>
                 </div>
@@ -1005,60 +1005,74 @@
                     <div class="row g-3 mb-4">
                         <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
                             <div class="card stats-card">
+
+
                                 <div class="stats-icon">
-                                    <i class="fas fa-file-invoice"></i>
+                                    <i class="fa-solid fa-file-invoice"></i>
                                 </div>
-                                <div class="stats-value">{{sc_listar_processos.data.total || 0}}</div>
+                                <div>
+                                    <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.total || 0}}</p>
+                                </div>
+
                                 <div class="stats-label">Total de Processos</div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
                             <div class="card stats-card">
+
                                 <div class="stats-icon">
-                                    <i class="fas fa-clock"></i>
+                                    <i class="fa-solid fa-clock"></i>
                                 </div>
-                                <div class="stats-value">{{sc_listar_processos.data.em_andamento || 0}}</div>
+                                <div>
+                                    <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.em_andamento || 0}}</p>
+                                </div>
                                 <div class="stats-label">Em Andamento</div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
                             <div class="card stats-card">
                                 <div class="stats-icon">
-                                    <i class="fas fa-gavel"></i>
+                                    <i class="fa-solid fa-gavel"></i>
                                 </div>
-                                <div class="stats-value">{{sc_listar_processos.data.audiencias || 0}}</div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
+                                <div>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.audiencias || 0}}</p>
+                                </div>
                                 <div class="stats-label">Audiências Marcadas</div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
                             <div class="card stats-card">
                                 <div class="stats-icon">
-                                    <i class="fas fa-archive"></i>
+                                    <i class="fa-solid fa-box-archive"></i>
                                 </div>
-                                <div class="stats-value">{{sc_listar_processos.data.arquivados || 0}}</div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
+                                <div>
+                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.arquivados || 0}}</p>
+                                </div>
                                 <div class="stats-label">Arquivados</div>
                             </div>
                         </div>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos" dmx-hide="filtro.value=='Todos'">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos2" dmx-show="filtro.value=='Todos'">
+                            Todos
+                        </button><button class="btn btn-filter buttons-radius" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos" dmx-hide="filtro.value=='Todos'">
                             Todos
                         </button>
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos1" dmx-show="filtro.value=='Todos'">
-                            Todos
-                        </button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento" dmx-hide="filtro.value=='Em andamento'">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento2" dmx-show="filtro.value=='Em andamento'">
+                            Em Andamento
+                        </button><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento" dmx-hide="filtro.value=='Em andamento'">
                             Em Andamento
                         </button>
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento1" dmx-show="filtro.value=='Em andamento'">
-                            Em Andamento
-                        </button>
-                        <button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado" dmx-hide="filtro.value=='Arquivado'">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado2" dmx-show="filtro.value=='Arquivado'">
+                            Arquivados
+                        </button><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado" dmx-hide="filtro.value=='Arquivado'">
                             Arquivados
                         </button>
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado1" dmx-show="filtro.value=='Arquivado'">
-                            Arquivados
-                        </button>
+
                     </div>
                 </div>
 
@@ -1098,13 +1112,13 @@
                                     </td>
                                     <td class="action-buttons">
                                         <button class="btn" title="Editar" dmx-bs-tooltip="'Editar processo'" data-bs-trigger="hover" dmx-on:click="modalEditarProcesso.show();varProcessoAtual.setValue($this.dmxRowData)">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                         <button class="btn" title="Excluir" dmx-bs-tooltip="'Excluir processo'" data-bs-trigger="hover" dmx-on:click="if(confirm('Deseja realmente excluir este processo?')){sc_excluir_processo.load({data:{id:id}});}">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fa-solid fa-trash"></i>
                                         </button>
                                         <button class="btn" title="Detalhes" dmx-bs-tooltip="'Ver detalhes'" data-bs-trigger="hover" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos/'+slug)`}})">
-                                            <i class="fas fa-info-circle"></i>
+                                            <i class="fa-solid fa-circle-info"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -1204,14 +1218,14 @@
     <!-- Quick Actions -->
     <div class="quick-actions">
         <button class="quick-action-btn" title="Novo Processo" dmx-on:click="modalNovoProcesso.show()">
-            <i class="fas fa-plus"></i>
+            <i class="fa-solid fa-plus"></i>
         </button>
         <button class="quick-action-btn" title="Audiências" dmx-on:click="modalAudiencias.show()">
-            <i class="fas fa-gavel"></i>
+            <i class="fa-solid fa-gavel"></i>
             <span class="notification-badge">3</span>
         </button>
         <button class="quick-action-btn" title="Exportar" dmx-on:click="exportarProcessos()">
-            <i class="fas fa-file-export"></i>
+            <i class="fa-solid fa-file-export"></i>
         </button>
     </div>
 
@@ -1227,7 +1241,7 @@
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-date">
-                                <i class="fas fa-calendar-alt me-2"></i>15/03/2024 - 14:30
+                                <i class="fa-solid fa-calendar-days me-2"></i>15/03/2024 - 14:30
                             </div>
                             <div class="timeline-content">
                                 <h6 class="mb-2">Audiência de Conciliação</h6>

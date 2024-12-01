@@ -9,11 +9,6 @@
       "url": "/caioclientes.php"
     },
     {
-      "path": "/processos/:tab",
-      "routeType": "page",
-      "page": "/relatorios.php"
-    },
-    {
       "path": "/relatorios",
       "url": "/relatorios.php",
       "routes": [
