@@ -218,7 +218,31 @@ dmx.config({
         },
         {
           "type": "text",
+          "name": "arquivo_importacao"
+        },
+        {
+          "type": "number",
+          "name": "id_cliente"
+        },
+        {
+          "type": "text",
           "name": "processo"
+        },
+        {
+          "type": "text",
+          "name": "descricao"
+        },
+        {
+          "type": "text",
+          "name": "status"
+        },
+        {
+          "type": "text",
+          "name": "data_distribuicao"
+        },
+        {
+          "type": "text",
+          "name": "data_conclusao"
         },
         {
           "type": "text",
@@ -226,11 +250,43 @@ dmx.config({
         },
         {
           "type": "text",
+          "name": "penultimo_andamento"
+        },
+        {
+          "type": "text",
           "name": "justica"
         },
         {
           "type": "text",
-          "name": "status"
+          "name": "comarca"
+        },
+        {
+          "type": "text",
+          "name": "vara"
+        },
+        {
+          "type": "text",
+          "name": "tese"
+        },
+        {
+          "type": "text",
+          "name": "autor"
+        },
+        {
+          "type": "text",
+          "name": "reu"
+        },
+        {
+          "type": "number",
+          "name": "id_clickup"
+        },
+        {
+          "type": "text",
+          "name": "url"
+        },
+        {
+          "type": "datetime",
+          "name": "criado_em"
         }
       ],
       "outputType": "array"

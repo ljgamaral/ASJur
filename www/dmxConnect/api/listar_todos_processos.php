@@ -18,10 +18,6 @@ $app->define(<<<'JSON'
       },
       {
         "type": "text",
-        "name": "status"
-      },
-      {
-        "type": "text",
         "name": "limit"
       },
       {
@@ -32,7 +28,7 @@ $app->define(<<<'JSON'
   },
   "exec": {
     "steps": {
-      "name": "listar_processos",
+      "name": "query",
       "module": "dbconnector",
       "action": "paged",
       "options": {
@@ -45,49 +41,13 @@ $app->define(<<<'JSON'
               "column": "*"
             }
           ],
-          "params": [
-            {
-              "operator": "contains",
-              "type": "expression",
-              "name": ":P1",
-              "value": "{{$_GET.status}}",
-              "test": ""
-            }
-          ],
+          "params": [],
           "table": {
             "name": "processos"
           },
           "primary": "id",
           "joins": [],
-          "query": "select * from `processos` where `processos`.`status` like ?",
-          "wheres": {
-            "condition": "AND",
-            "rules": [
-              {
-                "id": "processos.status",
-                "field": "processos.status",
-                "type": "string",
-                "operator": "contains",
-                "value": "{{$_GET.status}}",
-                "data": {
-                  "table": "processos",
-                  "column": "status",
-                  "type": "text",
-                  "columnObj": {
-                    "type": "string",
-                    "maxLength": 16,
-                    "primary": false,
-                    "nullable": true,
-                    "name": "status"
-                  }
-                },
-                "operation": "LIKE"
-              }
-            ],
-            "conditional": null,
-            "valid": true
-          },
-          "orders": []
+          "query": "select * from `processos`"
         }
       },
       "output": true,

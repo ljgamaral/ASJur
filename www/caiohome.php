@@ -1155,7 +1155,7 @@
                         <div class="stats-label">Processos Ativos</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_processos_ativos.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_processos_ativos.status">
-                            <p class="mb-0">{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos}}</p>
+                            <p class="mb-0">{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos || "Sem dados"}}</p>
                         </div>
                     </div>
                 </div>

@@ -970,9 +970,17 @@
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
     <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxValidator/dmxValidator.css" />
+    <script src="dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
+    <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
+    <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+
+    <dmx-serverconnect id="sc_deletar_cliente" url="dmxConnect/api/excluir_cliente.php"></dmx-serverconnect>
+    <dmx-notifications id="notifies1"></dmx-notifications>
+    <dmx-serverconnect id="sc_novo_cliente" url="dmxConnect/api/cadastrar_cliente.php"></dmx-serverconnect>
     <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
     <div is="dmx-browser" id="browser1"></div>
     <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_clientes.data.query.data" key="id"></dmx-data-detail>
@@ -981,7 +989,7 @@
     <dmx-serverconnect id="sc_estados_clientes" url="dmxConnect/api/percentual_estados_clientes.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_clientes" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <dmx-value id="varClienteAtual"></dmx-value>
-    <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifies1.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
 
     <!-- Mobile Nav Toggle -->
@@ -1199,8 +1207,8 @@
                                     <td class="text-capitalize">{{tipo}}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarCliente.show()"><i class="fa-solid fa-pen"></i></button>
-                                            <button id="btn4" class="btn" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover"><i class="fa-solid fa-trash"></i></button>
+                                            <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarCliente.show();modalEditarCliente.formEditarCliente.inp_slug1.setValue(slug);modalEditarCliente.formEditarCliente.inp_id.setValue(id);modalEditarCliente.formEditarCliente.inp_id_crm1.setValue(id_crm);modalEditarCliente.formEditarCliente.inp_tipo2.setValue(tipo);modalEditarCliente.formEditarCliente.inp_nome2.setValue(nome);modalEditarCliente.formEditarCliente.inp_responsavel1.setValue(responsavel);modalEditarCliente.formEditarCliente.inp_endereco2.setValue(endereco);modalEditarCliente.formEditarCliente.inp_bairro2.setValue(bairro);modalEditarCliente.formEditarCliente.inp_cep2.setValue(cep);modalEditarCliente.formEditarCliente.inp_cidade2.setValue(cidade);modalEditarCliente.formEditarCliente.inp_uf2.setValue(uf);modalEditarCliente.formEditarCliente.inp_departamento2.setValue(departamento);modalEditarCliente.formEditarCliente.inp_data_nascimento1.setValue(data_nascimento);modalEditarCliente.formEditarCliente.inp_rg1.setValue(rg);modalEditarCliente.formEditarCliente.inp_cpf1.setValue(cpf);modalEditarCliente.formEditarCliente.inp_estado_civil1.setValue(estado_civil);modalEditarCliente.formEditarCliente.inp_profissao1.setValue(profissao);modalEditarCliente.formEditarCliente.inp_sexo1.setValue(sexo);modalEditarCliente.formEditarCliente.inp_filiacao1.setValue(filiacao);modalEditarCliente.formEditarCliente.inp_celular2.setValue(celular);modalEditarCliente.formEditarCliente.inp_origem1.setValue(origem);modalEditarCliente.formEditarCliente.inp_captador1.setValue(captador);modalEditarCliente.formEditarCliente.inp_captador2.setValue(criado_em)"><i class="fa-solid fa-pen"></i></button>
+                                            <button id="btn4" class="btn" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="run({'bootbox.confirm':{name:'excluirCliente',message:'Tem certeza que deseja excluir esse cliente?',title:'Excluir Cliente',buttons:{confirm:{label:'Sim, excluir',className:'btn-danger'},cancel:{label:'Não, cancelar',className:'btn-secondary'}},size:'sm',then:{steps:[{serverConnect:{name:'sc_excluir_cliente',outputType:'object',url:'dmxConnect/api/excluir_cliente.php',site:'ASJur',params:{id_cliente:`id`}}},{run:{outputType:'text',action:`notifies1.success(\'Cliente excluído com sucesso!\');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({})`}}]}}})"><i class="fa-solid fa-trash"></i></button>
                                             <button id="btn5" class="btn" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/clientes/'+slug)"><i class="fa-solid fa-circle-info"></i></button>
                                         </div>
                                     </td>
@@ -1226,79 +1234,371 @@
     <!-- Quick Actions -->
 
     <!-- Modal Novo Cliente -->
+    <div class="modal fade" id="modalExcluirCliente" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Excluir Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Você tem certeza que deseja excluir o cliente? A ação é irreversível!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não, cancelar</button>
+                    <button type="button" class="btn btn-primary text-bg-danger" dmx-on:click="">Sim, excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="modalNovoCliente" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formNovoCliente" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-on:success="modalNovoCliente.hide();sc_listar_clientes.load();notifySuccess.success('Cliente cadastrado com sucesso!')">
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input type="text" class="form-control" name="nome" required>
+                    <form is="dmx-serverconnect-form" id="formNovoCliente" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente cadastrado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalNovoCliente.hide()">
+                        <div class="d-flex justify-content-around mb-3">
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group column">
+                                    <label for="inp_slug" class="col-sm-2 col-form-label col">Slug</label>
+                                    <input type="text" class="form-control" id="inp_slug" name="slug" aria-describedby="inp_slug_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_id_crm" class="col-sm-2 col-form-label">Id crm</label>
+                                    <input type="number" class="form-control" id="inp_id_crm" name="id_crm" aria-describedby="inp_id_crm_help" required="">
+                                </div>
+                                <div class="form-group column">
+
+                                    <label for="inp_tipo1" class="col-sm-2 col-form-label">Pessoa</label>
+                                    <select id="inp_tipo" class="form-select" name="tipo">
+                                        <option value="fisica">Física</option>
+                                        <option value="juridica">Jurídica</option>
+                                    </select>
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_nome" class="col-sm-2 col-form-label">Nome</label>
+                                    <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_responsavel" class="col-sm-2 col-form-label">Responsável</label>
+                                    <input type="text" class="form-control" id="inp_responsavel" name="responsavel" aria-describedby="inp_responsavel_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_endereco" class="col-sm-2 col-form-label">Endereco</label>
+                                    <input type="text" class="form-control" id="inp_endereco" name="endereco" aria-describedby="inp_endereco_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_bairro" class="col-sm-2 col-form-label">Bairro</label>
+                                    <input type="text" class="form-control" id="inp_bairro" name="bairro" aria-describedby="inp_bairro_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_cep" class="col-sm-2 col-form-label">CEP</label>
+                                    <input class="form-control" id="inp_cep" name="cep" aria-describedby="inp_cep_help" required="" type="number" max="99999999" data-rule-max="99999999">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_cidade" class="col-sm-2 col-form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="inp_cidade" name="cidade" aria-describedby="inp_cidade_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_uf1" class="col-sm-2 col-form-label">UF</label>
+                                    <select id="inp_uf" class="form-select" name="uf">
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option selected="" value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_departamento" class="col-sm-2 col-form-label">Departamento</label>
+                                    <input type="text" class="form-control" id="inp_departamento" name="departamento" aria-describedby="inp_departamento_help" required="">
+                                </div>
+
+                            </div>
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group column">
+                                    <label for="inp_data_nascimento" class="sm-2 col-form-label">Data nascimento</label>
+                                    <input type="date" class="form-control" id="inp_data_nascimento" name="data_nascimento" aria-describedby="inp_data_nascimento_help" placeholder="Enter Data nascimento" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_rg" class="col-sm-2 col-form-label">RG</label>
+                                    <input type="text" class="form-control" id="inp_rg" name="rg" aria-describedby="inp_rg_help" required="" oninput="mascaraRG(this)">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_cpf" class="col-sm-2 col-form-label">CPF</label>
+                                    <input class="form-control" id="inp_cpf" name="cpf" aria-describedby="inp_cpf_help" required="" oninput="mascara(this)">
+                                </div>
+                                <div class="form-group column">
+
+                                    <label for="inp_estado_civil" class="sm-2 col-form-label">Estado civil</label>
+                                    <select id="inp_estado_civil" class="form-select" name="estado_civil">
+                                        <option value="Solteiro">Solteiro</option>
+                                        <option value="Casado">Casado</option>
+                                        <option value="Separado">Separado</option>
+                                        <option value="Divorciado">Divorciado</option>
+                                        <option value="Viúvo">Viúvo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_profissao" class="col-sm-2 col-form-label">Profissão</label>
+                                    <input type="text" class="form-control" id="inp_profissao" name="profissao" aria-describedby="inp_profissao_help" required="">
+                                </div>
+                                <div class="form-group column">
+
+                                    <label for="inp_sexo" class="col-sm-2 col-form-label">Sexo</label>
+                                    <select id="inp_sexo" class="form-select" name="sexo">
+                                        <option selected="" value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                    </select>
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_filiacao" class="col-sm-2 col-form-label">Filiação</label>
+                                    <input type="text" class="form-control" id="inp_filiacao" name="filiacao" aria-describedby="inp_filiacao_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_celular1" class="col-sm-2 col-form-label">Celular</label>
+                                    <input type="text" class="form-control" id="inp_celular" name="celular" aria-describedby="inp_celular_help" oninput="mascaraCelular(this)">
+                                </div>
+
+                                <div class="form-group column">
+                                    <label for="inp_origem" class="col-sm-2 col-form-label">Origem</label>
+                                    <input type="text" class="form-control" id="inp_origem" name="origem" aria-describedby="inp_origem_help">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_captador" class="col-sm-2 col-form-label">Captador</label>
+                                    <input type="text" class="form-control" id="inp_captador" name="captador" aria-describedby="inp_captador_help">
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" name="telefone" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required>
-                                <option value="Ativo">Ativo</option>
-                                <option value="Inativo">Inativo</option>
-                            </select>
-                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <button type="submit" class="btn btn-primary w-100" dmx-bind:disabled="state.executing">Criar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="formNovoCliente">Salvar</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal Editar Cliente -->
     <div class="modal fade" id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formEditarCliente" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/editar_cliente.php" dmx-on:success="modalEditarCliente.hide();sc_listar_clientes.load();notifySuccess.success('Cliente atualizado com sucesso!')">
-                        <input type="hidden" name="id" dmx-bind:value="varClienteAtual.data.id">
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input type="text" class="form-control" name="nome" required="" dmx-bind:value="data_detail1.data.nome">
+                    <form is="dmx-serverconnect-form" id="formEditarCliente" method="post" action="dmxConnect/api/editar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente cadastrado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalEditarCliente.hide()">
+                        <div class="d-flex justify-content-around mb-3">
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group column">
+                                    <label for="inp_slug1" class="col-sm-2 col-form-label col">Slug</label>
+                                    <input type="text" class="form-control" id="inp_slug1" name="slug" aria-describedby="inp_slug_help" required="">
+                                    <input type="hidden" class="form-control" id="inp_id" name="id" aria-describedby="inp_slug_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_id_crm1" class="col-sm-2 col-form-label">Id crm</label>
+                                    <input type="number" class="form-control" id="inp_id_crm1" name="id_crm" aria-describedby="inp_id_crm_help" required="">
+                                </div>
+                                <div class="form-group column">
+
+                                    <label for="inp_tipo1" class="col-sm-2 col-form-label">Pessoa</label>
+                                    <select id="inp_tipo2" class="form-select" name="tipo">
+                                        <option value="fisica">Física</option>
+                                        <option value="juridica">Jurídica</option>
+                                    </select>
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_nome2" class="col-sm-2 col-form-label">Nome</label>
+                                    <input type="text" class="form-control" id="inp_nome2" name="nome" aria-describedby="inp_nome_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_responsavel1" class="col-sm-2 col-form-label">Responsável</label>
+                                    <input type="text" class="form-control" id="inp_responsavel1" name="responsavel" aria-describedby="inp_responsavel_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_endereco2" class="col-sm-2 col-form-label">Endereco</label>
+                                    <input type="text" class="form-control" id="inp_endereco2" name="endereco" aria-describedby="inp_endereco_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_bairro2" class="col-sm-2 col-form-label">Bairro</label>
+                                    <input type="text" class="form-control" id="inp_bairro2" name="bairro" aria-describedby="inp_bairro_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_cep2" class="col-sm-2 col-form-label">CEP</label>
+                                    <input class="form-control" id="inp_cep2" name="cep" aria-describedby="inp_cep_help" required="" type="number" max="99999999" data-rule-max="99999999">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_cidade2" class="col-sm-2 col-form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="inp_cidade2" name="cidade" aria-describedby="inp_cidade_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_uf1" class="col-sm-2 col-form-label">UF</label>
+                                    <select id="inp_uf2" class="form-select" name="uf">
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option selected="" value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_departamento2" class="col-sm-2 col-form-label">Departamento</label>
+                                    <input type="text" class="form-control" id="inp_departamento2" name="departamento" aria-describedby="inp_departamento_help" required="">
+                                </div>
+
+                            </div>
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group column">
+                                    <label for="inp_data_nascimento1" class="sm-2 col-form-label">Data nascimento</label>
+                                    <input type="date" class="form-control" id="inp_data_nascimento1" name="data_nascimento" aria-describedby="inp_data_nascimento_help" placeholder="Enter Data nascimento" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_rg1" class="col-sm-2 col-form-label">RG</label>
+                                    <input type="text" class="form-control" id="inp_rg1" name="rg" aria-describedby="inp_rg_help" required="" oninput="mascaraRG(this)">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_cpf1" class="col-sm-2 col-form-label">CPF</label>
+                                    <input class="form-control" id="inp_cpf1" name="cpf" aria-describedby="inp_cpf_help" required="" oninput="mascara(this)">
+                                </div>
+                                <div class="form-group column">
+
+                                    <label for="inp_estado_civil1" class="sm-2 col-form-label">Estado civil</label>
+                                    <select id="inp_estado_civil1" class="form-select" name="estado_civil">
+                                        <option value="Solteiro">Solteiro</option>
+                                        <option value="Casado">Casado</option>
+                                        <option value="Separado">Separado</option>
+                                        <option value="Divorciado">Divorciado</option>
+                                        <option value="Viúvo">Viúvo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_profissao1" class="col-sm-2 col-form-label">Profissão</label>
+                                    <input type="text" class="form-control" id="inp_profissao1" name="profissao" aria-describedby="inp_profissao_help" required="">
+                                </div>
+                                <div class="form-group column">
+
+                                    <label for="inp_sexo1" class="col-sm-2 col-form-label">Sexo</label>
+                                    <select id="inp_sexo1" class="form-select" name="sexo">
+                                        <option selected="" value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                    </select>
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_filiacao1" class="col-sm-2 col-form-label">Filiação</label>
+                                    <input type="text" class="form-control" id="inp_filiacao1" name="filiacao" aria-describedby="inp_filiacao_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_celular1" class="col-sm-2 col-form-label">Celular</label>
+                                    <input type="text" class="form-control" id="inp_celular2" name="celular" aria-describedby="inp_celular_help" oninput="mascaraCelular(this)">
+                                </div>
+
+                                <div class="form-group column">
+                                    <label for="inp_origem1" class="col-sm-2 col-form-label">Origem</label>
+                                    <input type="text" class="form-control" id="inp_origem1" name="origem" aria-describedby="inp_origem_help">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_captador1" class="col-sm-2 col-form-label">Captador</label>
+                                    <input type="text" class="form-control" id="inp_captador1" name="captador" aria-describedby="inp_captador_help">
+                                    <input type="hidden" class="form-control" id="inp_captador2" name="criado_em" aria-describedby="inp_captador_help">
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Telefone</label>
-                            <input type="email" class="form-control" name="email" required="" dmx-bind:value="data_detail1.data.celular">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Pessoa</label>
-                            <select class="form-select" name="status" required="" dmx-bind:value="data_detail1.data.tipo">
-                                <option value="fisica">Física</option>
-                                <option value="juridica">Jurídica</option>
-                            </select>
-                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <button type="submit" class="btn btn-primary w-100" dmx-bind:disabled="state.executing">Atualizar&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="formEditarCliente">Salvar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal Editar Cliente -->
 
     <!-- Modal Detalhes Cliente -->
     <div class="modal fade" id="modalDetalhesCliente" is="dmx-bs5-modal" tabindex="-1">
@@ -1473,6 +1773,48 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
+        function mascara(i){
+   
+   var v = i.value;
+   
+   if(isNaN(v[v.length-1])){ // impede entrar outro caractere que não seja número
+      i.value = v.substring(0, v.length-1);
+      return;
+   }
+   
+   i.setAttribute("maxlength", "14");
+   if (v.length == 3 || v.length == 7) i.value += ".";
+   if (v.length == 11) i.value += "-";
+
+}
+
+function mascaraRG(i) {
+    var v = i.value;
+
+    i.setAttribute("maxlength", "9"); // Tamanho máximo do RG formatado
+}
+function mascaraCelular(i) {
+    var v = i.value;
+
+    // Impede entrada de caracteres que não sejam números
+    if (isNaN(v[v.length - 1])) {
+        i.value = v.substring(0, v.length - 1);
+        return;
+    }
+
+    i.setAttribute("maxlength", "15"); // Tamanho máximo do telefone formatado
+
+    // Adiciona os parênteses, espaço e o traço automaticamente
+    if (v.length === 1) i.value = "(" + v;
+    if (v.length === 3) i.value += ") ";
+    if (v.length === 10) i.value += "-";
+}
+
+function mascaraCEP(i) {
+    var v = i.value;
+
+    i.setAttribute("maxlength", "8"); // Tamanho máximo do CEP formatado
+}
     </script>
 </body>
 

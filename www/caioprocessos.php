@@ -905,15 +905,22 @@
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
     <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxValidator/dmxValidator.css" />
+    <script src="dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
+    <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
+    <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
 </head>
 
 <body is="dmx-app" id="processos">
-    <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_processos.data.listar_processos.data" key="id"></dmx-data-detail>
+    <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php"></dmx-serverconnect>
+    <dmx-notifications id="notifies1"></dmx-notifications>
+    <dmx-serverconnect id="sc_novo_processo" url="dmxConnect/api/cadastrar_processo.php" noload="true"></dmx-serverconnect>
+    <dmx-data-detail id="data_detail1" key="id" dmx-bind:data="sc_listar_processos.data.listar_processos.data"></dmx-data-detail>
     <dmx-serverconnect id="sc_processos" url="dmxConnect/api/processos.php"></dmx-serverconnect>
     <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
     <dmx-value id="filtro" dmx-bind:value="'Todos'"></dmx-value>
     <dmx-value id="varProcessoAtual"></dmx-value>
-    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value" dmx-param:status=""></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php" noload dmx-on:success="sc_listar_processos.load();notifySuccess.success('Processo excluído com sucesso!')"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
 
@@ -1070,10 +1077,10 @@
                     <div class="btn-group" role="group">
                         <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos2" dmx-show="filtro.value=='Todos'">
                             Todos
-                        </button><button class="btn btn-filter buttons-radius" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos" dmx-hide="filtro.value=='Todos'">
+                        </button><button class="btn btn-filter buttons-radius" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}, limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value});filtro.setValue('Todos')" id="todos" dmx-hide="filtro.value=='Todos'">
                             Todos
                         </button>
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento2" dmx-show="filtro.value=='Em andamento'">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'em andamento'});filtro.setValue('Em andamento')" id="em_andamento2" dmx-show="filtro.value=='Em andamento'">
                             Em Andamento
                         </button><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento" dmx-hide="filtro.value=='Em andamento'">
                             Em Andamento
@@ -1131,8 +1138,8 @@
                                     <td class="text-capitalize">{{status}}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarProcesso.show()"><i class="fa-solid fa-pen"></i></button>
-                                            <button id="btn4" class="btn" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover"><i class="fa-solid fa-trash"></i></button>
+                                            <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarProcesso.show();modalEditarProcesso.formEditarProcesso.inp_id.setValue(id);modalEditarProcesso.formEditarProcesso.inp_criado_em1.setValue(criado_em)"><i class="fa-solid fa-pen"></i></button>
+                                            <button id="btn4" class="btn" dmx-bs-tooltip="'Excluir cliente'" data-bs-trigger="hover" dmx-on:click="run({'bootbox.confirm':{name:'excluirProcesso',message:'Tem certeza que deseja excluir esse processo?',title:'Excluir Processo',buttons:{confirm:{label:'Sim, excluir',className:'btn-danger'},cancel:{label:'Não, cancelar',className:'btn-secondary'}},size:'sm',then:{steps:[{serverConnect:{name:'sc_excluir_processo',outputType:'object',url:'dmxConnect/api/excluir_processo.php',site:'ASJur',params:{id_processo:`id`}}},{run:{outputType:'text',action:`notifies1.success(\'Processo excluído com sucesso!\');sc_processos.load({});sc_listar_processos.load({})`}}]}}})"><i class="fa-solid fa-trash"></i></button>
                                             <button id="btn5" class="btn" dmx-bs-tooltip="'Ver mais'" data-bs-trigger="hover" dmx-on:click="browser1.goto('/processos/'+slug)"><i class="fa-solid fa-circle-info"></i></button>
                                         </div>
                                     </td>
@@ -1157,88 +1164,257 @@
 
     <!-- Modal Novo Processo -->
     <div class="modal fade" id="modalNovoProcesso" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Processo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formNovoProcesso" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/cadastrar_processo.php" dmx-on:success="modalNovoProcesso.hide();sc_listar_processos.load();notifySuccess.success('Processo cadastrado com sucesso!')">
-                        <div class="mb-3">
-                            <label class="form-label">Número do Processo</label>
-                            <input type="text" class="form-control" name="processo" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cliente</label>
-                            <select class="form-select" name="cliente_id" required>
-                                <option value="">Selecione um cliente</option>
-                                <option dmx-repeat="sc_listar_clientes.data.clientes" value="{{id}}">{{nome}}</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Órgão</label>
-                            <input type="text" class="form-control" name="justica" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required>
-                                <option value="Em Andamento">Em Andamento</option>
-                                <option value="Arquivado">Arquivado</option>
-                            </select>
-                        </div>
+                    <form is="dmx-serverconnect-form" id="formNovoProcesso" method="post" action="dmxConnect/api/cadastrar_processo.php" dmx-generator="bootstrap4" dmx-form-type="vertical" dmx-on:done="modalNovoProcesso.hide();notifies1.success('Processo cadastrado com sucesso!');sc_processos.load({});sc_listar_processos.load({limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value})">
+                        <div class="d-flex flex-row justify-content-around mb-3">
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group">
+                                    <label for="inp_slug">Slug</label>
+                                    <input type="text" class="form-control" id="inp_slug" name="slug" aria-describedby="inp_slug_help" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_arquivo_importacao">Arquivo importação</label>
+                                    <input type="text" class="form-control" id="inp_arquivo_importacao" name="arquivo_importacao" aria-describedby="inp_arquivo_importacao_help" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_id_cliente">Id cliente</label>
+                                    <input type="number" class="form-control" id="inp_id_cliente" name="id_cliente" aria-describedby="inp_id_cliente_help" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_processo">Processo</label>
+                                    <input type="text" class="form-control" id="inp_processo" name="processo" aria-describedby="inp_processo_help" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_descricao">Descrição</label>
+                                    <input type="text" class="form-control" id="inp_descricao" name="descricao" aria-describedby="inp_descricao_help">
+                                </div>
+                                <div class="form-group">
+
+                                    <label for="inp_status">Status</label>
+                                    <select id="inp_status" class="form-select" name="status">
+                                        <option value="ativo">Ativo</option>
+                                        <option value="em andamento">Em andamento</option>
+                                        <option value="arquivado">Arquivado</option>
+                                        <option value="pendente">Pendente</option>
+                                        <option value="concluido">Concluído</option>
+                                        <option value="cancelado">Cancelado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_distribuicao">Data distribuição</label>
+                                    <input class="form-control" id="inp_data_distribuicao" name="data_distribuicao" aria-describedby="inp_data_distribuicao_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_conclusao">Data conclusão</label>
+                                    <input class="form-control" id="inp_data_conclusao" name="data_conclusao" aria-describedby="inp_data_conclusao_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_ultimo_andamento">Último andamento</label>
+                                    <input type="text" class="form-control" id="inp_ultimo_andamento" name="ultimo_andamento" aria-describedby="inp_ultimo_andamento_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_penultimo_andamento">Penúltimo andamento</label>
+                                    <input type="text" class="form-control" id="inp_penultimo_andamento" name="penultimo_andamento" aria-describedby="inp_penultimo_andamento_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_justica">Justiça</label>
+                                    <input type="text" class="form-control" id="inp_justica" name="justica" aria-describedby="inp_justica_help">
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group">
+                                    <label for="inp_comarca">Comarca</label>
+                                    <input type="text" class="form-control" id="inp_comarca" name="comarca" aria-describedby="inp_comarca_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_vara">Vara</label>
+                                    <input type="text" class="form-control" id="inp_vara" name="vara" aria-describedby="inp_vara_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_tese">Tese</label>
+                                    <input type="text" class="form-control" id="inp_tese" name="tese" aria-describedby="inp_tese_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_autor">Autor</label>
+                                    <input type="text" class="form-control" id="inp_autor" name="autor" aria-describedby="inp_autor_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_reu">Reu</label>
+                                    <input type="text" class="form-control" id="inp_reu" name="reu" aria-describedby="inp_reu_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_id_clickup">Id clickup</label>
+                                    <input type="number" class="form-control" id="inp_id_clickup" name="id_clickup" aria-describedby="inp_id_clickup_help" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_url">Url</label>
+                                    <input class="form-control" id="inp_url" name="url" aria-describedby="inp_url_help">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="inp_criado_em" name="criado_em" aria-describedby="inp_criado_em_help" placeholder="Enter Criado em" required="" data-msg-required="">
+                                </div>
+                            </div>
+                        </div><button type="submit" class="btn btn-primary w-100 text-bg-dark" dmx-bind:disabled="state.executing">Criar<br></button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-dark-custom" form="formNovoProcesso">Salvar</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal Editar Processo -->
     <div class="modal fade" id="modalEditarProcesso" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar Processo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formEditarProcesso" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/editar_processo.php" dmx-on:success="modalEditarProcesso.hide();sc_listar_processos.load();notifySuccess.success('Processo atualizado com sucesso!')">
-                        <input type="hidden" name="id" dmx-bind:value="varProcessoAtual.data.id">
-                        <div class="mb-3">
-                            <label class="form-label">Número do Processo</label>
-                            <input type="text" class="form-control" name="processo" required="" dmx-bind:value="data_detail1.data.processo">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cliente</label>
-                            <select class="form-select" name="cliente_id" required dmx-bind:value="varProcessoAtual.data.cliente_id">
-                                <option value="">Selecione um cliente</option>
-                                <option dmx-repeat="sc_listar_clientes.data.clientes" value="{{id}}">{{nome}}</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Órgão</label>
-                            <input type="text" class="form-control" name="justica" required="" dmx-bind:value="data_detail1.data.justica">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required="" dmx-bind:value="data_detail1.data.status">
-                                <option value="Em Andamento">Em Andamento</option>
-                                <option value="Arquivado">Arquivado</option>
-                            </select>
-                        </div>
+                    <form is="dmx-serverconnect-form" id="formEditarProcesso" method="post" action="dmxConnect/api/editar_processo.php" dmx-generator="bootstrap4" dmx-form-type="vertical" dmx-on:done="modalEditarProcesso.hide();notifies1.success('Processo atualizado com sucesso!');sc_processos.load({});sc_listar_processos.load({})">
+                        <div class="d-flex flex-row justify-content-around mb-3">
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group">
+                                    <label for="inp_slug1">Slug</label>
+                                    <input type="text" class="form-control" id="inp_slug1" name="slug" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.slug">
+                                    <input type="hidden" class="form-control" id="inp_id" name="id" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.id">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_arquivo_importacao1">Arquivo importação</label>
+                                    <input type="text" class="form-control" id="inp_arquivo_importacao1" name="arquivo_importacao" aria-describedby="inp_arquivo_importacao_help" required="" dmx-bind:value="data_detail1.data.arquivo_importacao">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_id_cliente1">Id cliente</label>
+                                    <input type="number" class="form-control" id="inp_id_cliente1" name="id_cliente" aria-describedby="inp_id_cliente_help" required="" dmx-bind:value="data_detail1.data.id_cliente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_processo1">Processo</label>
+                                    <input type="text" class="form-control" id="inp_processo1" name="processo" aria-describedby="inp_processo_help" required="" dmx-bind:value="data_detail1.data.processo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_descricao1">Descrição</label>
+                                    <input type="text" class="form-control" id="inp_descricao1" name="descricao" aria-describedby="inp_descricao_help" dmx-bind:value="data_detail1.data.descricao">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_status1">Status</label>
+                                    <select id="inp_status" class="form-select" name="status" dmx-bind:value="data_detail1.data.status">
+                                        <option value="ativo">Ativo</option>
+                                        <option value="em andamento">Em andamento</option>
+                                        <option value="arquivado">Arquivado</option>
+                                        <option value="pendente">Pendente</option>
+                                        <option value="concluido">Concluído</option>
+                                        <option value="cancelado">Cancelado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_distribuicao1">Data distribuição</label>
+                                    <input class="form-control" id="inp_data_distribuicao1" name="data_distribuicao" aria-describedby="inp_data_distribuicao_help" dmx-bind:value="data_detail1.data.data_distribuicao">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_conclusao1">Data conclusão</label>
+                                    <input class="form-control" id="inp_data_conclusao1" name="data_conclusao" aria-describedby="inp_data_conclusao_help" dmx-bind:value="data_detail1.data.data_conclusao">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_ultimo_andamento1">Último andamento</label>
+                                    <input type="text" class="form-control" id="inp_ultimo_andamento1" name="ultimo_andamento" aria-describedby="inp_ultimo_andamento_help" dmx-bind:value="data_detail1.data.ultimo_andamento">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_penultimo_andamento1">Penúltimo andamento</label>
+                                    <input type="text" class="form-control" id="inp_penultimo_andamento1" name="penultimo_andamento" aria-describedby="inp_penultimo_andamento_help" dmx-bind:value="data_detail1.data.penultimo_andamento">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_justica1">Justiça</label>
+                                    <input type="text" class="form-control" id="inp_justica1" name="justica" aria-describedby="inp_justica_help" dmx-bind:value="data_detail1.data.justica">
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column column-form">
+                                <div class="form-group">
+                                    <label for="inp_comarca1">Comarca</label>
+                                    <input type="text" class="form-control" id="inp_comarca1" name="comarca" aria-describedby="inp_comarca_help" dmx-bind:value="data_detail1.data.comarca">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_vara1">Vara</label>
+                                    <input type="text" class="form-control" id="inp_vara1" name="vara" aria-describedby="inp_vara_help" dmx-bind:value="data_detail1.data.vara">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_tese1">Tese</label>
+                                    <input type="text" class="form-control" id="inp_tese1" name="tese" aria-describedby="inp_tese_help" dmx-bind:value="data_detail1.data.tese">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_autor1">Autor</label>
+                                    <input type="text" class="form-control" id="inp_autor1" name="autor" aria-describedby="inp_autor_help" dmx-bind:value="data_detail1.data.autor">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_reu1">Reu</label>
+                                    <input type="text" class="form-control" id="inp_reu1" name="reu" aria-describedby="inp_reu_help" dmx-bind:value="data_detail1.data.reu">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_id_clickup1">Id clickup</label>
+                                    <input type="number" class="form-control" id="inp_id_clickup1" name="id_clickup" aria-describedby="inp_id_clickup_help" required="" dmx-bind:value="data_detail1.data.id_clickup">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_url1">Url</label>
+                                    <input class="form-control" id="inp_url1" name="url" aria-describedby="inp_url_help" dmx-bind:value="data_detail1.data.url">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="inp_criado_em1" name="criado_em" aria-describedby="inp_criado_em_help" placeholder="Enter Criado em" required="" data-msg-required="">
+                                </div>
+                            </div>
+                        </div><button type="submit" class="btn btn-primary w-100 text-bg-dark" dmx-bind:disabled="state.executing">Editar<br></button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-dark-custom" form="formEditarProcesso">Salvar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal Editar Processo -->
 
     <!-- Quick Actions -->
     <div class="quick-actions">
@@ -1285,45 +1461,6 @@
     </div>
 
     <!-- Modal Novo Andamento -->
-    <div class="modal fade" id="modalNovoAndamento" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Novo Andamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formNovoAndamento" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/cadastrar_andamento.php">
-                        <input type="hidden" name="processo_id" dmx-bind:value="varProcessoAtual.data.id">
-                        <div class="mb-3">
-                            <label class="form-label">Data</label>
-                            <input type="text" class="form-control flatpickr-date" name="data" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descrição</label>
-                            <textarea class="form-control" name="descricao" rows="4" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required>
-                                <option value="Pendente">Pendente</option>
-                                <option value="Em Andamento">Em Andamento</option>
-                                <option value="Concluído">Concluído</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Próxima Ação</label>
-                            <input type="text" class="form-control" name="proxima_acao">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-dark-custom" form="formNovoAndamento">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
