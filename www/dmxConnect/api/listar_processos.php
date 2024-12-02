@@ -38,12 +38,21 @@ $app->define(<<<'JSON'
       "options": {
         "connection": "asj",
         "sql": {
-          "query": "SELECT * \nFROM `processos` \nWHERE \n    (:status = '' AND (`status` = '' OR `status` IS NULL)) \n    OR `status` = :status;\n",
+          "query": "SELECT \n    p.*, \n    (SELECT COUNT(*) \n     FROM `processos` \n     WHERE \n         (:status = '' AND (`status` = '' OR `status` IS NULL)) \n         OR `status` = :status) AS total\nFROM `processos` p\nWHERE \n    (:status = '' AND (`status` = '' OR `status` IS NULL)) \n    OR `status` = :status\nLIMIT :limit OFFSET :offset;\n\n",
           "params": [
             {
               "name": ":status",
               "value": "{{$_GET.status}}",
               "test": ""
+            },
+            {
+              "name": ":limit",
+              "value": "{{$_GET.limit}}",
+              "test": ""
+            },
+            {
+              "name": ":offset",
+              "value": "{{$_GET.offset}}"
             }
           ]
         }
@@ -131,7 +140,8 @@ $app->define(<<<'JSON'
           "type": "datetime"
         }
       ],
-      "type": "dbcustom_query"
+      "type": "dbcustom_query",
+      "outputType": "array"
     }
   }
 }

@@ -903,12 +903,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/index.global.min.js" defer></script>
     <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
     <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
     <link rel="stylesheet" href="dmxAppConnect/dmxValidator/dmxValidator.css" />
     <script src="dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
 </head>
 
 <body is="dmx-app" id="processos">
@@ -1102,7 +1102,7 @@
                     <div class="d-flex align-items-center pt-2 pb-2 justify-content-between">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">Exibir</p>
-                            <div class="d-flex align-items-center"><select id="select1" class="form-select ms-2 me-2 pt-1 pb-1 ps-2" name="quantidade_celulas">
+                            <div class="d-flex align-items-center"><select id="select1" class="form-select ms-2 me-2 pt-1 pb-1 ps-2" name="select1">
                                     <option value="1">1</option>
                                     <option selected="" value="5">5</option>
                                     <option value="10">10</option>
@@ -1155,7 +1155,7 @@
                         <p class="text-secondary mb-0">Página:&nbsp;</p>
                         <p class="mb-0">{{pagina_atual_tabela.value}}</p>
                         <p class="mb-0 text-secondary">&nbsp;de&nbsp;</p>
-                        <p class="mb-0 text-black">{{sc_listar_processos.data.listar_processos.page.total}}</p>
+                        <p class="mb-0 text-black">{{(sc_listar_processos.data.listar_processos[0].total)/select1.value}}</p>
                     </div>
                 </div>
             </main>
