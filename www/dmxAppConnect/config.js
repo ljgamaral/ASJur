@@ -180,31 +180,99 @@ dmx.config({
     "repeat2": {
       "meta": [
         {
-          "type": "text",
-          "name": "id"
+          "name": "$index",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "slug"
+          "name": "$key",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "processo"
+          "name": "$value",
+          "type": "object"
         },
         {
-          "type": "text",
-          "name": "ultimo_andamento"
+          "name": "id",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "justica"
+          "name": "slug",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "status"
+          "name": "arquivo_importacao",
+          "type": "text"
+        },
+        {
+          "name": "id_cliente",
+          "type": "text"
+        },
+        {
+          "name": "processo",
+          "type": "text"
+        },
+        {
+          "name": "descricao",
+          "type": "file"
+        },
+        {
+          "name": "status",
+          "type": "text"
+        },
+        {
+          "name": "data_distribuicao",
+          "type": "text"
+        },
+        {
+          "name": "data_conclusao",
+          "type": "text"
+        },
+        {
+          "name": "ultimo_andamento",
+          "type": "file"
+        },
+        {
+          "name": "penultimo_andamento",
+          "type": "file"
+        },
+        {
+          "name": "justica",
+          "type": "text"
+        },
+        {
+          "name": "comarca",
+          "type": "text"
+        },
+        {
+          "name": "vara",
+          "type": "text"
+        },
+        {
+          "name": "tese",
+          "type": "file"
+        },
+        {
+          "name": "autor",
+          "type": "text"
+        },
+        {
+          "name": "reu",
+          "type": "text"
+        },
+        {
+          "name": "id_clickup",
+          "type": "text"
+        },
+        {
+          "name": "url",
+          "type": "file"
+        },
+        {
+          "name": "criado_em",
+          "type": "datetime"
         }
       ],
-      "outputType": "array"
+      "outputType": "text"
     },
     "data_detail1": {
       "meta": [

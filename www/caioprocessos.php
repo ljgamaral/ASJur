@@ -912,6 +912,7 @@
 </head>
 
 <body is="dmx-app" id="processos">
+    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value" dmx-param:status="' '"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php"></dmx-serverconnect>
     <dmx-notifications id="notifies1"></dmx-notifications>
     <dmx-serverconnect id="sc_novo_processo" url="dmxConnect/api/cadastrar_processo.php" noload="true"></dmx-serverconnect>
@@ -920,7 +921,6 @@
     <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
     <dmx-value id="filtro" dmx-bind:value="'Todos'"></dmx-value>
     <dmx-value id="varProcessoAtual"></dmx-value>
-    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value" dmx-param:status=""></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php" noload dmx-on:success="sc_listar_processos.load();notifySuccess.success('Processo excluído com sucesso!')"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
 
@@ -1029,8 +1029,8 @@
                                     <i class="fa-solid fa-file-invoice"></i>
                                 </div>
                                 <div>
-                                    <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_processos.data.query[0].total_processos||0}}</p>
+                                    <div class="d-flex skeleton-loader" dmx-show="!sc_processos.status"></div>
+                                    <p class="stats-value" dmx-show="sc_processos.status">{{sc_processos.data.query[0].total_processos||0}}</p>
                                 </div>
 
                                 <div class="stats-label">Total de Processos</div>
@@ -1043,8 +1043,8 @@
                                     <i class="fa-solid fa-clock"></i>
                                 </div>
                                 <div>
-                                    <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_processos.data.query[0].processos_em_andamento||0}}</p>
+                                    <div class="d-flex skeleton-loader" dmx-show="!sc_processos.status"></div>
+                                    <p class="stats-value" dmx-show="sc_processos.status">{{sc_processos.data.query[0].processos_em_andamento||0}}</p>
                                 </div>
                                 <div class="stats-label">Em Andamento</div>
                             </div>
@@ -1054,9 +1054,9 @@
                                 <div class="stats-icon">
                                     <i class="fa-solid fa-gavel"></i>
                                 </div>
-                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_processos.status"></div>
                                 <div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_listar_processos.data.audiencias || 0}}</p>
+                                    <p class="stats-value" dmx-show="sc_processos.status">{{sc_listar_processos.data.audiencias || 0}}</p>
                                 </div>
                                 <div class="stats-label">Audiências Marcadas</div>
                             </div>
@@ -1066,9 +1066,9 @@
                                 <div class="stats-icon">
                                     <i class="fa-solid fa-box-archive"></i>
                                 </div>
-                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_processos.status"></div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_processos.status"></div>
                                 <div>
-                                    <p class="stats-value" dmx-show="sc_listar_processos.status">{{sc_processos.data.query[0].processos_arquivados||0}}</p>
+                                    <p class="stats-value" dmx-show="sc_processos.status">{{sc_processos.data.query[0].processos_arquivados||0}}</p>
                                 </div>
                                 <div class="stats-label">Arquivados</div>
                             </div>
@@ -1130,7 +1130,7 @@
                                     <th scope="col">AÇÕES</th>
                                 </tr>
                             </thead>
-                            <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_listar_processos.data.listar_processos.data" key="id">
+                            <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_listar_processos.data.listar_processos" key="id">
                                 <tr>
                                     <td>{{processo}}</td>
                                     <td>{{ultimo_andamento}}</td>

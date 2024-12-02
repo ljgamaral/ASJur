@@ -28,7 +28,16 @@
       "remoteURL": "http://localhost:3000",
       "access": "local",
       "localFolder": "file:///C:/Users/braya/Desktop/Quibt/Projetos/Wappler/ASJur",
-      "targetType": "wappler"
+      "targetType": "wappler",
+      "webServerLang": "PHP",
+      "databaseConnectionType": "custom",
+      "databaseType": "mysql",
+      "db_host": "154.49.247.154",
+      "db_port": "3306",
+      "db_user": "u566859920_admin",
+      "db_password": "4xYRx7pvotgT7tA0GrKBQipSEeXEgMeg",
+      "db_database": "u566859920_asj",
+      "webServerPort": 3000
     }
   ],
   "activeTarget": "Development",

@@ -1123,7 +1123,7 @@
                         <div class="stats-label">Total de Andamentos</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_andamentos.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_andamentos.status">
-                            <p class="mb-0">{{sc_percentual_andamentos.data.percentual_andamentos[0].mensagem}}</p>
+                            <p class="mb-0">{{sc_percentual_andamentos.data.percentual_andamentos.mensagem || "Sem dados"}}</p>
                         </div>
                     </div>
                 </div>
@@ -1139,7 +1139,7 @@
                         <div class="stats-label">Tarefas pendentes</div>
                         <div class="d-flex skeleton-loader-little" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
                         <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_conta_tarefas_pendentes.status">
-                            <p class="mb-0">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes}}</p>
+                            <p class="mb-0">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes || "Sem dados"}}</p>
                         </div>
                     </div>
                 </div>

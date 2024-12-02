@@ -1,551 +1,18 @@
 {
   "type": "mysql2",
   "connection": {
-    "host": "127.0.0.1",
-    "port": 23002,
-    "user": "admin",
-    "password": "root",
-    "database": "asj"
+    "host": "154.49.247.154",
+    "user": "u566859920_admin",
+    "password": "4xYRx7pvotgT7tA0GrKBQipSEeXEgMeg",
+    "database": "u566859920_asj"
   },
   "direct": true,
   "schema": {
     "tables": {
+      "subprocessos": {
+        "db": {}
+      },
       "andamentos": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "bigIncrements",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_cliente": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "processo": {
-            "db": {
-              "type": "string",
-              "maxLength": 36,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_subprocesso": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "andamento": {
-            "db": {
-              "type": "text",
-              "maxLength": 65535,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "descricao": {
-            "db": {
-              "type": "text",
-              "maxLength": 65535,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "data": {
-            "db": {
-              "type": "string",
-              "maxLength": 36,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "status": {
-            "db": {
-              "type": "string",
-              "default": "",
-              "maxLength": 50,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "datetime",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": false
-            }
-          }
-        }
-      },
-      "clientes": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "bigIncrements",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_crm": {
-            "db": {
-              "type": "integer",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "tipo": {
-            "db": {
-              "type": "enum",
-              "enumValues": [
-                "fisica",
-                "juridica"
-              ],
-              "default": "'fisica'",
-              "maxLength": 8,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "string",
-              "maxLength": 64,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "responsavel": {
-            "db": {
-              "type": "string",
-              "maxLength": 64,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "endereco": {
-            "db": {
-              "type": "string",
-              "maxLength": 64,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "bairro": {
-            "db": {
-              "type": "string",
-              "maxLength": 64,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "cep": {
-            "db": {
-              "type": "integer",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "cidade": {
-            "db": {
-              "type": "string",
-              "maxLength": 192,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "uf": {
-            "db": {
-              "type": "string",
-              "maxLength": 32,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "departamento": {
-            "db": {
-              "type": "string",
-              "maxLength": 32,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "data_nascimento": {
-            "db": {
-              "type": "date",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "rg": {
-            "db": {
-              "type": "string",
-              "default": "",
-              "maxLength": 9,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "cpf": {
-            "db": {
-              "type": "string",
-              "default": "",
-              "maxLength": 20,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "estado_civil": {
-            "db": {
-              "type": "string",
-              "maxLength": 20,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "profissao": {
-            "db": {
-              "type": "string",
-              "maxLength": 48,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "sexo": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "filiacao": {
-            "db": {
-              "type": "text",
-              "maxLength": 65535,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "celular": {
-            "db": {
-              "type": "string",
-              "default": "",
-              "maxLength": 15,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "origem": {
-            "db": {
-              "type": "string",
-              "maxLength": 36,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "captador": {
-            "db": {
-              "type": "string",
-              "maxLength": 128,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "timestamp",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": false
-            }
-          }
-        }
-      },
-      "documentos": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "bigIncrements",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_cliente": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_processo": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "string",
-              "maxLength": 192,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "tipo": {
-            "db": {
-              "type": "string",
-              "maxLength": 32,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "descricao": {
-            "db": {
-              "type": "string",
-              "maxLength": 256,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "arquivo": {
-            "db": {
-              "type": "string",
-              "maxLength": 192,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "timestamp",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": false
-            }
-          }
-        }
-      },
-      "financeiro": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "bigIncrements",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_processo": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_subprocesso": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": true
-            }
-          },
-          "descricao": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "nullable": true
-            }
-          },
-          "valor": {
-            "db": {
-              "type": "decimal",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "data_vencimento": {
-            "db": {
-              "type": "date",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "data_pagamento": {
-            "db": {
-              "type": "date",
-              "primary": false,
-              "nullable": true
-            }
-          },
-          "status": {
-            "db": {
-              "type": "enum",
-              "enumValues": [
-                "pendente",
-                "pago",
-                "cancelado"
-              ],
-              "default": "'pendente'",
-              "maxLength": 9,
-              "primary": false,
-              "nullable": true
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "datetime",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": true
-            }
-          },
-          "atualizado_em": {
-            "db": {
-              "type": "datetime",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": true
-            }
-          }
-        }
-      },
-      "historico": {
-        "db": {}
-      },
-      "importacoes": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "increments",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "text",
-              "maxLength": 65535,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "arquivo": {
-            "db": {
-              "type": "string",
-              "maxLength": 32,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "total_registros": {
-            "db": {
-              "type": "integer",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "tamanho": {
-            "db": {
-              "type": "integer",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "importados": {
-            "db": {
-              "type": "enum",
-              "enumValues": [
-                "true",
-                "false"
-              ],
-              "default": "'false'",
-              "maxLength": 5,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "tipo": {
-            "db": {
-              "type": "string",
-              "maxLength": 24,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_por": {
-            "db": {
-              "type": "integer",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "datetime",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": false
-            }
-          }
-        }
-      },
-      "permissoes": {
-        "db": {}
-      },
-      "prazos": {
         "db": {}
       },
       "processos": {
@@ -553,7 +20,7 @@
         "columns": {
           "id": {
             "db": {
-              "type": "bigIncrements",
+              "type": "bigInteger",
               "primary": true,
               "nullable": false
             }
@@ -592,6 +59,7 @@
           "descricao": {
             "db": {
               "type": "text",
+              "default": "",
               "maxLength": 65535,
               "primary": false,
               "nullable": true
@@ -600,6 +68,7 @@
           "status": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 16,
               "primary": false,
               "nullable": true
@@ -608,6 +77,7 @@
           "data_distribuicao": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 36,
               "primary": false,
               "nullable": true
@@ -616,6 +86,7 @@
           "data_conclusao": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 36,
               "primary": false,
               "nullable": true
@@ -624,6 +95,7 @@
           "ultimo_andamento": {
             "db": {
               "type": "text",
+              "default": "",
               "maxLength": 65535,
               "primary": false,
               "nullable": true
@@ -632,6 +104,7 @@
           "penultimo_andamento": {
             "db": {
               "type": "text",
+              "default": "",
               "maxLength": 65535,
               "primary": false,
               "nullable": true
@@ -640,6 +113,7 @@
           "justica": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 192,
               "primary": false,
               "nullable": true
@@ -648,6 +122,7 @@
           "comarca": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 192,
               "primary": false,
               "nullable": true
@@ -656,6 +131,7 @@
           "vara": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 192,
               "primary": false,
               "nullable": true
@@ -664,6 +140,7 @@
           "tese": {
             "db": {
               "type": "text",
+              "default": "",
               "maxLength": 65535,
               "primary": false,
               "nullable": true
@@ -672,6 +149,7 @@
           "autor": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 192,
               "primary": false,
               "nullable": true
@@ -680,6 +158,7 @@
           "reu": {
             "db": {
               "type": "string",
+              "default": "",
               "maxLength": 192,
               "primary": false,
               "nullable": true
@@ -688,6 +167,7 @@
           "id_clickup": {
             "db": {
               "type": "bigInteger",
+              "default": "",
               "primary": false,
               "nullable": true
             }
@@ -695,6 +175,7 @@
           "url": {
             "db": {
               "type": "text",
+              "default": "",
               "maxLength": 65535,
               "primary": false,
               "nullable": true
@@ -703,14 +184,32 @@
           "criado_em": {
             "db": {
               "type": "timestamp",
-              "default": "knex.fn.now()",
+              "default": "current_timestamp()",
               "primary": false,
               "nullable": false
             }
           }
         }
       },
-      "resetar_senha": {
+      "tarefas": {
+        "db": {}
+      },
+      "permissoes": {
+        "db": {}
+      },
+      "documentos": {
+        "db": {}
+      },
+      "prazos": {
+        "db": {}
+      },
+      "historico": {
+        "db": {}
+      },
+      "financeiro": {
+        "db": {}
+      },
+      "usuarios": {
         "db": {}
       },
       "sessoes": {
@@ -719,178 +218,23 @@
       "status": {
         "db": {}
       },
-      "subprocessos": {
+      "clientes": {
         "db": {}
-      },
-      "tarefas": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "bigIncrements",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_cliente": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "id_processo": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "descricao": {
-            "db": {
-              "type": "text",
-              "maxLength": 65535,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "data": {
-            "db": {
-              "type": "date",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "status": {
-            "db": {
-              "type": "string",
-              "default": "",
-              "maxLength": 50,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "date",
-              "primary": false,
-              "nullable": false
-            }
-          }
-        }
       },
       "tipo_processo": {
         "db": {}
       },
-      "usuarios": {
-        "db": {},
-        "columns": {
-          "id": {
-            "db": {
-              "type": "bigIncrements",
-              "primary": true,
-              "nullable": false
-            }
-          },
-          "slug": {
-            "db": {
-              "type": "string",
-              "maxLength": 16,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "avatar": {
-            "db": {
-              "type": "string",
-              "default": "'default.png'",
-              "maxLength": 36,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "email": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "senha": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "nivel_permissao": {
-            "db": {
-              "type": "bigInteger",
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "token": {
-            "db": {
-              "type": "string",
-              "maxLength": 36,
-              "primary": false,
-              "nullable": false
-            }
-          },
-          "criado_em": {
-            "db": {
-              "type": "timestamp",
-              "default": "knex.fn.now()",
-              "primary": false,
-              "nullable": false
-            }
-          }
-        }
+      "importacoes": {
+        "db": {}
+      },
+      "resetar_senha": {
+        "db": {}
       }
     },
     "views": {},
     "collations": [
       {
-        "collation": "utf8mb4_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_0900_as_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_0900_bin",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_bg_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_bg_0900_as_cs",
+        "collation": "utf8mb4_general_ci",
         "charset": "utf8mb4"
       },
       {
@@ -898,23 +242,43 @@
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_bs_0900_ai_ci",
+        "collation": "utf8mb4_unicode_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_bs_0900_as_cs",
+        "collation": "utf8mb4_icelandic_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_croatian_ci",
+        "collation": "utf8mb4_latvian_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_cs_0900_ai_ci",
+        "collation": "utf8mb4_romanian_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_cs_0900_as_cs",
+        "collation": "utf8mb4_slovenian_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_polish_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_estonian_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_spanish_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_swedish_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_turkish_ci",
         "charset": "utf8mb4"
       },
       {
@@ -926,223 +290,7 @@
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_da_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_da_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_de_pb_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_de_pb_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_eo_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_eo_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_esperanto_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_estonian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_es_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_es_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_es_trad_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_es_trad_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_et_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_et_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_general_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_german2_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_gl_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_gl_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_hr_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_hr_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_hungarian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_hu_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_hu_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_icelandic_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_is_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_is_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_ja_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_ja_0900_as_cs_ks",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_latvian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_la_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_la_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
         "collation": "utf8mb4_lithuanian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_lt_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_lt_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_lv_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_lv_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_mn_cyrl_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_mn_cyrl_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_nb_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_nb_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_nn_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_nn_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_persian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_pl_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_pl_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_polish_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_romanian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_roman_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_ro_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_ro_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_ru_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_ru_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_sinhala_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_sk_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_sk_0900_as_cs",
         "charset": "utf8mb4"
       },
       {
@@ -1150,55 +298,35 @@
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_slovenian_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_sl_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_sl_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
         "collation": "utf8mb4_spanish2_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_spanish_ci",
+        "collation": "utf8mb4_roman_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_sr_latn_0900_ai_ci",
+        "collation": "utf8mb4_persian_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_sr_latn_0900_as_cs",
+        "collation": "utf8mb4_esperanto_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_sv_0900_ai_ci",
+        "collation": "utf8mb4_hungarian_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_sv_0900_as_cs",
+        "collation": "utf8mb4_sinhala_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_swedish_ci",
+        "collation": "utf8mb4_german2_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_tr_0900_ai_ci",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_tr_0900_as_cs",
-        "charset": "utf8mb4"
-      },
-      {
-        "collation": "utf8mb4_turkish_ci",
+        "collation": "utf8mb4_croatian_mysql561_ci",
         "charset": "utf8mb4"
       },
       {
@@ -1206,23 +334,35 @@
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_unicode_ci",
-        "charset": "utf8mb4"
-      },
-      {
         "collation": "utf8mb4_vietnamese_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_vi_0900_ai_ci",
+        "collation": "utf8mb4_croatian_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_vi_0900_as_cs",
+        "collation": "utf8mb4_myanmar_ci",
         "charset": "utf8mb4"
       },
       {
-        "collation": "utf8mb4_zh_0900_as_cs",
+        "collation": "utf8mb4_thai_520_w2",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_general_nopad_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_nopad_bin",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_unicode_nopad_ci",
+        "charset": "utf8mb4"
+      },
+      {
+        "collation": "utf8mb4_unicode_520_nopad_ci",
         "charset": "utf8mb4"
       }
     ]
