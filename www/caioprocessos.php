@@ -1155,7 +1155,7 @@
                         <p class="text-secondary mb-0">Página:&nbsp;</p>
                         <p class="mb-0">{{pagina_atual_tabela.value}}</p>
                         <p class="mb-0 text-secondary">&nbsp;de&nbsp;</p>
-                        <p class="mb-0 text-black">{{(sc_listar_processos.data.listar_processos[0].total)/select1.value}}</p>
+                        <p class="mb-0 text-black">{{(sc_listar_processos.data.listar_processos[0].total)/select1.value || 0}}</p>
                     </div>
                 </div>
             </main>
