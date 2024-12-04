@@ -977,6 +977,7 @@
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-value id="abaform" dmx-bind:value="'dados-pessoais'"></dmx-value>
 
     <dmx-serverconnect id="sc_deletar_cliente" url="dmxConnect/api/excluir_cliente.php"></dmx-serverconnect>
     <dmx-notifications id="notifies1"></dmx-notifications>
@@ -1252,23 +1253,25 @@
         </div>
     </div>
     <div class="modal fade" id="modalNovoCliente" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form is="dmx-serverconnect-form" id="formNovoCliente" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente cadastrado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalNovoCliente.hide()">
-                        <div class="d-flex justify-content-around mb-3">
-                            <div class="d-flex flex-column column-form">
+                <div class="modal-body pt-0">
+                    <form is="dmx-serverconnect-form" id="formNovoCliente" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente cadastrado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalNovoCliente.hide();abaform.setValue('dados-pessoais')">
+                        <div class="d-flex justify-content-around flex-column">
+                            <div class="d-flex flex-column mt-4" id="dadospessoais" dmx-show="abaform.value=='dados-pessoais'">
+
+
+                                <p class="mb-1 title-form">Dados pessoais</p>
+
+
+
                                 <div class="form-group column">
-                                    <label for="inp_slug" class="col-sm-2 col-form-label col">Slug</label>
-                                    <input type="text" class="form-control" id="inp_slug" name="slug" aria-describedby="inp_slug_help" required="">
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_id_crm" class="col-sm-2 col-form-label">Id crm</label>
-                                    <input type="number" class="form-control" id="inp_id_crm" name="id_crm" aria-describedby="inp_id_crm_help" required="">
+                                    <label for="inp_nome" class="col-sm-2 col-form-label">Nome</label>
+                                    <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" required="">
                                 </div>
                                 <div class="form-group column">
 
@@ -1278,29 +1281,66 @@
                                         <option value="juridica">Jurídica</option>
                                     </select>
                                 </div>
+
+                                <div class="d-flex">
+                                    <div class="form-group column w-50 me-2">
+                                        <label for="inp_cpf" class="col-sm-2 col-form-label">CPF</label>
+                                        <input class="form-control" id="inp_cpf" name="cpf" aria-describedby="inp_cpf_help" required="" oninput="mascara(this)">
+                                    </div>
+                                    <div class="form-group column w-50">
+                                        <label for="inp_rg" class="col-sm-2 col-form-label">RG</label>
+                                        <input type="text" class="form-control" id="inp_rg" name="rg" aria-describedby="inp_rg_help" required="" oninput="mascaraRG(this)">
+                                    </div>
+                                </div>
+
+
+
                                 <div class="form-group column">
-                                    <label for="inp_nome" class="col-sm-2 col-form-label">Nome</label>
-                                    <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" required="">
+
+                                    <label for="inp_sexo" class="col-sm-2 col-form-label">Sexo</label>
+                                    <select id="inp_sexo" class="form-select" name="sexo">
+                                        <option selected="" value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                    </select>
                                 </div>
                                 <div class="form-group column">
-                                    <label for="inp_responsavel" class="col-sm-2 col-form-label">Responsável</label>
-                                    <input type="text" class="form-control" id="inp_responsavel" name="responsavel" aria-describedby="inp_responsavel_help" required="">
+                                    <label for="inp_data_nascimento" class="sm-2 col-form-label">Data nascimento</label>
+                                    <input type="date" class="form-control" id="inp_data_nascimento" name="data_nascimento" aria-describedby="inp_data_nascimento_help" placeholder="Enter Data nascimento" required="">
                                 </div>
                                 <div class="form-group column">
-                                    <label for="inp_endereco" class="col-sm-2 col-form-label">Endereco</label>
-                                    <input type="text" class="form-control" id="inp_endereco" name="endereco" aria-describedby="inp_endereco_help" required="">
+
+                                    <label for="inp_estado_civil" class="sm-2 col-form-label">Estado civil</label>
+                                    <select id="inp_estado_civil" class="form-select" name="estado_civil">
+                                        <option value="Solteiro">Solteiro</option>
+                                        <option value="Casado">Casado</option>
+                                        <option value="Separado">Separado</option>
+                                        <option value="Divorciado">Divorciado</option>
+                                        <option value="Viúvo">Viúvo</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group column">
+                                    <label for="inp_filiacao" class="col-sm-2 col-form-label">Filiação</label>
+                                    <input type="text" class="form-control" id="inp_filiacao" name="filiacao" aria-describedby="inp_filiacao_help" required="">
+                                </div>
+                                <button id="btn8" class="btn text-bg-dark mt-3" dmx-on:click="abaform.setValue('contato')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+
+
+
+
+
+                            </div>
+                            <div class="d-flex flex-column mt-3" id="contato" dmx-show="abaform.value=='contato'">
+                                <div class="d-flex"><button id="btn10" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('dados-pessoais')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para dados pessoais</button>
+                                </div>
+                                <p class="mb-1 title-form">Informações de contato</p>
+                                <div class="form-group column">
+                                    <label for="inp_celular1" class="col-sm-2 col-form-label">Celular</label>
+                                    <input type="text" class="form-control" id="inp_celular" name="celular" aria-describedby="inp_celular_help" oninput="mascaraCelular(this)">
                                 </div>
                                 <div class="form-group column">
                                     <label for="inp_bairro" class="col-sm-2 col-form-label">Bairro</label>
                                     <input type="text" class="form-control" id="inp_bairro" name="bairro" aria-describedby="inp_bairro_help" required="">
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_cep" class="col-sm-2 col-form-label">CEP</label>
-                                    <input class="form-control" id="inp_cep" name="cep" aria-describedby="inp_cep_help" required="" type="number" max="99999999" data-rule-max="99999999">
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_cidade" class="col-sm-2 col-form-label">Cidade</label>
-                                    <input type="text" class="form-control" id="inp_cidade" name="cidade" aria-describedby="inp_cidade_help" required="">
                                 </div>
                                 <div class="form-group column">
                                     <label for="inp_uf1" class="col-sm-2 col-form-label">UF</label>
@@ -1336,55 +1376,50 @@
 
                                 </div>
                                 <div class="form-group column">
-                                    <label for="inp_departamento" class="col-sm-2 col-form-label">Departamento</label>
-                                    <input type="text" class="form-control" id="inp_departamento" name="departamento" aria-describedby="inp_departamento_help" required="">
+                                    <label for="inp_cidade" class="col-sm-2 col-form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="inp_cidade" name="cidade" aria-describedby="inp_cidade_help" required="">
                                 </div>
-
+                                <div class="form-group column">
+                                    <label for="inp_cep" class="col-sm-2 col-form-label">CEP</label>
+                                    <input class="form-control" id="inp_cep" name="cep" aria-describedby="inp_cep_help" required="" type="number" max="99999999" data-rule-max="99999999">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_endereco" class="col-sm-2 col-form-label">Endereco</label>
+                                    <input type="text" class="form-control" id="inp_endereco" name="endereco" aria-describedby="inp_endereco_help" required="">
+                                </div><button id="btn9" class="btn text-bg-dark mt-3" dmx-on:click="abaform.setValue('adicionais')">Continuar&nbsp;<i class="fa-solid fa-arrow-right"></i></button>
                             </div>
-                            <div class="d-flex flex-column column-form">
-                                <div class="form-group column">
-                                    <label for="inp_data_nascimento" class="sm-2 col-form-label">Data nascimento</label>
-                                    <input type="date" class="form-control" id="inp_data_nascimento" name="data_nascimento" aria-describedby="inp_data_nascimento_help" placeholder="Enter Data nascimento" required="">
+                            <div class="d-flex flex-column mt-3" id="adicionais" dmx-show="abaform.value=='adicionais'">
+                                <div class="d-flex"><button id="btn11" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('contato')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para informações de contato</button>
                                 </div>
-                                <div class="form-group column">
-                                    <label for="inp_rg" class="col-sm-2 col-form-label">RG</label>
-                                    <input type="text" class="form-control" id="inp_rg" name="rg" aria-describedby="inp_rg_help" required="" oninput="mascaraRG(this)">
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_cpf" class="col-sm-2 col-form-label">CPF</label>
-                                    <input class="form-control" id="inp_cpf" name="cpf" aria-describedby="inp_cpf_help" required="" oninput="mascara(this)">
-                                </div>
-                                <div class="form-group column">
-
-                                    <label for="inp_estado_civil" class="sm-2 col-form-label">Estado civil</label>
-                                    <select id="inp_estado_civil" class="form-select" name="estado_civil">
-                                        <option value="Solteiro">Solteiro</option>
-                                        <option value="Casado">Casado</option>
-                                        <option value="Separado">Separado</option>
-                                        <option value="Divorciado">Divorciado</option>
-                                        <option value="Viúvo">Viúvo</option>
-                                    </select>
-                                </div>
+                                <p class="mb-1 title-form">Informações adicionais</p>
                                 <div class="form-group column">
                                     <label for="inp_profissao" class="col-sm-2 col-form-label">Profissão</label>
                                     <input type="text" class="form-control" id="inp_profissao" name="profissao" aria-describedby="inp_profissao_help" required="">
                                 </div>
                                 <div class="form-group column">
+                                    <label for="inp_slug" class="col-sm-2 col-form-label col">Slug</label>
+                                    <input type="text" class="form-control" id="inp_slug" name="slug" aria-describedby="inp_slug_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_id_crm" class="col-sm-2 col-form-label">Id crm</label>
+                                    <input type="number" class="form-control" id="inp_id_crm" name="id_crm" aria-describedby="inp_id_crm_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_departamento" class="col-sm-2 col-form-label">Departamento</label>
+                                    <input type="text" class="form-control" id="inp_departamento" name="departamento" aria-describedby="inp_departamento_help" required="">
+                                </div>
+                                <div class="form-group column">
+                                    <label for="inp_responsavel" class="col-sm-2 col-form-label">Responsável</label>
+                                    <input type="text" class="form-control" id="inp_responsavel" name="responsavel" aria-describedby="inp_responsavel_help" required="">
+                                </div>
 
-                                    <label for="inp_sexo" class="col-sm-2 col-form-label">Sexo</label>
-                                    <select id="inp_sexo" class="form-select" name="sexo">
-                                        <option selected="" value="masculino">Masculino</option>
-                                        <option value="feminino">Feminino</option>
-                                    </select>
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_filiacao" class="col-sm-2 col-form-label">Filiação</label>
-                                    <input type="text" class="form-control" id="inp_filiacao" name="filiacao" aria-describedby="inp_filiacao_help" required="">
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_celular1" class="col-sm-2 col-form-label">Celular</label>
-                                    <input type="text" class="form-control" id="inp_celular" name="celular" aria-describedby="inp_celular_help" oninput="mascaraCelular(this)">
-                                </div>
+
+
+
+
+
+
+
 
                                 <div class="form-group column">
                                     <label for="inp_origem" class="col-sm-2 col-form-label">Origem</label>
@@ -1393,7 +1428,7 @@
                                 <div class="form-group column">
                                     <label for="inp_captador" class="col-sm-2 col-form-label">Captador</label>
                                     <input type="text" class="form-control" id="inp_captador" name="captador" aria-describedby="inp_captador_help">
-                                </div>
+                                </div><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Cadastrar<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                             </div>
                         </div>
 
@@ -1417,7 +1452,7 @@
 
 
 
-                        <button type="submit" class="btn btn-primary w-100" dmx-bind:disabled="state.executing">Criar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+
                     </form>
                 </div>
             </div>
