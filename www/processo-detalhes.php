@@ -998,6 +998,7 @@
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-serverconnect id="sc_financeiro" url="dmxConnect/api/processo_detalhes_financeiro.php" dmx-param:id_processo="sc_captura_slug.data.query[0].id"></dmx-serverconnect>
     <dmx-serverconnect id="sc_documentos" url="dmxConnect/api/processo_detalhes_documentos.php" dmx-param:id_processo="sc_captura_slug.data.query[0].id"></dmx-serverconnect>
     <dmx-serverconnect id="sc_andamentos" url="dmxConnect/api/processo_detalhes_andamentos.php" dmx-param:processo="sc_captura_slug.data.query[0].processo"></dmx-serverconnect>
     <dmx-serverconnect id="sc_clientes" url="dmxConnect/api/processo_detalhes_clientes.php" dmx-param:id_processo="sc_captura_slug.data.query[0].id" dmx-param:id_cliente="sc_captura_slug.data.query[0].id_cliente"></dmx-serverconnect>
@@ -1356,7 +1357,9 @@
                     <div class="btn-group" role="group">
                         <button class="btn btn-filter nav-active" id="clientes2" dmx-show="filtro.value=='clientes'">Clientes</button><button class="btn btn-filter buttons-radius" dmx-on:click="filtro.setValue('clientes')" id="clientes" dmx-hide="filtro.value=='clientes'">Clientes</button>
                         <button class="btn btn-filter nav-active" id="em_andamento2" dmx-show="filtro.value=='documentos'">Documentos</button><button class="btn btn-filter" dmx-on:click="filtro.setValue('documentos')" id="em_andamento" dmx-hide="filtro.value=='documentos'">Documentos</button>
-                        <button class="btn btn-filter nav-active" id="arquivado2" dmx-show="filtro.value=='andamentos'">Andamentos</button><button class="btn btn-filter" dmx-on:click="filtro.setValue('andamentos')" id="arquivado" dmx-hide="filtro.value=='andamentos'">Andamentos</button>
+                        <button class="btn btn-filter nav-active" id="arquivado2" dmx-show="filtro.value=='andamentos'">Andamentos</button>
+                        <button class="btn btn-filter" dmx-on:click="filtro.setValue('andamentos')" id="arquivado" dmx-hide="filtro.value=='andamentos'">Andamentos</button>
+                        <button class="btn btn-filter nav-active" id="financeiro2" dmx-show="filtro.value=='financeiro'">Financeiro</button><button class="btn btn-filter" id="financeiro" dmx-on:click="filtro.setValue('financeiro')" dmx-hide="filtro.value=='financeiro'">Financeiro</button>
 
                     </div>
                 </div>
@@ -1440,6 +1443,32 @@
                         </div>
 
                     </div>
+                    <div class="d-flex align-items-center w-100 flex-column justify-content-start" dmx-show="filtro.value=='financeiro'" id="financeiro">
+                        <div class="d-flex w-100">
+                            <p class="text-start">Financeiro do processo</p>
+                        </div>
+                        <div class="table-responsive w-100">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">DESCRIÇÃO</th>
+                                        <th scope="col">VENCIMENTO</th>
+                                        <th scope="col">STATUS</th>
+                                        <th scope="col">VALOR</th>
+                                    </tr>
+                                </thead>
+                                <tbody is="dmx-repeat" id="repeat4" dmx-bind:repeat="sc_financeiro.data.query" key="id">
+                                    <tr>
+                                        <td>{{descricao}}</td>
+                                        <td>{{data_vencimento}}</td>
+                                        <td>{{status}}</td>
+                                        <td>{{valor}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
             </main>
         </div>
@@ -1479,7 +1508,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required>
+                            <select class="form-select" name="status" required="">
                                 <option value="Ativo">Ativo</option>
                                 <option value="Inativo">Inativo</option>
                             </select>

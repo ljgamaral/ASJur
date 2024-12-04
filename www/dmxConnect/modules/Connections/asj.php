@@ -8,7 +8,7 @@ $exports = <<<'JSON'
     "action": "connect",
     "options": {
         "server": "mysql",
-        "connectionString": "mysql:host=154.49.247.154;dbname=u566859920_asj;user=u566859920_admin;password=4xYRx7pvotgT7tA0GrKBQipSEeXEgMeg",
+        "connectionString": "mysql:host=127.0.0.1;port=23002;dbname=asj;user=admin;password=root",
         "meta"  : {}
     }
 }

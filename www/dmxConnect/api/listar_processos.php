@@ -38,7 +38,7 @@ $app->define(<<<'JSON'
       "options": {
         "connection": "asj",
         "sql": {
-          "query": "SELECT \n    p.*, \n    (SELECT COUNT(*) \n     FROM `processos` \n     WHERE \n         (:status = '' AND (`status` = '' OR `status` IS NULL)) \n         OR `status` = :status) AS total\nFROM `processos` p\nWHERE \n    (:status = '' AND (`status` = '' OR `status` IS NULL)) \n    OR `status` = :status\nLIMIT :limit OFFSET :offset;\n\n",
+          "query": "SELECT \n    p.*, \n    (SELECT COUNT(*) \n     FROM processos \n     WHERE \n         (:status = '' AND (status = '' OR status IS NULL)) \n         OR status = :status) AS total\nFROM processos p\nWHERE \n    (:status = '' AND (status = '' OR status IS NULL)) \n    OR status = :status\nLIMIT :limit OFFSET :offset;",
           "params": [
             {
               "name": ":status",

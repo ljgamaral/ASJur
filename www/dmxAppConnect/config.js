@@ -707,87 +707,39 @@ dmx.config({
         },
         {
           "type": "number",
-          "name": "id_crm"
-        },
-        {
-          "type": "text",
-          "name": "tipo"
-        },
-        {
-          "type": "text",
-          "name": "nome"
-        },
-        {
-          "type": "text",
-          "name": "responsavel"
-        },
-        {
-          "type": "text",
-          "name": "endereco"
-        },
-        {
-          "type": "text",
-          "name": "bairro"
+          "name": "id_processo"
         },
         {
           "type": "number",
-          "name": "cep"
+          "name": "id_subprocesso"
         },
         {
           "type": "text",
-          "name": "cidade"
+          "name": "descricao"
         },
         {
-          "type": "text",
-          "name": "uf"
-        },
-        {
-          "type": "text",
-          "name": "departamento"
+          "type": "number",
+          "name": "valor"
         },
         {
           "type": "date",
-          "name": "data_nascimento"
+          "name": "data_vencimento"
+        },
+        {
+          "type": "date",
+          "name": "data_pagamento"
         },
         {
           "type": "text",
-          "name": "rg"
-        },
-        {
-          "type": "text",
-          "name": "cpf"
-        },
-        {
-          "type": "text",
-          "name": "estado_civil"
-        },
-        {
-          "type": "text",
-          "name": "profissao"
-        },
-        {
-          "type": "text",
-          "name": "sexo"
-        },
-        {
-          "type": "text",
-          "name": "filiacao"
-        },
-        {
-          "type": "text",
-          "name": "celular"
-        },
-        {
-          "type": "text",
-          "name": "origem"
-        },
-        {
-          "type": "text",
-          "name": "captador"
+          "name": "status"
         },
         {
           "type": "datetime",
           "name": "criado_em"
+        },
+        {
+          "type": "datetime",
+          "name": "atualizado_em"
         }
       ],
       "outputType": "array"
