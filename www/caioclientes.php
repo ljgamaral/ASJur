@@ -613,8 +613,8 @@
         /* Ajustes para telas muito grandes */
         @media (min-width: 1400px) {
             .container-fluid {
-                max-width: 1600px;
                 margin: 0 auto;
+
             }
 
             .sidebar {
@@ -974,6 +974,8 @@
     <script src="dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxAnimateCSS/animate.min.css" />
+    <script src="dmxAppConnect/dmxAnimateCSS/dmxAnimateCSS.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
@@ -1099,7 +1101,7 @@
                                 <i class="fa-solid fa-users"></i>
                             </div>
                             <div>
-                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_clientes_novos.status"></div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_clientes.status"></div>
                                 <p class="stats-value" dmx-show="sc_clientes.status">{{sc_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</p>
                             </div>
                             <div>
@@ -1107,7 +1109,7 @@
                                     Total de Clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Quantidade total de clientes cadastrados até o momento'"></i></p>
                             </div>
                             <div class="d-flex skeleton-loader-little" dmx-show="!sc_clientes.status"></div>
-                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_listar_clientes.status">
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_clientes.status">
                                 <p class="mb-0">{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_total_mensal}}</p>
                             </div>
                         </div>
@@ -1118,14 +1120,14 @@
                                 <i class="fa-solid fa-user-plus"></i>
                             </div>
                             <div>
-                                <div class="d-flex skeleton-loader" dmx-show="!sc_listar_clientes_novos.status"></div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_clientes.status"></div>
                                 <p class="stats-value" dmx-show="sc_clientes.status">{{sc_clientes.data.listar_clientes_clientes_novos[0].novos_clientes_semana||0}}</p>
                             </div>
                             <div>
                                 <p class="stats-label mb-0">
                                     Novos Clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Clientes cadastrados essa semana'" data-bs-trigger="hover"></i></p>
                             </div>
-                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_listar_clientes_novos.status"></div>
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_clientes.status"></div>
                             <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_clientes.status">
 
                                 <p class="mb-0">{{sc_clientes.data.listar_clientes_clientes_novos[0].mensagem_variacao_clientes_novos_semanal}}</p>
@@ -1252,7 +1254,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalNovoCliente" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal fade modal-right" id="modalNovoCliente" is="dmx-bs5-modal" tabindex="-1" dmx-animate-enter.duration:1.delay:1="fadeInRight" dmx-animate-inview:10="fadeInRight">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1260,70 +1262,80 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pt-0">
-                    <form is="dmx-serverconnect-form" id="formNovoCliente" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente cadastrado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalNovoCliente.hide();abaform.setValue('dados-pessoais')">
-                        <div class="d-flex justify-content-around flex-column">
-                            <div class="d-flex flex-column mt-4" id="dadospessoais" dmx-show="abaform.value=='dados-pessoais'">
+                    <form is="dmx-serverconnect-form" id="formNovoCliente" method="post" action="dmxConnect/api/cadastrar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente cadastrado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalNovoCliente.hide();abaform.setValue('dados-pessoais');formNovoCliente.reset()">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-column mt-4" id="dadospessoais" dmx-show="abaform.value=='dados-pessoais'" dmx-animate-enter.duration:500="fadeIn">
 
 
-                                <p class="mb-1 title-form">Dados pessoais</p>
-
-
-
-                                <div class="form-group column">
-                                    <label for="inp_nome" class="col-sm-2 col-form-label">Nome</label>
-                                    <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" required="">
-                                </div>
-                                <div class="form-group column">
-
-                                    <label for="inp_tipo1" class="col-sm-2 col-form-label">Pessoa</label>
-                                    <select id="inp_tipo" class="form-select" name="tipo">
-                                        <option value="fisica">Física</option>
-                                        <option value="juridica">Jurídica</option>
-                                    </select>
-                                </div>
-
-                                <div class="d-flex">
-                                    <div class="form-group column w-50 me-2">
-                                        <label for="inp_cpf" class="col-sm-2 col-form-label">CPF</label>
-                                        <input class="form-control" id="inp_cpf" name="cpf" aria-describedby="inp_cpf_help" required="" oninput="mascara(this)">
+                                <div class="d-flex flex-column">
+                                    <p class="mb-1 title-form">Dados pessoais</p>
+                                    <div class="form-group column">
+                                        <label for="inp_nome" class="col-sm-2 col-form-label">Nome</label>
+                                        <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" required="">
                                     </div>
-                                    <div class="form-group column w-50">
-                                        <label for="inp_rg" class="col-sm-2 col-form-label">RG</label>
-                                        <input type="text" class="form-control" id="inp_rg" name="rg" aria-describedby="inp_rg_help" required="" oninput="mascaraRG(this)">
+                                    <div class="form-group column">
+
+                                        <label for="inp_tipo1" class="col-sm-2 col-form-label">Pessoa</label>
+                                        <select id="inp_tipo" class="form-select" name="tipo">
+                                            <option value="fisica">Física</option>
+                                            <option value="juridica">Jurídica</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="form-group column w-50 me-2">
+                                            <label for="inp_cpf" class="col-sm-2 col-form-label">CPF</label>
+                                            <input class="form-control" id="inp_cpf" name="cpf" aria-describedby="inp_cpf_help" required="" oninput="mascara(this)">
+                                        </div>
+                                        <div class="form-group column w-50">
+                                            <label for="inp_rg" class="col-sm-2 col-form-label">RG</label>
+                                            <input type="text" class="form-control" id="inp_rg" name="rg" aria-describedby="inp_rg_help" required="" oninput="mascaraRG(this)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group column">
+
+                                        <label for="inp_sexo" class="col-sm-2 col-form-label">Sexo</label>
+                                        <select id="inp_sexo" class="form-select" name="sexo">
+                                            <option selected="" value="masculino">Masculino</option>
+                                            <option value="feminino">Feminino</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group column">
+                                        <label for="inp_data_nascimento" class="sm-2 col-form-label">Data nascimento</label>
+                                        <input type="date" class="form-control" id="inp_data_nascimento" name="data_nascimento" aria-describedby="inp_data_nascimento_help" placeholder="Enter Data nascimento" required="">
+                                    </div>
+                                    <div class="form-group column">
+
+                                        <label for="inp_estado_civil" class="sm-2 col-form-label">Estado civil</label>
+                                        <select id="inp_estado_civil" class="form-select" name="estado_civil">
+                                            <option value="Solteiro">Solteiro</option>
+                                            <option value="Casado">Casado</option>
+                                            <option value="Separado">Separado</option>
+                                            <option value="Divorciado">Divorciado</option>
+                                            <option value="Viúvo">Viúvo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group column">
+                                        <label for="inp_filiacao" class="col-sm-2 col-form-label">Filiação</label>
+                                        <input type="text" class="form-control" id="inp_filiacao" name="filiacao" aria-describedby="inp_filiacao_help" required="">
                                     </div>
                                 </div>
 
 
 
-                                <div class="form-group column">
 
-                                    <label for="inp_sexo" class="col-sm-2 col-form-label">Sexo</label>
-                                    <select id="inp_sexo" class="form-select" name="sexo">
-                                        <option selected="" value="masculino">Masculino</option>
-                                        <option value="feminino">Feminino</option>
-                                    </select>
-                                </div>
-                                <div class="form-group column">
-                                    <label for="inp_data_nascimento" class="sm-2 col-form-label">Data nascimento</label>
-                                    <input type="date" class="form-control" id="inp_data_nascimento" name="data_nascimento" aria-describedby="inp_data_nascimento_help" placeholder="Enter Data nascimento" required="">
-                                </div>
-                                <div class="form-group column">
 
-                                    <label for="inp_estado_civil" class="sm-2 col-form-label">Estado civil</label>
-                                    <select id="inp_estado_civil" class="form-select" name="estado_civil">
-                                        <option value="Solteiro">Solteiro</option>
-                                        <option value="Casado">Casado</option>
-                                        <option value="Separado">Separado</option>
-                                        <option value="Divorciado">Divorciado</option>
-                                        <option value="Viúvo">Viúvo</option>
-                                    </select>
-                                </div>
 
-                                <div class="form-group column">
-                                    <label for="inp_filiacao" class="col-sm-2 col-form-label">Filiação</label>
-                                    <input type="text" class="form-control" id="inp_filiacao" name="filiacao" aria-describedby="inp_filiacao_help" required="">
-                                </div>
-                                <button id="btn8" class="btn text-bg-dark mt-3" dmx-on:click="abaform.setValue('contato')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+
+
+
+
+
+
+
+
+
+
+                                <button id="btn8" class="btn btn-primary align-self-center w-100 mt-3" dmx-on:click="abaform.setValue('contato')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
 
 
 
@@ -1386,7 +1398,7 @@
                                 <div class="form-group column">
                                     <label for="inp_endereco" class="col-sm-2 col-form-label">Endereco</label>
                                     <input type="text" class="form-control" id="inp_endereco" name="endereco" aria-describedby="inp_endereco_help" required="">
-                                </div><button id="btn9" class="btn text-bg-dark mt-3" dmx-on:click="abaform.setValue('adicionais')">Continuar&nbsp;<i class="fa-solid fa-arrow-right"></i></button>
+                                </div><button id="btn9" class="btn btn-primary text-bg-dark mt-3" dmx-on:click="abaform.setValue('adicionais')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
                             </div>
                             <div class="d-flex flex-column mt-3" id="adicionais" dmx-show="abaform.value=='adicionais'">
                                 <div class="d-flex"><button id="btn11" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('contato')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para informações de contato</button>
@@ -1458,7 +1470,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal fade modal-right" id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

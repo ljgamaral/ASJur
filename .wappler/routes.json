@@ -1,25 +1,16 @@
 {
   "routes": [
     {
+      "path": "/relatorios",
+      "url": "/relatorios.php"
+    },
+    {
       "path": "/home",
       "url": "/caiohome.php"
     },
     {
       "path": "/clientes",
       "url": "/caioclientes.php"
-    },
-    {
-      "path": "/relatorios",
-      "url": "/relatorios.php",
-      "routes": [
-        {
-          "type": "page",
-          "path": "/geral",
-          "id": "geral",
-          "url": "_geral.html",
-          "exact": "true"
-        }
-      ]
     },
     {
       "path": "/processos/:slug",

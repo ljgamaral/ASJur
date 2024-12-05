@@ -761,7 +761,7 @@
         /* Ajustes para telas muito grandes */
         @media (min-width: 1400px) {
             .container-fluid {
-                max-width: 1600px;
+
                 margin: 0 auto;
             }
 
@@ -932,7 +932,7 @@
     <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div class="container-fluid p-0 container">
+    <div class="container-fluid p-0">
         <div class="row g-0 w-100">
             <!-- Sidebar -->
             <nav class="col-auto d-md-block sidebar">
@@ -1163,7 +1163,7 @@
     </div>
 
     <!-- Modal Novo Processo -->
-    <div class="modal fade" id="modalNovoProcesso" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal fade modal-right" id="modalNovoProcesso" is="dmx-bs5-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

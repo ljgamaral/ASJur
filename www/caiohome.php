@@ -613,7 +613,6 @@
         /* Ajustes para telas muito grandes */
         @media (min-width: 1400px) {
             .container-fluid {
-                max-width: 1600px;
                 margin: 0 auto;
             }
 
@@ -1240,7 +1239,7 @@
     <!-- Modal Novo Cliente -->
 
     <!-- Modal Editar Cliente -->
-    <div class="modal fade" id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal fade " id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

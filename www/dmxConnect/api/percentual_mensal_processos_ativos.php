@@ -53,7 +53,8 @@ $app->define(<<<'JSON'
           "type": "text"
         }
       ],
-      "type": "dbcustom_query"
+      "type": "dbcustom_query",
+      "outputType": "array"
     }
   }
 }

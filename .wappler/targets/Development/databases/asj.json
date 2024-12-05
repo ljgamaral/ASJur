@@ -125,7 +125,166 @@
         "db": {}
       },
       "processos": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "arquivo_importacao": {
+            "db": {
+              "type": "string",
+              "maxLength": 32,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_cliente": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "processo": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "status": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "data_distribuicao": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "data_conclusao": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "ultimo_andamento": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "penultimo_andamento": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "justica": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "comarca": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "vara": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "tese": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "autor": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "reu": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_clickup": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "url": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "resetar_senha": {
         "db": {}
@@ -186,7 +345,80 @@
         }
       },
       "usuarios": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "avatar": {
+            "db": {
+              "type": "string",
+              "default": "'default.png'",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "senha": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nivel_permissao": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "token": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       }
     },
     "views": {},

@@ -660,7 +660,6 @@
         /* Ajustes para telas muito grandes */
         @media (min-width: 1400px) {
             .container-fluid {
-                max-width: 1600px;
                 margin: 0 auto;
             }
 

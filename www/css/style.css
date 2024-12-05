@@ -77,7 +77,6 @@ a {
 .info-card{
     font-size: 25px;}
 .main-content{
-    width: 86%;
     background-color: #f8f9fa;
 .card-icon{
     font-size: 15px;
@@ -494,3 +493,82 @@ td.celula-tabela {
 .style23{
     margin-right: 7px;
 }
+
+.icon-modal-form{
+    margin-right: 2px;
+    padding: 2px 8px;
+    border: 1px solid #6c757d;
+    border-top-left-radius: 54px;
+    border-top-right-radius: 54px;
+    border-bottom-left-radius: 54px;
+    border-bottom-right-radius: 54px;}
+
+.style24{}
+
+.number-modal-form{
+    font-size: 12px;}
+
+.style25{
+    border: 1px solid #6c757d;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    padding: 3px 5px 3px 3px;
+}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.continuar-button{
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #000;}
+
+.title-form {
+    font-weight: 500;
+}
+
+.col-form-label {
+    color: #6C757D;
+}
+
+.container-fluid {
+    overflow-x: hidden;
+}
+
+.modal.modal-right .modal-dialog {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    height: 100%;
+    -webkit-transform: none;
+            transform: none;
+    width: 100%;
+  }
+  
+  .modal.modal-right .modal-content {
+    height: 100%;
+    border-radius: 0;
+  }
+
+.btn-close {
+    font-size: 10px;
+}
+
+.option-default{
+    color: #6c757d;}
+
