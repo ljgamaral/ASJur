@@ -421,18 +421,6 @@
         }
 
         /* Botão toggle menu mobile */
-        .mobile-nav-toggle {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            padding: 0.5rem;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
 
         /* Paginação personalizada */
         .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -1077,7 +1065,7 @@
     <div is="dmx-browser" id="browser1"></div>
 
     <!-- Mobile Nav Toggle -->
-    <button class="mobile-nav-toggle" id="sidebarToggle">
+    <button class="mobile-nav-toggle" id="sidebarToggle" dmx-on:click="offcanvas1.toggle()">
         <i class="fa-solid fa-bars"></i>
     </button>
 
@@ -1157,6 +1145,74 @@
 
             <!-- Main Content -->
             <main class="col main-content">
+                <div class="offcanvas offcanvas-start" id="offcanvas1" is="dmx-bs5-offcanvas" tabindex="-1">
+                    <div class="offcanvas-header pe-4">
+                        <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block ms-2 me-auto">
+
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between navbar-itens">
+                        <ul class="nav flex-column w-100 h-100 mt-3">
+                            <li class="nav-item">
+                                <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
+                                    <i class="fa-solid fa-house"></i>
+                                    Início
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/clientes">
+                                    <i class="fa-solid fa-user"></i>
+                                    Clientes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                    Processos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/agenda">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    Agenda
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-active" href="/relatorios">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                    Relatórios
+                                </a>
+                            </li>
+                            <li class="nav-item mt-auto">
+                                <a class="nav-link" href="/configuracoes">
+                                    <i class="fa-solid fa-gear"></i>
+                                    Configurações
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                            <div class="d-flex flex-column mb-2 ms-4 me-4">
+                                <button id="btn7" class="btn w-100 count-button text-secondary">
+                                    <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                            </div>
+                        </div>
+                        <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
+                            <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                                <div class="d-flex flex-column lh-sm">
+                                    <p class="mb-0 lh-sm">César</p>
+                                    <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                </div>
+                            </div>
+
+
+
+                            <i class="fa-solid fa-angle-right"></i>
+
+                        </div>
+                    </div>
+                </div>
                 <!-- Page Header -->
                 <div class="page-header animate-fade-in">
                     <div class="d-flex justify-content-between w-100 align-items-center">

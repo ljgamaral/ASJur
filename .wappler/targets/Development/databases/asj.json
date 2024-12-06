@@ -14,7 +14,197 @@
         "db": {}
       },
       "clientes": {
-        "db": {}
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "bigIncrements",
+              "primary": true,
+              "nullable": false
+            }
+          },
+          "slug": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "id_crm": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "tipo": {
+            "db": {
+              "type": "enum",
+              "enumValues": [
+                "fisica",
+                "juridica"
+              ],
+              "default": "'fisica'",
+              "maxLength": 8,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 64,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "responsavel": {
+            "db": {
+              "type": "string",
+              "maxLength": 64,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "endereco": {
+            "db": {
+              "type": "string",
+              "maxLength": 64,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "bairro": {
+            "db": {
+              "type": "string",
+              "maxLength": 64,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "cep": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "cidade": {
+            "db": {
+              "type": "string",
+              "maxLength": 192,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "uf": {
+            "db": {
+              "type": "string",
+              "maxLength": 32,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "departamento": {
+            "db": {
+              "type": "string",
+              "maxLength": 32,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "data_nascimento": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "rg": {
+            "db": {
+              "type": "string",
+              "default": "",
+              "maxLength": 9,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "cpf": {
+            "db": {
+              "type": "string",
+              "default": "",
+              "maxLength": 20,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "estado_civil": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "profissao": {
+            "db": {
+              "type": "string",
+              "maxLength": 48,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "sexo": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "filiacao": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "celular": {
+            "db": {
+              "type": "string",
+              "default": "",
+              "maxLength": 15,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "origem": {
+            "db": {
+              "type": "string",
+              "maxLength": 36,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "captador": {
+            "db": {
+              "type": "string",
+              "maxLength": 128,
+              "primary": false,
+              "nullable": false
+            }
+          },
+          "criado_em": {
+            "db": {
+              "type": "timestamp",
+              "default": "knex.fn.now()",
+              "primary": false,
+              "nullable": false
+            }
+          }
+        }
       },
       "documentos": {
         "db": {}

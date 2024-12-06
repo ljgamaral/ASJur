@@ -277,84 +277,84 @@ dmx.config({
     "data_detail1": {
       "meta": [
         {
-          "type": "text",
-          "name": "id"
+          "name": "id",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "slug"
+          "name": "slug",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "arquivo_importacao"
+          "name": "arquivo_importacao",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "id_cliente"
+          "name": "id_cliente",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "processo"
+          "name": "processo",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "descricao"
+          "name": "descricao",
+          "type": "file"
         },
         {
-          "type": "text",
-          "name": "status"
+          "name": "status",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "data_distribuicao"
+          "name": "data_distribuicao",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "data_conclusao"
+          "name": "data_conclusao",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "ultimo_andamento"
+          "name": "ultimo_andamento",
+          "type": "file"
         },
         {
-          "type": "text",
-          "name": "penultimo_andamento"
+          "name": "penultimo_andamento",
+          "type": "file"
         },
         {
-          "type": "text",
-          "name": "justica"
+          "name": "justica",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "comarca"
+          "name": "comarca",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "vara"
+          "name": "vara",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "tese"
+          "name": "tese",
+          "type": "file"
         },
         {
-          "type": "text",
-          "name": "autor"
+          "name": "autor",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "reu"
+          "name": "reu",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "id_clickup"
+          "name": "id_clickup",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "url"
+          "name": "url",
+          "type": "file"
         },
         {
-          "type": "datetime",
-          "name": "criado_em"
+          "name": "criado_em",
+          "type": "datetime"
         }
       ],
       "outputType": "array"

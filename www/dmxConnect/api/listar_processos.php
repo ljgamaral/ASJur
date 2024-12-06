@@ -27,6 +27,10 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "pesquisa"
       }
     ]
   },
@@ -38,7 +42,7 @@ $app->define(<<<'JSON'
       "options": {
         "connection": "asj",
         "sql": {
-          "query": "SELECT \n    p.*, \n    (SELECT COUNT(*) \n     FROM processos \n     WHERE \n         (:status = '' AND (status = '' OR status IS NULL)) \n         OR status = :status) AS total\nFROM processos p\nWHERE \n    (:status = '' AND (status = '' OR status IS NULL)) \n    OR status = :status\nLIMIT :limit OFFSET :offset;",
+          "query": "SELECT \n    p.*, \n    (SELECT COUNT(*) \n     FROM processos p2\n     WHERE \n        (:status = '' OR (p2.status = '' AND p2.status IS NULL) OR p2.status = :status)\n        AND (\n            p2.processo LIKE CONCAT('%', :pesquisa, '%')   \n            OR p2.justica LIKE CONCAT('%', :pesquisa, '%')    \n            OR p2.ultimo_andamento LIKE CONCAT('%', :pesquisa, '%')\n            OR p2.status LIKE CONCAT('%', :pesquisa, '%')\n        )\n    ) AS total\nFROM processos p\nWHERE \n    (:status = '' OR (p.status = '' AND p.status IS NULL) OR p.status = :status)\n    AND (\n        p.processo LIKE CONCAT('%', :pesquisa, '%')   \n        OR p.justica LIKE CONCAT('%', :pesquisa, '%')    \n        OR p.ultimo_andamento LIKE CONCAT('%', :pesquisa, '%')\n        OR p.status LIKE CONCAT('%', :pesquisa, '%')\n    )\nLIMIT :limit OFFSET :offset;\n",
           "params": [
             {
               "name": ":status",
@@ -53,6 +57,10 @@ $app->define(<<<'JSON'
             {
               "name": ":offset",
               "value": "{{$_GET.offset}}"
+            },
+            {
+              "name": ":pesquisa",
+              "value": "{{$_GET.pesquisa}}"
             }
           ]
         }

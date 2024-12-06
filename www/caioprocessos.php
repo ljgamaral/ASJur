@@ -387,7 +387,7 @@
         .quick-actions {
             position: fixed;
             bottom: 2rem;
-            right: 2rem;
+            right: 1rem;
             z-index: 1000;
         }
 
@@ -626,6 +626,7 @@
             .sidebar {
                 width: 100%;
                 max-width: 300px;
+                display: none;
                 transform: translateX(-100%);
             }
 
@@ -664,7 +665,7 @@
             }
 
             .quick-actions {
-                bottom: 1rem;
+                bottom: 3rem;
                 right: 1rem;
             }
 
@@ -909,23 +910,31 @@
     <script src="dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
     <script src="dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
+    <script src="dmxAppConnect/dmxBootstrap5Offcanvas/dmxBootstrap5Offcanvas.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxSummernote/summernote-bs5.min.css" />
+    <script src="dmxAppConnect/dmxSummernote/summernote-bs5.min.js" defer></script>
+    <script src="dmxAppConnect/dmxSummernote/dmxSummernote.js" defer></script>
 </head>
 
 <body is="dmx-app" id="processos">
-    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value" dmx-param:status="' '"></dmx-serverconnect>
+    <dmx-value id="pesquisa" dmx-bind:value="''"></dmx-value>
+    <dmx-value id="total_paginas_tabela" dmx-bind:value="(sc_listar_processos.data.listar_processos[0].total / select1.value).round(0)||1"></dmx-value>
+    <dmx-value id="abaformeditar" dmx-bind:value="'basicas'"></dmx-value>
+    <dmx-value id="abaform" dmx-bind:value="'basicas'"></dmx-value>
+    <dmx-serverconnect id="sc_listar_processos" url="dmxConnect/api/listar_processos.php" dmx-param:limit="select1.value" dmx-param:offset="(pagina_atual_tabela.value-1)*select1.value" dmx-param:status="filtro.value" dmx-on:done="" dmx-on:success="" dmx-param:pesquisa="pesquisa.value"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php"></dmx-serverconnect>
     <dmx-notifications id="notifies1"></dmx-notifications>
     <dmx-serverconnect id="sc_novo_processo" url="dmxConnect/api/cadastrar_processo.php" noload="true"></dmx-serverconnect>
-    <dmx-data-detail id="data_detail1" key="id" dmx-bind:data="sc_listar_processos.data.listar_processos.data"></dmx-data-detail>
+    <dmx-data-detail id="data_detail1" key="id" dmx-bind:data="sc_listar_processos.data.listar_processos"></dmx-data-detail>
     <dmx-serverconnect id="sc_processos" url="dmxConnect/api/processos.php"></dmx-serverconnect>
     <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
-    <dmx-value id="filtro" dmx-bind:value="'Todos'"></dmx-value>
+    <dmx-value id="filtro" dmx-bind:value="' '" dmx-on:updated="pagina_atual_tabela.setValue(1)"></dmx-value>
     <dmx-value id="varProcessoAtual"></dmx-value>
     <dmx-serverconnect id="sc_excluir_processo" url="dmxConnect/api/excluir_processo.php" noload dmx-on:success="sc_listar_processos.load();notifySuccess.success('Processo excluído com sucesso!')"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
 
     <!-- Mobile Nav Toggle -->
-    <button class="mobile-nav-toggle" id="sidebarToggle">
+    <button class="mobile-nav-toggle" id="sidebarToggle" dmx-on:click="offcanvas1.toggle()">
         <i class="fa-solid fa-bars"></i>
     </button>
 
@@ -1005,6 +1014,74 @@
 
             <!-- Main Content -->
             <main class="col main-content">
+                <div class="offcanvas offcanvas-start" id="offcanvas1" is="dmx-bs5-offcanvas" tabindex="-1">
+                    <div class="offcanvas-header pe-4">
+                        <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block ms-2 me-auto">
+
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between navbar-itens">
+                        <ul class="nav flex-column w-100 h-100 mt-3">
+                            <li class="nav-item">
+                                <a class="nav-link style19" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})" href="/home">
+                                    <i class="fa-solid fa-house"></i>
+                                    Início
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/clientes">
+                                    <i class="fa-solid fa-user"></i>
+                                    Clientes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                    Processos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/agenda">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    Agenda
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/relatorios">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                    Relatórios
+                                </a>
+                            </li>
+                            <li class="nav-item mt-auto">
+                                <a class="nav-link" href="/configuracoes">
+                                    <i class="fa-solid fa-gear"></i>
+                                    Configurações
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                            <div class="d-flex flex-column mb-2 ms-4 me-4">
+                                <button id="btn7" class="btn w-100 count-button text-secondary">
+                                    <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+                            </div>
+                        </div>
+                        <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
+                            <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                                <div class="d-flex flex-column lh-sm">
+                                    <p class="mb-0 lh-sm">César</p>
+                                    <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                </div>
+                            </div>
+
+
+
+                            <i class="fa-solid fa-angle-right"></i>
+
+                        </div>
+                    </div>
+                </div>
                 <!-- Page Header -->
                 <div class="page-header animate-fade-in">
                     <div class="d-flex justify-content-between align-items-center">
@@ -1075,9 +1152,9 @@
                         </div>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos2" dmx-show="filtro.value=='Todos'">
+                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos2" dmx-show="filtro.value==' '">
                             Todos
-                        </button><button class="btn btn-filter buttons-radius" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}, limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value});filtro.setValue('Todos')" id="todos" dmx-hide="filtro.value=='Todos'">
+                        </button><button class="btn btn-filter buttons-radius" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}, limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value});filtro.setValue(' ')" id="todos" dmx-hide="filtro.value==' '">
                             Todos
                         </button>
                         <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'em andamento'});filtro.setValue('Em andamento')" id="em_andamento2" dmx-show="filtro.value=='Em andamento'">
@@ -1099,43 +1176,276 @@
 
                 <!-- Tabela de Processos -->
                 <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
-                    <div class="d-flex align-items-center pt-2 pb-2 justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <p class="mb-0">Exibir</p>
-                            <div class="d-flex align-items-center"><select id="select1" class="form-select ms-2 me-2 pt-1 pb-1 ps-2" name="select1">
-                                    <option value="1">1</option>
-                                    <option selected="" value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                </select></div>
-                            <p class="mb-0">resultados por página</p>
-                        </div>
+                    <div class="d-flex justify-content-between pt-1 pb-3 align-items-center">
                         <div class="d-flex">
-                            <button id="btn1" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value-1)"><i class="fa-solid fa-angle-left"></i></button>
-                            <button id="btn2" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value+1)"><i class="fa-solid fa-angle-right"></i></button>
+                            <input id="text1" name="text1" type="text" class="form-control pt-0 pb-0 style28" placeholder="Pesquisar..." dmx-on:select="run({condition:{outputType:'boolean',if:`value.isEmpty()`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(\'\')`}}}}})" dmx-on:blur="run({condition:{outputType:'boolean',if:`value.isEmpty()`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(\'\')`}}}}})">
+                            <button id="btn22" class="btn style29 ps-0" dmx-show="!text1.value.isEmpty()" dmx-on:click="text1.setValue();pesquisa.setValue('');pagina_atual_tabela.setValue(1)"><i class="fa-solid fa-xmark fa-xs"></i></button>
+                            <button id="btn21" class="btn style27 text-bg-dark" dmx-on:click="run({condition:{outputType:'boolean',if:`text1.value`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(text1.value);pagina_atual_tabela.setValue(1)`}}}}})"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <div class="dropdown">
+                                <button id="dropdown1" class="btn dropdown-toggle text-secondary" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dmx-style:border="0"><i class="fa-solid fa-filter"></i>&nbsp;Filtros&nbsp;&nbsp;</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                    <a class="dropdown-item">{{'Filtrar '+select_coluna_1.value}}</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <button id="btn1" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value-1)" dmx-bind:disabled="pagina_atual_tabela.value==1"><i class="fa-solid fa-angle-left"></i></button>
+                            <button id="btn2" class="btn" dmx-on:click="pagina_atual_tabela.setValue(pagina_atual_tabela.value+1)" dmx-bind:disabled="pagina_atual_tabela.value==total_paginas_tabela.value"><i class="fa-solid fa-angle-right"></i></button>
                         </div>
 
 
 
 
                     </div>
+                    <div class="collapse" id="collapse2" is="dmx-bs5-collapse">
+                        <p></p>
+                    </div>
                     <div class="table-responsive">
                         <table class="table">
+                            <tbody dmx-show="!sc_listar_processos.status&amp;&amp;(!sc_listar_processos.data.listar_processos[0].id)">
+                                <tr>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                    <td>
+                                        <div class="skeleton-loader" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;!sc_listar_processos.status"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
                             <thead>
                                 <tr>
-                                    <th scope="col">PROCESSO</th>
-                                    <th scope="col">ÚLTIMO ANDAMENTO</th>
-                                    <th scope="col">ÓRGÃO</th>
-                                    <th scope="col">STATUS</th>
+                                    <th scope="col">
+                                        <select id="select_coluna_1" class="form-select select-table">
+                                            <option value="id">ID</option>
+                                            <option value="arquivo-importacao">ARQUIVO IMPORTAÇÃO</option>
+                                            <option value="id-cliente">ID CLIENTE</option>
+                                            <option selected="" value="titulo">TÍTULO</option>
+                                            <option value="descricao">DESCRIÇÃO</option>
+                                            <option value="status">STATUS</option>
+                                            <option value="data-distribuicao">DATA DE DISTRIBUIÇÃO</option>
+                                            <option value="data-conclusao">DATA DE CONCLUSÃO</option>
+                                            <option value="ultimo-andamento">ÚLTIMO ANDAMENTO</option>
+                                            <option value="penultimo-andamento">PENÚLTIMO ANDAMENTO</option>
+                                            <option value="justica">JUSTIÇA</option>
+                                            <option value="comarca">COMARCA</option>
+                                            <option value="vara">VARA</option>
+                                            <option value="tese">TESE</option>
+                                            <option value="autor">AUTOR</option>
+                                            <option value="reu">RÉU</option>
+                                            <option value="id-clickup">ID CLICKUP</option>
+                                            <option value="link">LINK</option>
+                                            <option value="cadastrado-em">CADASTRADO EM</option>
+                                        </select>
+                                    </th>
+                                    <th scope="col">
+                                        <select id="select_coluna_2" class="form-select select-table">
+                                            <option value="id">ID</option>
+                                            <option value="arquivo-importacao">ARQUIVO IMPORTAÇÃO</option>
+                                            <option value="id-cliente">ID CLIENTE</option>
+                                            <option value="titulo">TÍTULO</option>
+                                            <option value="descricao">DESCRIÇÃO</option>
+                                            <option value="status">STATUS</option>
+                                            <option value="data-distribuicao">DATA DE DISTRIBUIÇÃO</option>
+                                            <option value="data-conclusao">DATA DE CONCLUSÃO</option>
+                                            <option selected="" value="ultimo-andamento">ÚLTIMO ANDAMENTO</option>
+                                            <option value="penultimo-andamento">PENÚLTIMO ANDAMENTO</option>
+                                            <option value="justica">JUSTIÇA</option>
+                                            <option value="comarca">COMARCA</option>
+                                            <option value="vara">VARA</option>
+                                            <option value="tese">TESE</option>
+                                            <option value="autor">AUTOR</option>
+                                            <option value="reu">RÉU</option>
+                                            <option value="id-clickup">ID CLICKUP</option>
+                                            <option value="link">LINK</option>
+                                            <option value="cadastrado-em">CADASTRADO EM</option>
+                                        </select>
+                                    </th>
+                                    <th scope="col">
+                                        <select id="select_coluna_3" class="form-select select-table">
+                                            <option value="id">ID</option>
+                                            <option value="arquivo-importacao">ARQUIVO IMPORTAÇÃO</option>
+                                            <option value="id-cliente">ID CLIENTE</option>
+                                            <option value="titulo">TÍTULO</option>
+                                            <option value="descricao">DESCRIÇÃO</option>
+                                            <option value="status">STATUS</option>
+                                            <option value="data-distribuicao">DATA DE DISTRIBUIÇÃO</option>
+                                            <option value="data-conclusao">DATA DE CONCLUSÃO</option>
+                                            <option value="ultimo-andamento">ÚLTIMO ANDAMENTO</option>
+                                            <option value="penultimo-andamento">PENÚLTIMO ANDAMENTO</option>
+                                            <option selected="" value="justica">JUSTIÇA</option>
+                                            <option value="comarca">COMARCA</option>
+                                            <option value="vara">VARA</option>
+                                            <option value="tese">TESE</option>
+                                            <option value="autor">AUTOR</option>
+                                            <option value="reu">RÉU</option>
+                                            <option value="id-clickup">ID CLICKUP</option>
+                                            <option value="link">LINK</option>
+                                            <option value="cadastrado-em">CADASTRADO EM</option>
+                                        </select>
+                                    </th>
+                                    <th scope="col">
+                                        <select id="select_coluna_4" class="form-select select-table">
+                                            <option value="id">ID</option>
+                                            <option value="arquivo-importacao">ARQUIVO IMPORTAÇÃO</option>
+                                            <option value="id-cliente">ID CLIENTE</option>
+                                            <option value="titulo">TÍTULO</option>
+                                            <option value="descricao">DESCRIÇÃO</option>
+                                            <option selected="" value="status">STATUS</option>
+                                            <option value="data-distribuicao">DATA DE DISTRIBUIÇÃO</option>
+                                            <option value="data-conclusao">DATA DE CONCLUSÃO</option>
+                                            <option value="ultimo-andamento">ÚLTIMO ANDAMENTO</option>
+                                            <option value="penultimo-andamento">PENÚLTIMO ANDAMENTO</option>
+                                            <option value="justica">JUSTIÇA</option>
+                                            <option value="comarca">COMARCA</option>
+                                            <option value="vara">VARA</option>
+                                            <option value="tese">TESE</option>
+                                            <option value="autor">AUTOR</option>
+                                            <option value="reu">RÉU</option>
+                                            <option value="id-clickup">ID CLICKUP</option>
+                                            <option value="link">LINK</option>
+                                            <option value="cadastrado-em">CADASTRADO EM</option>
+                                        </select>
+                                    </th>
                                     <th scope="col">AÇÕES</th>
                                 </tr>
                             </thead>
                             <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_listar_processos.data.listar_processos" key="id">
                                 <tr>
-                                    <td>{{processo}}</td>
-                                    <td>{{ultimo_andamento}}</td>
-                                    <td>{{justica}}</td>
-                                    <td class="text-capitalize">{{status}}</td>
+                                    <td>
+
+
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='id'">{{id || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='arquivo-importacao'">{{arquivo_importacao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='id-cliente'">{{id_cliente || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='titulo'">{{processo || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='descricao'">{{descricao || "-"}}</div>
+                                        <div class="d-flex text-capitalize" dmx-show="select_coluna_1.value=='status'">{{status || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='data-distribuicao'">{{data_distribuicao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='data-conclusao'">{{data_conclusao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='ultimo-andamento'">{{ultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='penultimo-andamento'">{{penultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='justica'">{{justica || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='comarca'">{{comarca || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='vara'">{{vara || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='tese'">{{tese || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='autor'">{{autor || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='reu'">{{reu || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='id-clickup'">{{id_clickup || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='link'">{{url || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_1.value=='cadastrado-em'">{{criado_em.formatDate('dd/MM/yyyy - hh:mm')||'-'}}</div>
+                                    </td>
+                                    <td>
+
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='id'">{{id || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='arquivo-importacao'">{{arquivo_importacao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='id-cliente'">{{id_cliente || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='titulo'">{{processo || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='descricao'">{{descricao || "-"}}</div>
+                                        <div class="d-flex text-capitalize" dmx-show="select_coluna_2.value=='status'">{{status || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='data-distribuicao'">{{data_distribuicao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='data-conclusao'">{{data_conclusao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='ultimo-andamento'">{{ultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='penultimo-andamento'">{{penultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='justica'">{{justica || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='comarca'">{{comarca || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='vara'">{{vara || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='tese'">{{tese || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='autor'">{{autor || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='reu'">{{reu || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='id-clickup'">{{id_clickup || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='link'">{{url || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_2.value=='cadastrado-em'">{{criado_em.formatDate('dd/MM/yyyy - hh:mm')||'-'}}</div>
+                                    </td>
+                                    <td>
+
+
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='id'">{{id || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='arquivo-importacao'">{{arquivo_importacao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='id-cliente'">{{id_cliente || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='titulo'">{{processo || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='descricao'">{{descricao || "-"}}</div>
+                                        <div class="d-flex text-capitalize" dmx-show="select_coluna_3.value=='status'">{{status || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='data-distribuicao'">{{data_distribuicao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='data-conclusao'">{{data_conclusao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='ultimo-andamento'">{{ultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='penultimo-andamento'">{{penultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='justica'">{{justica || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='comarca'">{{comarca || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='vara'">{{vara || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='tese'">{{tese || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='autor'">{{autor || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='reu'">{{reu || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='id-clickup'">{{id_clickup || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='link'">{{url || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_3.value=='cadastrado-em'">{{criado_em.formatDate('dd/MM/yyyy - hh:mm')||'-'}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='id'">{{id || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='arquivo-importacao'">{{arquivo_importacao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='id-cliente'">{{id_cliente || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='titulo'">{{processo || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='descricao'">{{descricao || "-"}}</div>
+                                        <div class="d-flex text-capitalize" dmx-show="select_coluna_4.value=='status'">{{status || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='data-distribuicao'">{{data_distribuicao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='data-conclusao'">{{data_conclusao || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='ultimo-andamento'">{{ultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='penultimo-andamento'">{{penultimo_andamento || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='justica'">{{justica || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='comarca'">{{comarca || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='vara'">{{vara || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='tese'">{{tese || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='autor'">{{autor || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='reu'">{{reu || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='id-clickup'">{{id_clickup || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='link'">{{url || "-"}}</div>
+                                        <div class="d-flex" dmx-show="select_coluna_4.value=='cadastrado-em'">{{criado_em.formatDate('dd/MM/yyyy - hh:mm')||'-'}}</div>
+                                    </td>
                                     <td>
                                         <div class="d-flex">
                                             <button id="btn3" class="btn" dmx-bs-tooltip="'Editar informações'" data-bs-trigger="hover" dmx-on:click="data_detail1.select(id);modalEditarProcesso.show();modalEditarProcesso.formEditarProcesso.inp_id.setValue(id);modalEditarProcesso.formEditarProcesso.inp_criado_em1.setValue(criado_em)"><i class="fa-solid fa-pen"></i></button>
@@ -1144,19 +1454,33 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                </tr>
+
                                 <tr>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="d-flex pt-3 pb-2">
-                        <p class="text-secondary mb-0">Página:&nbsp;</p>
-                        <p class="mb-0">{{pagina_atual_tabela.value}}</p>
-                        <p class="mb-0 text-secondary">&nbsp;de&nbsp;</p>
-                        <p class="mb-0 text-black">{{(sc_listar_processos.data.listar_processos[0].total)/select1.value || 0}}</p>
+                    <div class="d-flex justify-content-center pt-4 pb-4 text-secondary" dmx-show="sc_listar_processos.data.listar_processos[0].id.isEmpty()&amp;&amp;(sc_listar_processos.status)">Nenhum resultado</div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 pe-2">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Exibir</p>
+                            <div class="d-flex align-items-center"><select id="select1" class="form-select ms-2 me-2 pt-1 pb-1 ps-2" name="select1" dmx-on:changed="pagina_atual_tabela.setValue(1)">
+                                    <option value="1">1</option>
+                                    <option selected="" value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select></div>
+                            <p class="mb-0">resultados por página</p>
+                        </div>
+                        <div class="d-flex">
+                            <p class="text-secondary mb-0">Página:&nbsp;</p>
+                            <p class="mb-0">{{pagina_atual_tabela.value}}</p>
+                            <p class="mb-0 text-secondary">&nbsp;de&nbsp;</p>
+                            <p class="mb-0 text-black">{{(sc_listar_processos.data.listar_processos[0].total / select1.value).round(0)||1}}</p>
+                        </div>
                     </div>
+
                 </div>
             </main>
         </div>
@@ -1164,39 +1488,44 @@
 
     <!-- Modal Novo Processo -->
     <div class="modal fade modal-right" id="modalNovoProcesso" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novo Processo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form is="dmx-serverconnect-form" id="formNovoProcesso" method="post" action="dmxConnect/api/cadastrar_processo.php" dmx-generator="bootstrap4" dmx-form-type="vertical" dmx-on:done="modalNovoProcesso.hide();notifies1.success('Processo cadastrado com sucesso!');sc_processos.load({});sc_listar_processos.load({limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value})">
-                        <div class="d-flex flex-row justify-content-around mb-3">
-                            <div class="d-flex flex-column column-form">
+                    <form is="dmx-serverconnect-form" id="formNovoProcesso" method="post" action="dmxConnect/api/cadastrar_processo.php" dmx-generator="bootstrap4" dmx-form-type="vertical" dmx-on:done="modalNovoProcesso.hide();notifies1.success('Processo cadastrado com sucesso!');sc_processos.load({});sc_listar_processos.load({limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value});abaformeditar.setValue('basicas');formNovoProcesso.reset()">
+                        <div class="d-flex justify-content-around mb-3 flex-column">
+                            <div class="d-flex flex-column" id="basicas" dmx-show="abaform.value=='basicas'">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Informações básicas</p>
+                                    <p class="mb-1 text-secondary small">1/5</p>
+                                </div>
+
                                 <div class="form-group">
-                                    <label for="inp_slug">Slug</label>
+                                    <label for="inp_slug" class="col-sm-2 col-form-label">Slug</label>
                                     <input type="text" class="form-control" id="inp_slug" name="slug" aria-describedby="inp_slug_help" required="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_arquivo_importacao">Arquivo importação</label>
+                                    <label for="inp_arquivo_importacao" class="row-sm-2 col-form-label">Arquivo importação</label>
                                     <input type="text" class="form-control" id="inp_arquivo_importacao" name="arquivo_importacao" aria-describedby="inp_arquivo_importacao_help" required="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_id_cliente">Id cliente</label>
+                                    <label for="inp_id_cliente" class="row-sm-2 col-form-label">ID do cliente</label>
                                     <input type="number" class="form-control" id="inp_id_cliente" name="id_cliente" aria-describedby="inp_id_cliente_help" required="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_processo">Processo</label>
+                                    <label for="inp_processo" class="col-sm-2 col-form-label">Processo</label>
                                     <input type="text" class="form-control" id="inp_processo" name="processo" aria-describedby="inp_processo_help" required="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_descricao">Descrição</label>
+                                    <label for="inp_descricao" class="col-sm-2 col-form-label">Descrição</label>
                                     <input type="text" class="form-control" id="inp_descricao" name="descricao" aria-describedby="inp_descricao_help">
                                 </div>
                                 <div class="form-group">
 
-                                    <label for="inp_status">Status</label>
+                                    <label for="inp_status" class="col-sm-2 col-form-label">Status</label>
                                     <select id="inp_status" class="form-select" name="status">
                                         <option value="ativo">Ativo</option>
                                         <option value="em andamento">Em andamento</option>
@@ -1206,61 +1535,115 @@
                                         <option value="cancelado">Cancelado</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inp_data_distribuicao">Data distribuição</label>
-                                    <input class="form-control" id="inp_data_distribuicao" name="data_distribuicao" aria-describedby="inp_data_distribuicao_help">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_data_conclusao">Data conclusão</label>
-                                    <input class="form-control" id="inp_data_conclusao" name="data_conclusao" aria-describedby="inp_data_conclusao_help">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_ultimo_andamento">Último andamento</label>
-                                    <input type="text" class="form-control" id="inp_ultimo_andamento" name="ultimo_andamento" aria-describedby="inp_ultimo_andamento_help">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_penultimo_andamento">Penúltimo andamento</label>
-                                    <input type="text" class="form-control" id="inp_penultimo_andamento" name="penultimo_andamento" aria-describedby="inp_penultimo_andamento_help">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_justica">Justiça</label>
-                                    <input type="text" class="form-control" id="inp_justica" name="justica" aria-describedby="inp_justica_help">
-                                </div>
+                                <button id="btn12" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaform.setValue('juridicos')">Continuar&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+
+
+
+
+
                             </div>
-                            <div class="d-flex flex-column column-form">
+
+                            <div class="d-flex flex-column" id="juridicos" dmx-show="abaform.value=='juridicos'">
+                                <div class="d-flex"><button id="btn13" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('basicas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para informações básicas</button>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Dados Jurídicos</p>
+                                    <p class="mb-1 text-secondary small">2/5</p>
+                                </div>
                                 <div class="form-group">
-                                    <label for="inp_comarca">Comarca</label>
+                                    <label for="inp_comarca" class="row-sm-2 col-form-label">Comarca</label>
                                     <input type="text" class="form-control" id="inp_comarca" name="comarca" aria-describedby="inp_comarca_help">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_vara">Vara</label>
+                                    <label for="inp_vara" class="row-sm-2 col-form-label">Vara</label>
                                     <input type="text" class="form-control" id="inp_vara" name="vara" aria-describedby="inp_vara_help">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_tese">Tese</label>
+                                    <label for="inp_justica" class="col-sm-2 col-form-label">Justiça</label>
+                                    <input type="text" class="form-control" id="inp_justica" name="justica" aria-describedby="inp_justica_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_tese" class="row-sm-2 col-form-label">Tese</label>
                                     <input type="text" class="form-control" id="inp_tese" name="tese" aria-describedby="inp_tese_help">
                                 </div>
-                                <div class="form-group">
-                                    <label for="inp_autor">Autor</label>
-                                    <input type="text" class="form-control" id="inp_autor" name="autor" aria-describedby="inp_autor_help">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_reu">Reu</label>
-                                    <input type="text" class="form-control" id="inp_reu" name="reu" aria-describedby="inp_reu_help">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_id_clickup">Id clickup</label>
-                                    <input type="number" class="form-control" id="inp_id_clickup" name="id_clickup" aria-describedby="inp_id_clickup_help" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_url">Url</label>
-                                    <input class="form-control" id="inp_url" name="url" aria-describedby="inp_url_help">
-                                </div>
+
+
+
+
+
+
+
+
+
                                 <div class="form-group">
                                     <input type="hidden" class="form-control" id="inp_criado_em" name="criado_em" aria-describedby="inp_criado_em_help" placeholder="Enter Criado em" required="" data-msg-required="">
                                 </div>
+                                <button id="btn8" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaform.setValue('envolvidas')">Continuar&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+
                             </div>
-                        </div><button type="submit" class="btn btn-primary w-100 text-bg-dark" dmx-bind:disabled="state.executing">Criar<br></button>
+
+                            <div class="d-flex flex-column" id="envolvidas" dmx-show="abaform.value=='envolvidas'">
+                                <div class="d-flex"><button id="btn10" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('juridicos')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para dados jurídicos</button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Partes Envolvidas</p>
+                                    <p class="mb-1 text-secondary small">3/5</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inp_autor" class="row-sm-2 col-form-label">Autor</label>
+                                    <input type="text" class="form-control" id="inp_autor" name="autor" aria-describedby="inp_autor_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_reu" class="row-sm-2 col-form-label">Reu</label>
+                                    <input type="text" class="form-control" id="inp_reu" name="reu" aria-describedby="inp_reu_help">
+                                </div><button id="btn9" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaform.setValue('datas')">Continuar&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                            </div>
+
+                            <div class="d-flex flex-column" id="datas" dmx-show="abaform.value=='datas'">
+                                <div class="d-flex"><button id="btn14" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('envolvidas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para partes envolvidas</button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Andamentos e Datas</p>
+                                    <p class="mb-1 text-secondary small">4/5</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_ultimo_andamento" class="row-sm-2 col-form-label">Último andamento</label>
+                                    <input type="text" class="form-control" id="inp_ultimo_andamento" name="ultimo_andamento" aria-describedby="inp_ultimo_andamento_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_penultimo_andamento" class="row-sm-2 col-form-label">Penúltimo andamento</label>
+                                    <input type="text" class="form-control" id="inp_penultimo_andamento" name="penultimo_andamento" aria-describedby="inp_penultimo_andamento_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_distribuicao" class="row-sm-2 col-form-label">Data distribuição</label>
+                                    <input class="form-control" id="inp_data_distribuicao" name="data_distribuicao" aria-describedby="inp_data_distribuicao_help">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_conclusao" class="row-sm-2 col-form-label">Data conclusão</label>
+                                    <input class="form-control" id="inp_data_conclusao" name="data_conclusao" aria-describedby="inp_data_conclusao_help">
+                                </div><button id="btn11" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaform.setValue('outros')">Continuar&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                            </div>
+
+                            <div class="d-flex flex-column" id="outros" dmx-show="abaform.value=='outros'">
+                                <div class="d-flex"><button id="btn15" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('datas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para andamentos e datas</button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Outros</p>
+                                    <p class="mb-1 text-secondary small">5/5</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_id_clickup" class="row-sm-2 col-form-label">Id clickup</label>
+                                    <input type="number" class="form-control" id="inp_id_clickup" name="id_clickup" aria-describedby="inp_id_clickup_help" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_url" class="row-sm-2 col-form-label">Url</label>
+                                    <input class="form-control" id="inp_url" name="url" aria-describedby="inp_url_help">
+                                </div><button type="submit" class="btn btn-primary w-100 text-bg-dark mt-3" dmx-bind:disabled="state.executing">Cadastrar<br></button>
+                            </div>
+
+                        </div>
 
 
 
@@ -1288,41 +1671,48 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalEditarProcesso" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal fade modal-right" id="modalEditarProcesso" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar Processo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form is="dmx-serverconnect-form" id="formEditarProcesso" method="post" action="dmxConnect/api/editar_processo.php" dmx-generator="bootstrap4" dmx-form-type="vertical" dmx-on:done="modalEditarProcesso.hide();notifies1.success('Processo atualizado com sucesso!');sc_processos.load({});sc_listar_processos.load({})">
-                        <div class="d-flex flex-row justify-content-around mb-3">
-                            <div class="d-flex flex-column column-form">
+                    <form is="dmx-serverconnect-form" id="formEditarProcesso" method="post" action="dmxConnect/api/editar_processo.php" dmx-generator="bootstrap4" dmx-form-type="vertical" dmx-on:done="modalEditarProcesso.hide();notifies1.success('Processo atualizado com sucesso!');sc_processos.load({});sc_listar_processos.load({});abaformeditar.setValue('basicas')">
+                        <div class="d-flex justify-content-around mb-3 flex-column">
+                            <div class="d-flex flex-column" id="basicas1" dmx-show="abaformeditar.value=='basicas'">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Informações básicas</p>
+                                    <p class="mb-1 text-secondary small">1/5</p>
+                                </div>
+
                                 <div class="form-group">
-                                    <label for="inp_slug1">Slug</label>
-                                    <input type="text" class="form-control" id="inp_slug1" name="slug" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.slug">
-                                    <input type="hidden" class="form-control" id="inp_id" name="id" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.id">
+                                    <label for="inp_slug2" class="col-sm-2 col-form-label">Slug</label>
+                                    <input type="text" class="form-control" id="inp_slug2" name="slug" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.slug">
+                                    <input type="hidden" class="form-control" id="inp_criado_em" name="criado_em" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.criado_em">
+                                    <input type="hidden" class="form-control" id="inp_id1" name="id" aria-describedby="inp_slug_help" required="" dmx-bind:value="data_detail1.data.id">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_arquivo_importacao1">Arquivo importação</label>
-                                    <input type="text" class="form-control" id="inp_arquivo_importacao1" name="arquivo_importacao" aria-describedby="inp_arquivo_importacao_help" required="" dmx-bind:value="data_detail1.data.arquivo_importacao">
+                                    <label for="inp_arquivo_importacao2" class="row-sm-2 col-form-label">Arquivo importação</label>
+                                    <input type="text" class="form-control" id="inp_arquivo_importacao2" name="arquivo_importacao" aria-describedby="inp_arquivo_importacao_help" required="" dmx-bind:value="data_detail1.data.arquivo_importacao">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_id_cliente1">Id cliente</label>
-                                    <input type="number" class="form-control" id="inp_id_cliente1" name="id_cliente" aria-describedby="inp_id_cliente_help" required="" dmx-bind:value="data_detail1.data.id_cliente">
+                                    <label for="inp_id_cliente2" class="row-sm-2 col-form-label">ID do cliente</label>
+                                    <input type="number" class="form-control" id="inp_id_cliente2" name="id_cliente" aria-describedby="inp_id_cliente_help" required="" dmx-bind:value="data_detail1.data.id_cliente">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_processo1">Processo</label>
-                                    <input type="text" class="form-control" id="inp_processo1" name="processo" aria-describedby="inp_processo_help" required="" dmx-bind:value="data_detail1.data.processo">
+                                    <label for="inp_processo2" class="col-sm-2 col-form-label">Processo</label>
+                                    <input type="text" class="form-control" id="inp_processo2" name="processo" aria-describedby="inp_processo_help" required="" dmx-bind:value="data_detail1.data.processo">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_descricao1">Descrição</label>
-                                    <input type="text" class="form-control" id="inp_descricao1" name="descricao" aria-describedby="inp_descricao_help" dmx-bind:value="data_detail1.data.descricao">
+                                    <label for="inp_descricao2" class="col-sm-2 col-form-label">Descrição</label>
+                                    <input type="text" class="form-control" id="inp_descricao2" name="descricao" aria-describedby="inp_descricao_help" dmx-bind:value="data_detail1.data.descricao">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_status1">Status</label>
-                                    <select id="inp_status" class="form-select" name="status" dmx-bind:value="data_detail1.data.status">
+
+                                    <label for="inp_status1" class="col-sm-2 col-form-label">Status</label>
+                                    <select id="inp_status1" class="form-select" name="status" dmx-bind:value="data_detail1.data.status">
                                         <option value="ativo">Ativo</option>
                                         <option value="em andamento">Em andamento</option>
                                         <option value="arquivado">Arquivado</option>
@@ -1331,61 +1721,110 @@
                                         <option value="cancelado">Cancelado</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inp_data_distribuicao1">Data distribuição</label>
-                                    <input class="form-control" id="inp_data_distribuicao1" name="data_distribuicao" aria-describedby="inp_data_distribuicao_help" dmx-bind:value="data_detail1.data.data_distribuicao">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_data_conclusao1">Data conclusão</label>
-                                    <input class="form-control" id="inp_data_conclusao1" name="data_conclusao" aria-describedby="inp_data_conclusao_help" dmx-bind:value="data_detail1.data.data_conclusao">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_ultimo_andamento1">Último andamento</label>
-                                    <input type="text" class="form-control" id="inp_ultimo_andamento1" name="ultimo_andamento" aria-describedby="inp_ultimo_andamento_help" dmx-bind:value="data_detail1.data.ultimo_andamento">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_penultimo_andamento1">Penúltimo andamento</label>
-                                    <input type="text" class="form-control" id="inp_penultimo_andamento1" name="penultimo_andamento" aria-describedby="inp_penultimo_andamento_help" dmx-bind:value="data_detail1.data.penultimo_andamento">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inp_justica1">Justiça</label>
-                                    <input type="text" class="form-control" id="inp_justica1" name="justica" aria-describedby="inp_justica_help" dmx-bind:value="data_detail1.data.justica">
-                                </div>
+                                <button id="btn16" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('juridicos')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+
+
+
+
+
                             </div>
-                            <div class="d-flex flex-column column-form">
+                            <div class="d-flex flex-column" id="juridicos1" dmx-show="abaformeditar.value=='juridicos'">
+                                <div class="d-flex"><button id="btn17" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('basicas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para informações básicas</button>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Dados Jurídicos</p>
+                                    <p class="mb-1 text-secondary small">2/5</p>
+                                </div>
                                 <div class="form-group">
-                                    <label for="inp_comarca1">Comarca</label>
+                                    <label for="inp_comarca1" class="row-sm-2 col-form-label">Comarca</label>
                                     <input type="text" class="form-control" id="inp_comarca1" name="comarca" aria-describedby="inp_comarca_help" dmx-bind:value="data_detail1.data.comarca">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_vara1">Vara</label>
+                                    <label for="inp_vara1" class="row-sm-2 col-form-label">Vara</label>
                                     <input type="text" class="form-control" id="inp_vara1" name="vara" aria-describedby="inp_vara_help" dmx-bind:value="data_detail1.data.vara">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_tese1">Tese</label>
-                                    <input type="text" class="form-control" id="inp_tese1" name="tese" aria-describedby="inp_tese_help" dmx-bind:value="data_detail1.data.tese">
+                                    <label for="inp_justica1" class="col-sm-2 col-form-label">Justiça</label>
+                                    <input type="text" class="form-control" id="inp_justica1" name="justica" aria-describedby="inp_justica_help" dmx-bind:value="data_detail1.data.justica">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_autor1">Autor</label>
+                                    <label for="inp_tese1" class="row-sm-2 col-form-label">Tese</label>
+                                    <input type="text" class="form-control" id="inp_tese1" name="tese" aria-describedby="inp_tese_help" dmx-bind:value="data_detail1.data.tese">
+                                </div>
+
+
+
+
+
+
+
+
+
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="inp_criado_em1" name="criado_em1" aria-describedby="inp_criado_em_help" placeholder="Enter Criado em" required="" data-msg-required="">
+                                </div>
+                                <button id="btn17" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('envolvidas')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+
+                            </div>
+                            <div class="d-flex flex-column" id="envolvidas1" dmx-show="abaformeditar.value=='envolvidas'">
+                                <div class="d-flex"><button id="btn18" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('juridicos')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para dados jurídicos</button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Partes Envolvidas</p>
+                                    <p class="mb-1 text-secondary small">3/5</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inp_autor1" class="row-sm-2 col-form-label">Autor</label>
                                     <input type="text" class="form-control" id="inp_autor1" name="autor" aria-describedby="inp_autor_help" dmx-bind:value="data_detail1.data.autor">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_reu1">Reu</label>
+                                    <label for="inp_reu1" class="row-sm-2 col-form-label">Reu</label>
                                     <input type="text" class="form-control" id="inp_reu1" name="reu" aria-describedby="inp_reu_help" dmx-bind:value="data_detail1.data.reu">
+                                </div><button id="btn18" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('datas')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                            </div>
+                            <div class="d-flex flex-column" id="datas1" dmx-show="abaformeditar.value=='datas'">
+                                <div class="d-flex"><button id="btn19" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('envolvidas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para partes envolvidas</button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Andamentos e Datas</p>
+                                    <p class="mb-1 text-secondary small">4/5</p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_id_clickup1">Id clickup</label>
+                                    <label for="inp_ultimo_andamento1" class="row-sm-2 col-form-label">Último andamento</label>
+                                    <input type="text" class="form-control" id="inp_ultimo_andamento1" name="ultimo_andamento" aria-describedby="inp_ultimo_andamento_help" dmx-bind:value="data_detail1.data.ultimo_andamento">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_penultimo_andamento1" class="row-sm-2 col-form-label">Penúltimo andamento</label>
+                                    <input type="text" class="form-control" id="inp_penultimo_andamento1" name="penultimo_andamento" aria-describedby="inp_penultimo_andamento_help" dmx-bind:value="data_detail1.data.penultimo_andamento">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_distribuicao1" class="row-sm-2 col-form-label">Data distribuição</label>
+                                    <input class="form-control" id="inp_data_distribuicao1" name="data_distribuicao" aria-describedby="inp_data_distribuicao_help" dmx-bind:value="data_detail1.data.data_distribuicao">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_data_conclusao1" class="row-sm-2 col-form-label">Data conclusão</label>
+                                    <input class="form-control" id="inp_data_conclusao1" name="data_conclusao" aria-describedby="inp_data_conclusao_help" dmx-bind:value="data_detail1.data.data_conclusao">
+                                </div><button id="btn19" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('outros')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                            </div>
+                            <div class="d-flex flex-column" id="outros1" dmx-show="abaformeditar.value=='outros'">
+                                <div class="d-flex"><button id="btn20" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('datas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para andamentos e datas</button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-1 title-form">Outros</p>
+                                    <p class="mb-1 text-secondary small">5/5</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inp_id_clickup1" class="row-sm-2 col-form-label">Id clickup</label>
                                     <input type="number" class="form-control" id="inp_id_clickup1" name="id_clickup" aria-describedby="inp_id_clickup_help" required="" dmx-bind:value="data_detail1.data.id_clickup">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inp_url1">Url</label>
+                                    <label for="inp_url1" class="row-sm-2 col-form-label">Url</label>
                                     <input class="form-control" id="inp_url1" name="url" aria-describedby="inp_url_help" dmx-bind:value="data_detail1.data.url">
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" class="form-control" id="inp_criado_em1" name="criado_em" aria-describedby="inp_criado_em_help" placeholder="Enter Criado em" required="" data-msg-required="">
-                                </div>
+                                </div><button type="submit" class="btn btn-primary w-100 text-bg-dark mt-3" dmx-bind:disabled="state.executing">Atualizar<br></button>
                             </div>
-                        </div><button type="submit" class="btn btn-primary w-100 text-bg-dark" dmx-bind:disabled="state.executing">Editar<br></button>
+                        </div>
 
 
 
