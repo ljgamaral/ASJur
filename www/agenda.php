@@ -983,14 +983,20 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
     <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
     <script src="dmxAppConnect/dmxBootstrap5Offcanvas/dmxBootstrap5Offcanvas.js" defer></script>
+    <script src="dmxAppConnect/dmxScheduler/dmxScheduler.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <script src="dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
+    <script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email" dmx-param:senha="cookies.data.senha" dmx-on:error="browser1.goto('/')" dmx-on:success="sc_pegar_dados_usuario.load({});sv_grafico_processos.load({});sc_percentual_processos_ativos.load({});sc_percentual_tarefas.load({});sc_percentual_andamentos.load({});sc_percentual_clientes.load({});sc_conta_tarefas_pendentes.load({});sc_listar_clientes.load({})"></dmx-serverconnect>
     <div is="dmx-browser" id="browser1"></div>
     <dmx-value id="varClienteAtual"></dmx-value>
+    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email" dmx-param:senha="cookies.data.senha" dmx-on:error="browser1.goto('/')" dmx-on:success="sc_pegar_dados_usuario.load({});sv_grafico_processos.load({});sc_percentual_processos_ativos.load({});sc_percentual_tarefas.load({});sc_percentual_andamentos.load({});sc_percentual_clientes.load({});sc_conta_tarefas_pendentes.load({});sc_listar_clientes.load({})"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_pegar_dados_usuario" url="dmxConnect/api/pegar_dados_usuario.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" noload dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
-    <dmx-notifications id="notifySuccess"></dmx-notifications>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle" dmx-on:click="offcanvas1.toggle()">
@@ -1051,22 +1057,19 @@
                         <div class="d-flex flex-column mb-2 ms-4 me-4">
                             <button id="btn7" class="btn w-100 count-button text-secondary">
                                 <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                         </div>
                     </div>
                     <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                        <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                        <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                             <div class="d-flex flex-column lh-sm">
-                                <p class="mb-0 lh-sm">César</p>
-                                <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                             </div>
+
                         </div>
-
-
-
                         <i class="fa-solid fa-angle-right"></i>
-
                     </div>
                 </div>
             </nav>
@@ -1122,22 +1125,19 @@
                             <div class="d-flex flex-column mb-2 ms-4 me-4">
                                 <button id="btn7" class="btn w-100 count-button text-secondary">
                                     <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                             </div>
                         </div>
                         <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                            <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                            <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                                 <div class="d-flex flex-column lh-sm">
-                                    <p class="mb-0 lh-sm">César</p>
-                                    <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                    <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                    <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                                 </div>
+
                             </div>
-
-
-
                             <i class="fa-solid fa-angle-right"></i>
-
                         </div>
                     </div>
                 </div>

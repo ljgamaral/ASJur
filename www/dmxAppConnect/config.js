@@ -461,11 +461,11 @@ dmx.config({
     "cookies": [
       {
         "type": "text",
-        "name": "email_user"
+        "name": "email"
       },
       {
         "type": "text",
-        "name": "password_user"
+        "name": "senha"
       }
     ],
     "data_detail1": {

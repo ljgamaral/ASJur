@@ -27,26 +27,6 @@ $app->define(<<<'JSON'
   "exec": {
     "steps": [
       {
-        "name": "email_user",
-        "module": "core",
-        "action": "setcookie",
-        "options": {
-          "value": "{{$_POST.email}}",
-          "secure": true,
-          "expires": 1
-        }
-      },
-      {
-        "name": "password_user",
-        "module": "core",
-        "action": "setcookie",
-        "options": {
-          "value": "{{$_POST.senha.sha1()}}",
-          "secure": true,
-          "expires": 1
-        }
-      },
-      {
         "name": "api",
         "module": "api",
         "action": "send",
@@ -60,18 +40,8 @@ $app->define(<<<'JSON'
           },
           "schema": [
             {
-              "type": "object",
-              "name": "data",
-              "sub": [
-                {
-                  "type": "boolean",
-                  "name": "success"
-                },
-                {
-                  "type": "text",
-                  "name": "message"
-                }
-              ]
+              "type": "text",
+              "name": "data"
             },
             {
               "type": "object",
@@ -79,15 +49,7 @@ $app->define(<<<'JSON'
               "sub": [
                 {
                   "type": "text",
-                  "name": "cache-control"
-                },
-                {
-                  "type": "text",
-                  "name": "content-encoding"
-                },
-                {
-                  "type": "text",
-                  "name": "content-security-policy"
+                  "name": "connection"
                 },
                 {
                   "type": "text",
@@ -99,59 +61,22 @@ $app->define(<<<'JSON'
                 },
                 {
                   "type": "text",
-                  "name": "expires"
-                },
-                {
-                  "type": "text",
-                  "name": "panel"
-                },
-                {
-                  "type": "text",
-                  "name": "platform"
-                },
-                {
-                  "type": "text",
                   "name": "server"
                 },
                 {
                   "type": "text",
-                  "name": "vary"
-                },
-                {
-                  "type": "text",
-                  "name": "x-hcdn-cache-status"
-                },
-                {
-                  "type": "text",
-                  "name": "x-hcdn-request-id"
-                },
-                {
-                  "type": "text",
-                  "name": "x-hcdn-upstream-rt"
-                },
-                {
-                  "type": "text",
-                  "name": "x-powered-by"
+                  "name": "transfer-encoding"
                 }
               ]
             }
-          ]
+          ],
+          "throwErrors": true
         },
         "output": true,
         "meta": [
           {
-            "type": "object",
-            "name": "data",
-            "sub": [
-              {
-                "type": "boolean",
-                "name": "success"
-              },
-              {
-                "type": "text",
-                "name": "message"
-              }
-            ]
+            "type": "text",
+            "name": "data"
           },
           {
             "type": "object",
@@ -159,15 +84,7 @@ $app->define(<<<'JSON'
             "sub": [
               {
                 "type": "text",
-                "name": "cache-control"
-              },
-              {
-                "type": "text",
-                "name": "content-encoding"
-              },
-              {
-                "type": "text",
-                "name": "content-security-policy"
+                "name": "connection"
               },
               {
                 "type": "text",
@@ -179,44 +96,25 @@ $app->define(<<<'JSON'
               },
               {
                 "type": "text",
-                "name": "expires"
-              },
-              {
-                "type": "text",
-                "name": "panel"
-              },
-              {
-                "type": "text",
-                "name": "platform"
-              },
-              {
-                "type": "text",
                 "name": "server"
               },
               {
                 "type": "text",
-                "name": "vary"
-              },
-              {
-                "type": "text",
-                "name": "x-hcdn-cache-status"
-              },
-              {
-                "type": "text",
-                "name": "x-hcdn-request-id"
-              },
-              {
-                "type": "text",
-                "name": "x-hcdn-upstream-rt"
-              },
-              {
-                "type": "text",
-                "name": "x-powered-by"
+                "name": "transfer-encoding"
               }
             ]
           }
         ],
         "outputType": "object"
+      },
+      {
+        "name": "Cookie",
+        "module": "core",
+        "action": "setcookie",
+        "options": {
+          "value": "{{api.headers['set-cookie'].toString()}}",
+          "expires": 7
+        }
       }
     ]
   }

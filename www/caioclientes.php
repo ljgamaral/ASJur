@@ -46,12 +46,15 @@
 </head>
 
 <body is="dmx-app" id="clientes">
+    <dmx-session-manager id="session1"></dmx-session-manager>
+    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email" dmx-param:senha="cookies.data.senha" dmx-on:error="browser1.goto('/')" dmx-on:success="sc_pegar_dados_usuario.load({});sv_grafico_processos.load({});sc_percentual_processos_ativos.load({});sc_percentual_tarefas.load({});sc_percentual_andamentos.load({});sc_percentual_clientes.load({});sc_conta_tarefas_pendentes.load({});sc_listar_clientes.load({})"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_pegar_dados_usuario" url="dmxConnect/api/pegar_dados_usuario.php" cache="session1" ttl="600"></dmx-serverconnect>
     <dmx-value id="abaformeditar" dmx-bind:value="'dados-pessoais'"></dmx-value>
     <dmx-value id="abaform" dmx-bind:value="'dados-pessoais'"></dmx-value>
 
     <dmx-serverconnect id="sc_deletar_cliente" url="dmxConnect/api/excluir_cliente.php"></dmx-serverconnect>
     <dmx-notifications id="notifies1"></dmx-notifications>
-    <dmx-serverconnect id="sc_novo_cliente" url="dmxConnect/api/cadastrar_cliente.php"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_novo_cliente" url="dmxConnect/api/cadastrar_cliente.php" noload="true"></dmx-serverconnect>
     <dmx-value id="pagina_atual_tabela" dmx-bind:value="1"></dmx-value>
     <div is="dmx-browser" id="browser1"></div>
     <dmx-data-detail id="data_detail1" dmx-bind:data="sc_listar_clientes.data.query.data" key="id"></dmx-data-detail>
@@ -62,6 +65,49 @@
     <dmx-value id="varClienteAtual"></dmx-value>
     <dmx-serverconnect id="sc_listar_clientes_novos" url="dmxConnect/api/listar_clientes.php"></dmx-serverconnect>
     <dmx-serverconnect id="sc_excluir_cliente" url="dmxConnect/api/excluir_cliente.php" noload dmx-on:success="sc_listar_clientes.load();notifySuccess.success('Cliente excluído com sucesso!')"></dmx-serverconnect>
+
+    <div class="modal" id="modal1" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center flex-column">
+
+                        <img width="70" height="70" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar" class="perfil-avatar mb-2" dmx-on:click="form1.collapse2.toggle()">
+
+
+
+
+
+
+
+                    </div>
+                    <form is="dmx-serverconnect-form" id="form1" method="post" action="dmxConnect/api/editar_avatar.php" dmx-generator="bootstrap5" dmx-form-type="vertical">
+                        <div class="form-group mb-3">
+                            <label for="inp_avatar" class="col-12">Avatar</label>
+                            <input type="file" class="form-control-file" id="inp_avatar" name="avatar" aria-describedby="inp_avatar_help">
+                        </div>
+                        <div class="form-group mb-3">
+                            <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Salvar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                        </div>
+                    </form>
+                    <div class="d-flex flex-column mt-2 w-100">
+                        <div class="d-flex">
+                            <p class="mb-0 text-secondary">Nome:&nbsp;</p>
+                            <p class="mb-0">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                        </div>
+                        <div class="d-flex mt-1">
+                            <p class="mb-0 text-secondary">Email:&nbsp;</p>
+                            <p class="mb-0">{{sc_pegar_dados_usuario.data.api.data.email}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Mobile Nav Toggle -->
     <button class="mobile-nav-toggle" id="sidebarToggle" dmx-on:click="offcanvas1.toggle()">
@@ -120,25 +166,23 @@
                     </ul>
                     <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
                         <div class="d-flex flex-column mb-2 ms-4 me-4">
-                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                            <button id="btn7" class="btn w-100 count-button text-secondary" dmx-on:click="modal1.show()">
                                 <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                         </div>
                     </div>
                     <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                        <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                        <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                             <div class="d-flex flex-column lh-sm">
-                                <p class="mb-0 lh-sm">César</p>
-                                <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                             </div>
                         </div>
-
-
-
                         <i class="fa-solid fa-angle-right"></i>
-
                     </div>
+
+
                 </div>
             </nav>
 
@@ -191,24 +235,21 @@
                         </ul>
                         <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
                             <div class="d-flex flex-column mb-2 ms-4 me-4">
-                                <button id="btn7" class="btn w-100 count-button text-secondary">
+                                <button id="btn7" class="btn w-100 count-button text-secondary" dmx-on:click="modal1.show()">
                                     <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                             </div>
                         </div>
                         <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                            <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                            <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                                 <div class="d-flex flex-column lh-sm">
-                                    <p class="mb-0 lh-sm">César</p>
-                                    <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                    <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                    <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                                 </div>
+
                             </div>
-
-
-
                             <i class="fa-solid fa-angle-right"></i>
-
                         </div>
                     </div>
                 </div>
@@ -261,7 +302,8 @@
                             </div>
                             <div>
                                 <p class="stats-label mb-0">
-                                    Novos Clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Clientes cadastrados essa semana'" data-bs-trigger="hover"></i></p>
+                                    Novos Clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Clientes cadastrados essa semana'" data-bs-trigger="hover"></i>
+                                </p>
                             </div>
                             <div class="d-flex skeleton-loader-little" dmx-show="!sc_clientes.status"></div>
                             <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_clientes.status">
@@ -279,7 +321,9 @@
                                 <div class="d-flex skeleton-loader" dmx-show="!sc_estados_clientes.status"></div>
                                 <p class="stats-value" dmx-show="sc_estados_clientes.status">{{sc_estados_clientes.data.percentual_estados_clientes[0].total_estados_atual||0}}</p>
                             </div>
-                            <div class="stats-label">Estados com clientes</div>
+                            <div class="stats-label">
+                                <p class="stats-label mb-0">Estados com clientes<i class="fa-solid fa-circle-info fa-xs info-tooltip" dmx-bs-tooltip="'Total de estados com clientes cadastrados esse mês'" data-bs-trigger="hover"></i></p>
+                            </div>
                             <div class="d-flex skeleton-loader-little" dmx-show="!sc_estados_clientes.status"></div>
                             <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_estados_clientes.status">
                                 <p class="mb-0">{{sc_estados_clientes.data.percentual_estados_clientes[0].mensagem}}</p>
@@ -661,7 +705,7 @@
 
 
 
-                                <button id="btn8" class="btn btn-primary align-self-center w-100 mt-3" dmx-on:click="abaform.setValue('contato')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                <button id="btn8" class="btn second-button align-self-center w-100 mt-3" dmx-on:click="abaform.setValue('contato')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
 
 
 
@@ -731,7 +775,7 @@
                                 <div class="form-group column">
                                     <label for="inp_endereco" class="col-sm-2 col-form-label">Endereco</label>
                                     <input type="text" class="form-control" id="inp_endereco" name="endereco" aria-describedby="inp_endereco_help" required="">
-                                </div><button id="btn9" class="btn btn-primary text-bg-dark mt-3" dmx-on:click="abaform.setValue('adicionais')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                </div><button id="btn9" class="btn second-button align-self-center w-100 mt-3" dmx-on:click="abaform.setValue('adicionais')">Continuar&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
                             </div>
                             <div class="d-flex flex-column mt-3" id="adicionais" dmx-show="abaform.value=='adicionais'">
                                 <div class="d-flex"><button id="btn11" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaform.setValue('contato')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para informações de contato</button>
@@ -817,7 +861,7 @@
                 <div class="modal-body pt-0">
                     <form is="dmx-serverconnect-form" id="formEditarCliente" method="post" action="dmxConnect/api/editar_cliente.php" dmx-generator="bootstrap4" dmx-form-type="horizontal" dmx-on:done="notifies1.success('Cliente atualizado com sucesso!');sc_listar_clientes.load({});sc_estados_clientes.load({});sc_clientes.load({});sc_listar_clientes_novos.load({});modalEditarCliente.hide();abaformeditar.setValue('dados-pessoais')">
                         <div class="d-flex justify-content-around mb-3 flex-column">
-                            <div class="d-flex flex-column mt-4" id="dadospessoais" dmx-show="abaformeditar.value=='dados-pessoais'">
+                            <div class="d-flex flex-column mt-3" id="dadospessoais" dmx-show="abaformeditar.value=='dados-pessoais'">
 
 
                                 <div class="d-flex justify-content-between">
@@ -882,7 +926,8 @@
 
 
 
-                                <button id="btn12" class="btn btn-primary align-self-center w-100 mt-3" dmx-on:click="abaformeditar.setValue('contato')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                <button id="btn12" class="btn align-self-center w-100 mt-3 second-button" dmx-on:click="abaformeditar.setValue('contato')">Mais detalhes&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+
 
 
                             </div>
@@ -951,11 +996,12 @@
                                 <div class="form-group column">
                                     <label for="inp_celular1" class="col-sm-2 col-form-label">Celular</label>
                                     <input type="text" class="form-control" id="inp_celular2" name="celular" aria-describedby="inp_celular_help" oninput="mascaraCelular(this)">
-                                </div><button id="btn14" class="btn btn-primary align-self-center w-100 mt-3" dmx-on:click="abaformeditar.setValue('adicionais')">Próximo&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                </div><button id="btn14" class="btn align-self-center w-100 mt-3 second-button" dmx-on:click="abaformeditar.setValue('adicionais')">Mais detalhes&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button><button class="btn btn-primary w-100 mt-3" type="submit" dmx-bind:disabled="state.executing">Salvar alterações&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
 
 
 
                             </div>
+
                             <div class="d-flex flex-column mt-3" id="adicionais" dmx-show="abaformeditar.value=='adicionais'">
                                 <div class="d-flex"><button id="btn15" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('contato')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para informações de contato</button>
                                 </div>
@@ -992,7 +1038,8 @@
                                 <div class="form-group column">
                                     <label for="inp_responsavel1" class="col-sm-2 col-form-label">Responsável</label>
                                     <input type="text" class="form-control" id="inp_responsavel1" name="responsavel" aria-describedby="inp_responsavel_help" required="">
-                                </div><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Atualizar&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                                </div><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+
                             </div>
                         </div>
 

@@ -418,8 +418,8 @@ td.celula-tabela {
     height: 2.3em;
     margin: 10px 0;
     border-radius: 4px;
-    -webkit-animation: shimmer 1.5s infinite;
-            animation: shimmer 1.5s infinite;
+    -webkit-animation: shimmer 3s infinite;
+            animation: shimmer 3s infinite;
 }
 
 @-webkit-keyframes shimmer {
@@ -453,8 +453,8 @@ td.celula-tabela {
     height: 0.8em;
     margin: 10px 0;
     border-radius: 4px;
-    -webkit-animation: shimmer 1.5s infinite;
-            animation: shimmer 1.5s infinite;
+    -webkit-animation: shimmer 3s infinite;
+            animation: shimmer 3s infinite;
 }
 
 .skeleton-loader-little {
@@ -1767,4 +1767,62 @@ body {
     border-bottom: 1px solid #dee2e6;
     border-left-style: solid;
     border-right-style: solid;
+}
+
+.wappler-temp{}
+
+.second-button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #2c2c2c;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.style30{
+    margin-left: 6px;
+}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.wappler-temp{}
+
+.second-button:hover{
+    background-color: rgba(44, 44, 44, 0.88);
+    color: #fff;
 }

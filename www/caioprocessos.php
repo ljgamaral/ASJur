@@ -917,6 +917,9 @@
 </head>
 
 <body is="dmx-app" id="processos">
+    <dmx-session-manager id="session1"></dmx-session-manager>
+    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email" dmx-param:senha="cookies.data.senha" dmx-on:error="browser1.goto('/')" dmx-on:success="sc_pegar_dados_usuario.load({});sv_grafico_processos.load({});sc_percentual_processos_ativos.load({});sc_percentual_tarefas.load({});sc_percentual_andamentos.load({});sc_percentual_clientes.load({});sc_conta_tarefas_pendentes.load({});sc_listar_clientes.load({})"></dmx-serverconnect>
+    <dmx-serverconnect id="sc_pegar_dados_usuario" url="dmxConnect/api/pegar_dados_usuario.php" cache="session1" ttl="600"></dmx-serverconnect>
     <dmx-value id="pesquisa" dmx-bind:value="''"></dmx-value>
     <dmx-value id="total_paginas_tabela" dmx-bind:value="(sc_listar_processos.data.listar_processos[0].total / select1.value).round(0)||1"></dmx-value>
     <dmx-value id="abaformeditar" dmx-bind:value="'basicas'"></dmx-value>
@@ -964,7 +967,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})">
+                            <a class="nav-link nav-active">
                                 <i class="fa-solid fa-file-invoice"></i>
                                 Processos
                             </a>
@@ -992,22 +995,19 @@
                         <div class="d-flex flex-column mb-2 ms-4 me-4">
                             <button id="btn7" class="btn w-100 count-button text-secondary">
                                 <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                         </div>
                     </div>
                     <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                        <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                        <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                             <div class="d-flex flex-column lh-sm">
-                                <p class="mb-0 lh-sm">César</p>
-                                <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                             </div>
+
                         </div>
-
-
-
                         <i class="fa-solid fa-angle-right"></i>
-
                     </div>
                 </div>
             </nav>
@@ -1063,22 +1063,19 @@
                             <div class="d-flex flex-column mb-2 ms-4 me-4">
                                 <button id="btn7" class="btn w-100 count-button text-secondary">
                                     <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                             </div>
                         </div>
                         <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                            <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                            <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                                 <div class="d-flex flex-column lh-sm">
-                                    <p class="mb-0 lh-sm">César</p>
-                                    <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                    <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                    <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                                 </div>
+
                             </div>
-
-
-
                             <i class="fa-solid fa-angle-right"></i>
-
                         </div>
                     </div>
                 </div>
@@ -1152,17 +1149,17 @@
                         </div>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}});filtro.setValue('Todos')" id="todos2" dmx-show="filtro.value==' '">
+                        <button class="btn btn-filter nav-active" id="todos2" dmx-show="filtro.value==' '">
                             Todos
                         </button><button class="btn btn-filter buttons-radius" dmx-on:click="sc_listar_processos.load({params: {filtro: 'todos'}, limit: select1.value, offset: (pagina_atual_tabela.value-1)*select1.value});filtro.setValue(' ')" id="todos" dmx-hide="filtro.value==' '">
                             Todos
                         </button>
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'em andamento'});filtro.setValue('Em andamento')" id="em_andamento2" dmx-show="filtro.value=='Em andamento'">
+                        <button class="btn btn-filter nav-active" id="em_andamento2" dmx-show="filtro.value=='Em andamento'">
                             Em Andamento
                         </button><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'ativos'}, status: 'Em andamento'});filtro.setValue('Em andamento')" id="em_andamento" dmx-hide="filtro.value=='Em andamento'">
                             Em Andamento
                         </button>
-                        <button class="btn btn-filter nav-active" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado2" dmx-show="filtro.value=='Arquivado'">
+                        <button class="btn btn-filter nav-active" id="arquivado2" dmx-show="filtro.value=='Arquivado'">
                             Arquivados
                         </button><button class="btn btn-filter" dmx-on:click="sc_listar_processos.load({params: {filtro: 'arquivados'}, status: 'Arquivado'});filtro.setValue('Arquivado')" id="arquivado" dmx-hide="filtro.value=='Arquivado'">
                             Arquivados
@@ -1178,14 +1175,14 @@
                 <div class="table-container animate-fade-in" style="animation-delay: 0.5s">
                     <div class="d-flex justify-content-between pt-1 pb-3 align-items-center">
                         <div class="d-flex">
-                            <input id="text1" name="text1" type="text" class="form-control pt-0 pb-0 style28" placeholder="Pesquisar..." dmx-on:select="run({condition:{outputType:'boolean',if:`value.isEmpty()`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(\'\')`}}}}})" dmx-on:blur="run({condition:{outputType:'boolean',if:`value.isEmpty()`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(\'\')`}}}}})">
+                            <input id="text1" name="text1" type="text" class="form-control pt-0 pb-0 style28" placeholder="Pesquisar..." dmx-on:select="run({condition:{outputType:'boolean',if:`value.isEmpty()`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(\'\')`}}}}})" dmx-on:blur="run({condition:{outputType:'boolean',if:`value.isEmpty()`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(\'\')`}}}}})" dmx-on:keypress.enter="run({condition:{outputType:'boolean',if:`value`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(value);pagina_atual_tabela.setValue(1)`}}}}})">
                             <button id="btn22" class="btn style29 ps-0" dmx-show="!text1.value.isEmpty()" dmx-on:click="text1.setValue();pesquisa.setValue('');pagina_atual_tabela.setValue(1)"><i class="fa-solid fa-xmark fa-xs"></i></button>
-                            <button id="btn21" class="btn style27 text-bg-dark" dmx-on:click="run({condition:{outputType:'boolean',if:`text1.value`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(text1.value);pagina_atual_tabela.setValue(1)`}}}}})"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button id="btn21" class="btn style27 text-bg-dark" dmx-on:click="run([{condition:{outputType:'boolean',if:`text1.value`,then:{steps:{run:{outputType:'text',action:`pesquisa.setValue(text1.value);pagina_atual_tabela.setValue(1)`}}}}},{run:{outputType:'text',action:`text1.focus()`}}])"><i class="fa-solid fa-magnifying-glass"></i></button>
                             <div class="dropdown">
-                                <button id="dropdown1" class="btn dropdown-toggle text-secondary" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dmx-style:border="0"><i class="fa-solid fa-filter"></i>&nbsp;Filtros&nbsp;&nbsp;</button>
+                                <button id="dropdown1" class="btn dropdown-toggle text-secondary visually-hidden" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dmx-style:border="0"><i class="fa-solid fa-filter"></i>&nbsp;Filtros&nbsp;&nbsp;</button>
                                 <div class="dropdown-menu" aria-labelledby="dropdown1">
-                                    <a class="dropdown-item">{{'Filtrar '+select_coluna_1.value}}</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" dmx-on:click="">{{'Filtrar '+select_coluna_1.value}}</a>
+                                    <a class="dropdown-item visually-hidden-focusable" dmx-on:click="">{{"Filtrar"+select_coluna_2.value}}</a>
                                     <a class="dropdown-item" href="#">Something else here</a>
                                 </div>
                             </div>
@@ -1352,7 +1349,11 @@
                                             <option value="cadastrado-em">CADASTRADO EM</option>
                                         </select>
                                     </th>
-                                    <th scope="col">AÇÕES</th>
+                                    <th scope="col" class="align-middle">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <p class="mb-0">AÇÕES</p>
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody is="dmx-repeat" id="repeat2" dmx-bind:repeat="sc_listar_processos.data.listar_processos" key="id">
@@ -1721,7 +1722,8 @@
                                         <option value="cancelado">Cancelado</option>
                                     </select>
                                 </div>
-                                <button id="btn16" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('juridicos')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                <button id="btn16" class="btn second-button align-self-center w-100 mt-3" dmx-on:click="abaformeditar.setValue('juridicos')">Mais detalhes&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações<br></button>
+
 
 
 
@@ -1764,7 +1766,8 @@
                                 <div class="form-group">
                                     <input type="hidden" class="form-control" id="inp_criado_em1" name="criado_em1" aria-describedby="inp_criado_em_help" placeholder="Enter Criado em" required="" data-msg-required="">
                                 </div>
-                                <button id="btn17" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('envolvidas')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                <button id="btn17" class="btn second-button align-self-center w-100 mt-3" dmx-on:click="abaformeditar.setValue('envolvidas')">Mais detalhes&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações<br></button>
+                                </button>
 
                             </div>
                             <div class="d-flex flex-column" id="envolvidas1" dmx-show="abaformeditar.value=='envolvidas'">
@@ -1782,7 +1785,8 @@
                                 <div class="form-group">
                                     <label for="inp_reu1" class="row-sm-2 col-form-label">Reu</label>
                                     <input type="text" class="form-control" id="inp_reu1" name="reu" aria-describedby="inp_reu_help" dmx-bind:value="data_detail1.data.reu">
-                                </div><button id="btn18" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('datas')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                </div><button id="btn18" class="btn second-button align-self-center w-100 mt-3" dmx-on:click="abaformeditar.setValue('datas')">Mais detalhes&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações<br></button>
+
                             </div>
                             <div class="d-flex flex-column" id="datas1" dmx-show="abaformeditar.value=='datas'">
                                 <div class="d-flex"><button id="btn19" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('envolvidas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para partes envolvidas</button>
@@ -1806,7 +1810,7 @@
                                 <div class="form-group">
                                     <label for="inp_data_conclusao1" class="row-sm-2 col-form-label">Data conclusão</label>
                                     <input class="form-control" id="inp_data_conclusao1" name="data_conclusao" aria-describedby="inp_data_conclusao_help" dmx-bind:value="data_detail1.data.data_conclusao">
-                                </div><button id="btn19" class="btn btn-primary align-self-center w-100 mt-3 text-bg-dark" dmx-on:click="abaformeditar.setValue('outros')">Próximo&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i></button>
+                                </div><button id="btn19" class="btn second-button align-self-center w-100 mt-3" dmx-on:click="abaformeditar.setValue('outros')">Mais detalhes&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i><button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações<br></button></button>
                             </div>
                             <div class="d-flex flex-column" id="outros1" dmx-show="abaformeditar.value=='outros'">
                                 <div class="d-flex"><button id="btn20" class="btn text-secondary mb-1 ps-0" dmx-on:click="abaformeditar.setValue('datas')"><i class="fa-solid fa-arrow-left fa-xs"></i>&nbsp;Voltar para andamentos e datas</button>
@@ -1822,7 +1826,8 @@
                                 <div class="form-group">
                                     <label for="inp_url1" class="row-sm-2 col-form-label">Url</label>
                                     <input class="form-control" id="inp_url1" name="url" aria-describedby="inp_url_help" dmx-bind:value="data_detail1.data.url">
-                                </div><button type="submit" class="btn btn-primary w-100 text-bg-dark mt-3" dmx-bind:disabled="state.executing">Atualizar<br></button>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mt-3" dmx-bind:disabled="state.executing">Salvar alterações</button>
                             </div>
                         </div>
 

@@ -638,7 +638,6 @@
         /* Ajustes para telas muito grandes */
         @media (min-width: 1400px) {
             .container-fluid {
-                max-width: 1600px;
                 margin: 0 auto;
             }
 
@@ -1087,6 +1086,7 @@
 
             <!-- Main Content -->
             <main class="col main-content">
+                <button id="btn1" class="btn text-secondary" dmx-on:click="browser1.back()"><i class="fa-solid fa-angle-left"></i>&nbsp;Voltar</button>
                 <!-- Page Header -->
 
                 <!-- Filtros Rápidos -->

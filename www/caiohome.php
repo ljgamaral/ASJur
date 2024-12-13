@@ -975,116 +975,106 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" integrity="sha384-PPIZEGYM1v8zp5Py7UjFb79S58UeqCL9pYVnVPURKEqvioPROaVAJKKLzvH2rDnI" crossorigin="anonymous" />
     <script src="dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
     <script src="dmxAppConnect/dmxBootstrap5Offcanvas/dmxBootstrap5Offcanvas.js" defer></script>
+    <script src="dmxAppConnect/dmxCharts/Chart.min.js" defer></script>
+    <script src="dmxAppConnect/dmxCharts/dmxCharts.js" defer></script>
+    <script src="dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
+    <script src="dmxAppConnect/dmxTyped/dmxTyped.js" defer></script>
+    <script src="dmxAppConnect/dmxTyped/typed.min.js" defer></script>
+    <script src="dmxAppConnect/dmxBootstrap5Toasts/dmxBootstrap5Toasts.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxDropzone/dmxDropzone.css" />
+    <script src="dmxAppConnect/dmxDropzone/dmxDropzone.js" defer></script>
+    <link rel="stylesheet" href="dmxAppConnect/dmxValidator/dmxValidator.css" />
+    <script src="dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.9/build/pdfmake.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.9/build/vfs_fonts.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-to-pdfmake@2.5.2/browser.min.js" defer></script>
+    <script src="dmxAppConnect/dmxPdfCreator/dmxPdfCreator.js" defer></script>
 </head>
 
 <body is="dmx-app" id="clientes">
-    <dmx-serverconnect id="sc_percentual_processos_ativos" url="dmxConnect/api/percentual_mensal_processos_ativos.php"></dmx-serverconnect>
-    <dmx-serverconnect id="sc_percentual_tarefas" url="dmxConnect/api/conta_tarefas_pendentes.php"></dmx-serverconnect>
-    <dmx-serverconnect id="sc_percentual_andamentos" url="dmxConnect/api/percentual_semanal_andamentos.php"></dmx-serverconnect>
-    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email_user" dmx-param:senha="cookies.data.password_user"></dmx-serverconnect>
-    <dmx-cookie-manager id="cookies"></dmx-cookie-manager>
-    <dmx-serverconnect id="sc_percentual_clientes" url="dmxConnect/api/percentual_mensal_clientes.php"></dmx-serverconnect>
-    <dmx-serverconnect id="sc_conta_tarefas_pendentes" url="dmxConnect/api/conta_tarefas_pendentes.php"></dmx-serverconnect>
-    <div is="dmx-browser" id="browser1"></div>
-    <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')"></dmx-serverconnect>
+    <div class="modal" id="modal1" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center flex-column">
 
-    <!-- Mobile Nav Toggle -->
-    <button class="mobile-nav-toggle" id="sidebarToggle" dmx-on:click="offcanvas1.toggle()">
-        <i class="fa-solid fa-bars"></i>
-    </button>
-
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <div class="container-fluid p-0">
+                        <img width="70" height="70" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar" class="perfil-avatar mb-2" dmx-on:click="form1.collapse2.toggle()">
 
 
-        <!-- Sidebar -->
-        <nav class="col-auto d-md-block sidebar">
-            <div class="sidebar-header">
-                <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block mx-auto">
-            </div>
 
-            <div class="d-flex flex-column justify-content-between navbar-itens">
-                <ul class="nav flex-column w-100 h-100">
-                    <li class="nav-item">
-                        <a class="nav-link style19 nav-active" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/')`}})">
-                            <i class="fa-solid fa-house"></i>
-                            Início
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./clientes">
-                            <i class="fa-solid fa-user"></i>
-                            Clientes
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
-                            <i class="fa-solid fa-file-invoice"></i>
-                            Processos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/agenda">
-                            <i class="fa-solid fa-calendar"></i>
-                            Agenda
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/relatorios">
-                            <i class="fa-solid fa-chart-bar"></i>
-                            Relatórios
-                        </a>
-                    </li>
-                    <li class="nav-item mt-auto">
-                        <a class="nav-link" href="/configuracoes">
-                            <i class="fa-solid fa-gear"></i>
-                            Configurações
-                        </a>
-                    </li>
-                </ul>
-                <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
-                    <div class="d-flex flex-column mb-2 ms-4 me-4">
-                        <button id="btn7" class="btn w-100 count-button text-secondary">
-                            <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                        </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+
+
+
 
                     </div>
-                </div>
-                <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                    <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
-                        <div class="d-flex flex-column lh-sm">
-                            <p class="mb-0 lh-sm">César</p>
-                            <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                    <form is="dmx-serverconnect-form" id="form1" method="post" action="dmxConnect/api/editar_avatar.php" dmx-generator="bootstrap5" dmx-form-type="vertical">
+                        <div class="form-group mb-3">
+                            <label for="inp_avatar" class="col-12">Avatar</label>
+                            <input type="file" class="form-control-file" id="inp_avatar" name="avatar" aria-describedby="inp_avatar_help">
+                        </div>
+                        <div class="form-group mb-3">
+                            <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Salvar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                        </div>
+                    </form>
+                    <div class="d-flex flex-column mt-2 w-100">
+                        <div class="d-flex">
+                            <p class="mb-0 text-secondary">Nome:&nbsp;</p>
+                            <p class="mb-0">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                        </div>
+                        <div class="d-flex mt-1">
+                            <p class="mb-0 text-secondary">Email:&nbsp;</p>
+                            <p class="mb-0">{{sc_pegar_dados_usuario.data.api.data.email}}</p>
                         </div>
                     </div>
-
-
-
-                    <i class="fa-solid fa-angle-right"></i>
-
                 </div>
             </div>
-        </nav>
-        <!-- Main Content -->
-        <main class="col main-content">
-            <div class="offcanvas offcanvas-start" id="offcanvas1" is="dmx-bs5-offcanvas" tabindex="-1">
-                <div class="offcanvas-header pe-4">
-                    <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block ms-2 me-auto">
+        </div>
+    </div>
+    <dmx-serverconnect id="sc_checar_login" url="dmxConnect/api/checar_login_usuario.php" dmx-param:email="cookies.data.email" dmx-param:senha="cookies.data.senha" dmx-on:error="browser1.goto('/')" dmx-on:success="sc_pegar_dados_usuario.load({});sv_grafico_processos.load({});sc_percentual_processos_ativos.load({});sc_percentual_tarefas.load({});sc_percentual_andamentos.load({});sc_percentual_clientes.load({});sc_conta_tarefas_pendentes.load({});sc_listar_clientes.load({})"></dmx-serverconnect>
+    <div>
+        <dmx-session-manager id="session_cache"></dmx-session-manager>
+        <dmx-serverconnect id="sc_pegar_dados_usuario" url="dmxConnect/api/pegar_dados_usuario.php" noload="true" ttl="600"></dmx-serverconnect>
+        <dmx-serverconnect id="sv_grafico_processos" url="dmxConnect/api/grafico_processos.php" cache="session_cache" ttl="100" noload="true"></dmx-serverconnect>
+        <dmx-serverconnect id="sc_percentual_processos_ativos" url="dmxConnect/api/percentual_mensal_processos_ativos.php" noload="true"></dmx-serverconnect>
+        <dmx-serverconnect id="sc_percentual_tarefas" url="dmxConnect/api/conta_tarefas_pendentes.php" noload="true"></dmx-serverconnect>
+        <dmx-serverconnect id="sc_percentual_andamentos" url="dmxConnect/api/percentual_semanal_andamentos.php" noload="true"></dmx-serverconnect>
 
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <dmx-serverconnect id="sc_percentual_clientes" url="dmxConnect/api/percentual_mensal_clientes.php" noload="true"></dmx-serverconnect>
+        <dmx-serverconnect id="sc_conta_tarefas_pendentes" url="dmxConnect/api/conta_tarefas_pendentes.php" noload="true"></dmx-serverconnect>
+        <div is="dmx-browser" id="browser1"></div>
+        <dmx-serverconnect id="sc_listar_clientes" url="dmxConnect/api/listar_clientes.php" dmx-on:success="notifySuccess.success('Dados atualizados com sucesso!')" noload="true"></dmx-serverconnect>
+
+        <!-- Mobile Nav Toggle -->
+        <button class="mobile-nav-toggle" id="sidebarToggle" dmx-on:click="offcanvas1.toggle()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <div class="container-fluid p-0">
+
+
+            <!-- Sidebar -->
+            <nav class="col-auto d-md-block sidebar">
+                <div class="sidebar-header">
+                    <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block mx-auto">
                 </div>
+
                 <div class="d-flex flex-column justify-content-between navbar-itens">
-                    <ul class="nav flex-column w-100 h-100 mt-3">
+                    <ul class="nav flex-column w-100 h-100">
                         <li class="nav-item">
-                            <a class="nav-link nav-active">
+                            <a class="nav-link style19 nav-active">
                                 <i class="fa-solid fa-house"></i>
                                 Início
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/clientes">
+                            <a class="nav-link" href="./clientes">
                                 <i class="fa-solid fa-user"></i>
                                 Clientes
                             </a>
@@ -1116,17 +1106,17 @@
                     </ul>
                     <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
                         <div class="d-flex flex-column mb-2 ms-4 me-4">
-                            <button id="btn7" class="btn w-100 count-button text-secondary">
+                            <button id="btn7" class="btn w-100 count-button text-secondary" dmx-on:click="offcanvas1.hide();modal1.show()">
                                 <font face="Font Awesome 6 Free"><b>Conta</b></font>
-                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
+                            </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                         </div>
                     </div>
                     <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
-                        <div class="d-flex align-items-center"><img src="assets/img/avatar-16.jpg" height="30" class="style20">
+                        <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
                             <div class="d-flex flex-column lh-sm">
-                                <p class="mb-0 lh-sm">César</p>
-                                <p class="mb-0 email-card text-secondary lh-sm">cesar.correia@abraoesilva...</p>
+                                <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
                             </div>
                         </div>
 
@@ -1136,268 +1126,337 @@
 
                     </div>
                 </div>
-            </div>
-            <!-- Page Header -->
-            <div class="page-header animate-fade-in">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="page-title">Início</h1>
-                        <p class="page-subtitle mb-0">Resumo das informações</p>
+            </nav>
+            <!-- Main Content -->
+            <main class="col main-content">
+                <div class="offcanvas offcanvas-start" id="offcanvas1" is="dmx-bs5-offcanvas" tabindex="-1">
+                    <div class="offcanvas-header pe-4">
+                        <img src="assets/logo/as-horizontal.png" alt="AS Jurídico" height="35" class="d-block ms-2 me-auto">
+
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                </div>
-            </div>
-
-            <!-- Filtros Rápidos -->
-            <div class="mb-4">
-            </div>
-
-            <!-- Stats Cards -->
-            <div class="row g-3 mb-4">
-                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
-                    <div class="card stats-card">
-                        <div class="stats-icon">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                        <div>
-                            <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_clientes.status"></div>
-                            <p class="stats-value" dmx-show="sc_percentual_clientes.status">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</p>
-                        </div>
-                        <div class="stats-label">Total de Clientes</div>
-                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_clientes.status"></div>
-                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_clientes.status">
-                            <p class="mb-0">{{sc_percentual_clientes.data.calcula_percentual_mensal_clientes[0].mensagem}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
-                    <div class="card stats-card">
-                        <div class="stats-icon">
-                            <i class="fa-solid fa-list-check"></i>
-                        </div>
-                        <div>
-                            <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_andamentos.status"></div>
-                            <p class="stats-value" dmx-show="sc_percentual_andamentos.status">{{sc_percentual_andamentos.data.percentual_andamentos[0].total_andamentos||0}}</p>
-                        </div>
-                        <div class="stats-label">Total de Andamentos</div>
-                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_andamentos.status"></div>
-                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_andamentos.status">
-                            <p class="mb-0">{{sc_percentual_andamentos.data.percentual_andamentos.mensagem || "Sem dados"}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
-                    <div class="card stats-card">
-                        <div class="stats-icon">
-                            <i class="fa-solid fa-clock-rotate-left"></i>
-                        </div>
-                        <div>
-                            <div class="d-flex skeleton-loader" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
-                            <p class="stats-value" dmx-show="sc_conta_tarefas_pendentes.status">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].total_tarefas||0}}</p>
-                        </div>
-                        <div class="stats-label">Tarefas pendentes</div>
-                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
-                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_conta_tarefas_pendentes.status">
-                            <p class="mb-0">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes || "Sem dados"}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
-                    <div class="card stats-card">
-                        <div class="stats-icon">
-                            <i class="fa-solid fa-chart-line"></i>
-                        </div>
-                        <div>
-                            <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_processos_ativos.status"></div>
-                            <p class="stats-value" dmx-show="sc_percentual_processos_ativos.status">{{sc_percentual_processos_ativos.data.query[0].processos_ativos||0}}</p>
-                        </div>
-                        <div class="stats-label">Processos Ativos</div>
-                        <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_processos_ativos.status"></div>
-                        <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_processos_ativos.status">
-                            <p class="mb-0">{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos || "Sem dados"}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tabela de Clientes -->
-            <div class="d-flex me-0 pe-0 flex-row contain-flex">
-                <div class="d-flex flex-column pe-1 contain-flex-1" dmx-style:gap="'20px'">
-
-
-                    <div class="d-flex pe-1 contain-flex-1 flex-row w-100" style="animation-delay: 0.1s">
-                        <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
-                            <div class="d-flex flex-column">
-                                <div class="d-flex flex-column">
-                                    <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
-                                    <p class="stats-label">Publicações não lidas</p>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
-                                    <p class="stats-label">Andamentos não lidos</p>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
-                                    <p class="stats-label">Movimentações não lidas</p>
-                                </div>
-
+                    <div class="d-flex flex-column justify-content-between navbar-itens">
+                        <ul class="nav flex-column w-100 h-100 mt-3">
+                            <li class="nav-item">
+                                <a class="nav-link nav-active">
+                                    <i class="fa-solid fa-house"></i>
+                                    Início
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/clientes">
+                                    <i class="fa-solid fa-user"></i>
+                                    Clientes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" dmx-on:click="run({run:{outputType:'text',action:`browser1.goto('/processos')`}})" href="/processos">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                    Processos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/agenda">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    Agenda
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/relatorios">
+                                    <i class="fa-solid fa-chart-bar"></i>
+                                    Relatórios
+                                </a>
+                            </li>
+                            <li class="nav-item mt-auto">
+                                <a class="nav-link" href="/configuracoes">
+                                    <i class="fa-solid fa-gear"></i>
+                                    Configurações
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="collapse" id="collapse1" is="dmx-bs5-collapse">
+                            <div class="d-flex flex-column mb-2 ms-4 me-4">
+                                <button id="btn7" class="btn w-100 count-button text-secondary" dmx-on:click="modal1.show()">
+                                    <font face="Font Awesome 6 Free"><b>Conta</b></font>
+                                </button><button id="btn6" class="btn w-100 logout-button mt-1 text-light" dmx-on:click="run([{serverConnect:{name:'sc_logout',outputType:'object',url:'dmxConnect/api/logout.php',site:'ASJur'}},{run:{outputType:'text',action:`browser1.goto(\'/\')`}}])"><i class="fa-solid fa-arrow-right-from-bracket">&nbsp;&nbsp;</i>Sair da conta</button>
 
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3 animate-fade-in w-100 ps-0 pe-0" style="animation-delay: 0.2s">
-                        <div class="card ms-0 me-1 pt-3 pb-3 ps-3 pe-3">
-                            <div class="d-flex mb-1">
-                                <p class="stats-label">Jurisprudência</p>
+                        <div class="d-flex style18 align-items-center justify-content-between" dmx-style:box-shadow="'0 2px 20px rgba(0, 0, 0, 0.05)'" dmx-style:cursor="'pointer'" dmx-on:click="collapse1.toggle()">
+                            <div class="d-flex align-items-center"><img height="30" class="style20" dmx-bind:src="sc_pegar_dados_usuario.data.api.data.avatar">
+                                <div class="d-flex flex-column lh-sm">
+                                    <p class="mb-0 lh-sm">{{sc_pegar_dados_usuario.data.api.data.nome}}</p>
+                                    <p class="mb-0 email-card text-secondary lh-sm">{{sc_pegar_dados_usuario.data.api.data.email.trunc(20, 'true', '...')}}</p>
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <button id="btn1" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Ambiental'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-leaf jurisprudencia-button"></i>
-                                </button>
-                                <button id="btn2" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Cível'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-user jurisprudencia-button"></i>
-                                </button>
-                                <button id="btn3" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Empresarial'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-building jurisprudencia-button"></i>
-                                </button>
-                                <button id="btn4" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Consumidor'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-cart-shopping jurisprudencia-button"></i>
-                                </button>
-                                <button id="btn5" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Trabalhista'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-briefcase jurisprudencia-button"></i>
-                                </button>
-                                <button id="btn6" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Família'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-user-group jurisprudencia-button"></i>
-                                </button>
-                                <button id="btn7" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Tributário'" data-bs-trigger="hover">
-                                    <i class="fa-solid fa-coins jurisprudencia-button"></i>
-                                </button>
+
+
+
+                            <i class="fa-solid fa-angle-right"></i>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Page Header -->
+                <div class="page-header animate-fade-in">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="page-title">Início</h1>
+                            <p class="page-subtitle mb-0">Resumo das informações</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros Rápidos -->
+                <div class="mb-4">
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_clientes.status"></div>
+                                <p class="stats-value" dmx-show="sc_percentual_clientes.status">{{sc_listar_clientes.data.listar_clientes_clientes_novos[0].total_clientes||0}}</p>
+                            </div>
+                            <div class="stats-label">Total de Clientes</div>
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_clientes.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_clientes.status">
+                                <p class="mb-0">{{sc_percentual_clientes.data.calcula_percentual_mensal_clientes[0].mensagem}}</p>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="table-container animate-fade-in card ms-2 me-0 d-none d-sm-flex" style="animation-delay: 0.5s" dmx-style:width="'49%'">
-                    <div class="d-flex justify-content-center style17 align-items-center h-100 w-100">
-
-
-                        <canvas id="myChart1" width="400" height="300"></canvas>
-
-
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fa-solid fa-list-check"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_andamentos.status"></div>
+                                <p class="stats-value" dmx-show="sc_percentual_andamentos.status">{{sc_percentual_andamentos.data.percentual_andamentos[0].total_andamentos||0}}</p>
+                            </div>
+                            <div class="stats-label">Total de Andamentos</div>
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_andamentos.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_andamentos.status">
+                                <p class="mb-0">{{sc_percentual_andamentos.data.percentual_andamentos.mensagem || "Sem dados"}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
+                                <p class="stats-value" dmx-show="sc_conta_tarefas_pendentes.status">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].total_tarefas||0}}</p>
+                            </div>
+                            <div class="stats-label">Tarefas pendentes</div>
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_conta_tarefas_pendentes.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_conta_tarefas_pendentes.status">
+                                <p class="mb-0">{{sc_conta_tarefas_pendentes.data.conta_tarefas_pendentes[0].mensagem_tarefas_pendentes || "Sem dados"}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 animate-fade-in" style="animation-delay: 0.4s">
+                        <div class="card stats-card">
+                            <div class="stats-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex skeleton-loader" dmx-show="!sc_percentual_processos_ativos.status"></div>
+                                <p class="stats-value" dmx-show="sc_percentual_processos_ativos.status">{{sc_percentual_processos_ativos.data.query[0].processos_ativos||0}}</p>
+                            </div>
+                            <div class="stats-label">Processos Ativos</div>
+                            <div class="d-flex skeleton-loader-little" dmx-show="!sc_percentual_processos_ativos.status"></div>
+                            <div class="d-flex stats-trend up flex-row align-items-center" dmx-show="sc_percentual_processos_ativos.status">
+                                <p class="mb-0">{{sc_percentual_processos_ativos.data.query[0].mensagem_processos_ativos || "Sem dados"}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Tabela de Clientes -->
+                <div class="d-flex me-0 pe-0 flex-row contain-flex">
+                    <div class="d-flex flex-column pe-1 contain-flex-1" dmx-style:gap="'20px'">
+
+
+                        <div class="d-flex pe-1 contain-flex-1 flex-row w-100" style="animation-delay: 0.1s">
+                            <div class="card card-info ms-0 me-0 pt-3 pb-3 ps-3 pe-3 w-100 text-center">
+                                <div class="d-flex flex-column">
+                                    <div class="d-flex flex-column">
+                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                        <p class="stats-label">Publicações não lidas</p>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                        <p class="stats-label">Andamentos não lidos</p>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <h1 class="stats-value">{{sc_listar_clientes.data.total || 0}}</h1>
+                                        <p class="stats-label">Movimentações não lidas</p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 animate-fade-in w-100 ps-0 pe-0" style="animation-delay: 0.2s">
+                            <div class="card ms-0 me-1 pt-3 pb-3 ps-3 pe-3">
+                                <div class="d-flex mb-1">
+                                    <p class="stats-label">Jurisprudência</p>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <button id="btn1" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Ambiental'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-leaf jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn2" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Cível'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-user jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn3" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Empresarial'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-building jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn4" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Consumidor'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-cart-shopping jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn5" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Trabalhista'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-briefcase jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn6" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Família'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-user-group jurisprudencia-button"></i>
+                                    </button>
+                                    <button id="btn7" class="btn text-center jurisprudencia-bg" dmx-bs-tooltip="'Tributário'" data-bs-trigger="hover">
+                                        <i class="fa-solid fa-coins jurisprudencia-button"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="table-container animate-fade-in card ms-2 me-0 d-none d-sm-flex" style="animation-delay: 0.5s" dmx-style:width="'49%'">
+                        <div class="d-flex justify-content-center style17 align-items-center h-100 w-100">
+                            <dmx-chart id="chart1" dataset-1:label="Processos" dataset-1:value="quantidade" dataset-1:tooltip="" dmx-bind:data="sv_grafico_processos.data.query" labels="status.capitalize()" point-size="" height="" width="" colors="colors9" multicolor="true" thickness="0" cutout="" responsive="true" type="bar" nogrid="true"></dmx-chart>
 
 
 
-        </main>
-    </div>
 
-
-    <!-- Quick Actions -->
-
-    <!-- Modal Novo Cliente -->
-
-    <!-- Modal Editar Cliente -->
-    <div class="modal fade " id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="formEditarCliente" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/editar_cliente.php" dmx-on:success="modalEditarCliente.hide();sc_listar_clientes.load();notifySuccess.success('Cliente atualizado com sucesso!')">
-                        <input type="hidden" name="id" dmx-bind:value="varClienteAtual.data.id">
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input type="text" class="form-control" name="nome" required dmx-bind:value="varClienteAtual.data.nome">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" required dmx-bind:value="varClienteAtual.data.email">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Telefone</label>
-                            <input type="tel" class="form-control" name="telefone" required dmx-bind:value="varClienteAtual.data.telefone">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" required dmx-bind:value="varClienteAtual.data.status">
-                                <option value="Ativo">Ativo</option>
-                                <option value="Inativo">Inativo</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="formEditarCliente">Salvar</button>
+
+
+
+            </main>
+        </div>
+
+
+        <!-- Quick Actions -->
+
+        <!-- Modal Novo Cliente -->
+
+        <!-- Modal Editar Cliente -->
+        <div class="modal fade " id="modalEditarCliente" is="dmx-bs5-modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarCliente" is="dmx-serverconnect-form" method="post" action="dmxConnect/api/editar_cliente.php" dmx-on:success="modalEditarCliente.hide();sc_listar_clientes.load();notifySuccess.success('Cliente atualizado com sucesso!')">
+                            <input type="hidden" name="id" dmx-bind:value="varClienteAtual.data.id">
+                            <div class="mb-3">
+                                <label class="form-label">Nome</label>
+                                <input type="text" class="form-control" name="nome" required dmx-bind:value="varClienteAtual.data.nome">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" required dmx-bind:value="varClienteAtual.data.email">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" name="telefone" required dmx-bind:value="varClienteAtual.data.telefone">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="status" required dmx-bind:value="varClienteAtual.data.status">
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Inativo">Inativo</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" form="formEditarCliente">Salvar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal Detalhes Cliente -->
-    <div class="modal fade" id="modalDetalhesCliente" is="dmx-bs5-modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detalhes do Cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="avatar me-3">
-                            {{varClienteAtual.data.nome.charAt(0)}}
+        <!-- Modal Detalhes Cliente -->
+        <div class="modal fade" id="modalDetalhesCliente" is="dmx-bs5-modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalhes do Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="avatar me-3">
+                                {{varClienteAtual.data.nome.charAt(0)}}
+                            </div>
+                            <div>
+                                <h4 class="mb-1">{{varClienteAtual.data.nome}}</h4>
+                                <p class="text-muted mb-0">Cliente #{{varClienteAtual.data.id}}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="mb-1">{{varClienteAtual.data.nome}}</h4>
-                            <p class="text-muted mb-0">Cliente #{{varClienteAtual.data.id}}</p>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label text-muted">Email</label>
+                                <p class="mb-0">{{varClienteAtual.data.email}}</p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted">Telefone</label>
+                                <p class="mb-0">{{varClienteAtual.data.telefone.formatPhone()}}</p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted">Status</label>
+                                <p class="mb-0">
+                                    <span class="status-badge" dmx-class:bg-success-subtle="varClienteAtual.data.status=='Ativo'" dmx-class:text-success="varClienteAtual.data.status=='Ativo'" dmx-class:bg-danger-subtle="varClienteAtual.data.status=='Inativo'" dmx-class:text-danger="varClienteAtual.data.status=='Inativo'">
+                                        {{varClienteAtual.data.status}}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted">Data de Cadastro</label>
+                                <p class="mb-0">{{varClienteAtual.data.data_cadastro.formatDate('dd/MM/yyyy')}}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label text-muted">Email</label>
-                            <p class="mb-0">{{varClienteAtual.data.email}}</p>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-muted">Telefone</label>
-                            <p class="mb-0">{{varClienteAtual.data.telefone.formatPhone()}}</p>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-muted">Status</label>
-                            <p class="mb-0">
-                                <span class="status-badge" dmx-class:bg-success-subtle="varClienteAtual.data.status=='Ativo'" dmx-class:text-success="varClienteAtual.data.status=='Ativo'" dmx-class:bg-danger-subtle="varClienteAtual.data.status=='Inativo'" dmx-class:text-danger="varClienteAtual.data.status=='Inativo'">
-                                    {{varClienteAtual.data.status}}
-                                </span>
-                            </p>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-muted">Data de Cadastro</label>
-                            <p class="mb-0">{{varClienteAtual.data.data_cadastro.formatDate('dd/MM/yyyy')}}</p>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Scripts -->
-    <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
+        <!-- Scripts -->
 
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap5.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap5.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
+        <script>
+            $(document).ready(function() {
             // Inicializa DataTable com recursos extras
             var table = $('#tabelaClientes').DataTable({
                 responsive: true,
@@ -1515,10 +1574,10 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Finalizado', 'Em andamento', 'Aguardando documentos', 'Suspenso', 'Arquivado', 'Em revisão'],
+      labels: ['Finalizado', 'Ativo', 'Em andamento', 'Aguardando documentos', 'Suspenso', 'Arquivado', 'Em revisão'],
       datasets: [{
         label: 'Processos',
-        data: [12, 19, 3, 5, 2, 3],
+        data: [5, 19, 3, 5, 2, 3],
         borderWidth: 1
       }]
     },
@@ -1531,7 +1590,10 @@
     }
   });
 
-    </script>
+        </script>
+    </div>
+
+    <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
